@@ -1,0 +1,13 @@
+import 'package:ftc_stocks/Localization/en_IN.dart';
+import 'package:ftc_stocks/Localization/gu_IN.dart';
+import 'package:get/get.dart';
+
+class Localization extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys {
+    return {
+      'en_IN': enIN,
+      'gu_IN': guIN,
+    };
+  }
+}

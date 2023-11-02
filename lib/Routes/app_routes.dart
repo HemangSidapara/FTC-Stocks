@@ -1,0 +1,46 @@
+part of 'app_pages.dart';
+
+class Routes {
+  static const root = '/';
+  static const splashScreen = '/splash';
+  static const welcomeScreen = '/welcome';
+  static const signInScreen = '/signIn';
+  static const signInFromSignUp = '/signInFromSignUp';
+  static const passwordScreen = '/password';
+  static const verificationScreen = '/verification';
+  static const forgotPasswordScreen = '/forgotPassword';
+  static const signUpScreen = '/signUp';
+  static const pricingPlanScreen = '/pricingPlan';
+  static const companyDetailsScreen = '/companyDetailsScreen';
+  static const wizardsScreen = '/wizardsScreen';
+  static const homeScreen = '/home';
+  static const resetPasswordScreen = '/resetPasswordScreen';
+  static const settingsScreen = '/settingsScreen';
+  static const categoryScreen = '/categoryScreen';
+  static const showLogScreen = '/showLogScreen';
+  static const refrigeratorLogScreen = '/refrigeratorLogScreen';
+  static const cleaningHygieneLogScreen = '/cleaningHygieneLogScreen';
+  static const coolingControlLogScreen = '/coolingControlLogScreen';
+  static const vehicleCleaningLogScreen = '/vehicleCleaningLogScreen';
+  static const fryingFatControlLogScreen = '/fryingFatControlLogScreen';
+  static const eggConsumptionLogScreen = '/eggConsumptionLogScreen';
+  static const productTrackingLogScreen = '/productTrackingLogScreen';
+  static const cookingLogScreen = '/cookingLogScreen';
+  static const servingLogScreen = '/servingLogScreen';
+  static const iceCreamDairyLogScreen = '/iceCreamDairyLogScreen';
+  static const shockingAuditLogScreen = '/shockingAuditLogScreen';
+  static const customLogScreen = '/customLogScreen';
+  static const addLogScreen = '/addLogScreen';
+  static const fireExtinguishersLogScreen = '/fireExtinguishersLogScreen';
+  static const navigationAndSafetySignsLogScreen = '/navigationAndSafetySignsLogScreen';
+  static const workSafetyLogScreen = '/workSafetyLogScreen';
+  static const chatUsersListScreen = '/chatUsersListScreen';
+  static const notificationScreen = '/notificationScreen';
+  static const stackingScreen = '/stackingScreen';
+  static const showProtocolScreen = '/showProtocolScreen';
+  static const resultsScreen = '/resultsScreen';
+  static const logListReorderScreen = '/logListReorderScreen';
+  static const cleaningRatePlanScreen = '/cleaningRatePlanScreen';
+  static const changePinScreen = '/changePinScreen';
+  static const planFeaturesLimitScreen = '/planFeaturesLimitScreen';
+}
