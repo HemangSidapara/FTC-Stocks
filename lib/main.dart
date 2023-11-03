@@ -4,6 +4,7 @@ import 'package:ftc_stocks/Constants/app_color.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Localization/localization.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
+import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setSize(MediaQuery.sizeOf(context));
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('gu', 'IN'),
       fallbackLocale: const Locale('en', 'IN'),
       theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.WHITE_COLOR,
         primaryColor: AppColors.PRIMARY_COLOR,
         textTheme: GoogleFonts.nunitoSansTextTheme(),
         datePickerTheme: DatePickerThemeData(headerBackgroundColor: AppColors.SECONDARY_COLOR),

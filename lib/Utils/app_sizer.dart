@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 extension SizerExt on num {
-
   /// Calculates the height depending on the device's screen size
   ///
   /// Eg: 20.h -> will take 20% of the screen's height
@@ -28,7 +27,7 @@ class AppSizer {
 
 AppSizer appSizer = AppSizer();
 
-Future<void> setSize(size) async {
+Future<void> setSize(Size size) async {
   appSizer.setSize(size);
 }
 

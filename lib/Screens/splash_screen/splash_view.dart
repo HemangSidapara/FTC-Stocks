@@ -19,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: AppColors.PRIMARY_COLOR,
+      systemNavigationBarColor: AppColors.TRANSPARENT,
       systemNavigationBarIconBrightness: Brightness.light,
     ));
   }
@@ -27,11 +27,9 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.PRIMARY_COLOR,
-      body: Container(
-        alignment: Alignment.center,
-        color: AppColors.PRIMARY_BACK_COLOR,
+      body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               height: 20.h,

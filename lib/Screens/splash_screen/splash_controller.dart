@@ -21,9 +21,9 @@ class SplashController extends GetxController {
           print("token value ::: ${getData(AppConstance.authorizationToken)}");
         }
         if (getData(AppConstance.authorizationToken) == null) {
-          Get.offAllNamed(Routes.welcomeScreen);
+          Get.offAllNamed(Routes.signInScreen);
         } else {
-          Get.offAllNamed(Routes.homeScreen);
+          Get.offAllNamed(Routes.signInScreen);
         }
       },
     );
