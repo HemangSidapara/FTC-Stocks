@@ -1,7 +1,7 @@
-import 'package:ftc_stocks/Screens/dashboard_screen/dashboard_binding.dart';
-import 'package:ftc_stocks/Screens/dashboard_screen/dashboard_view.dart';
-import 'package:ftc_stocks/Screens/otp_screen/passoword_binding.dart';
-import 'package:ftc_stocks/Screens/otp_screen/password_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/home_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/home_view.dart';
+import 'package:ftc_stocks/Screens/password_screen/passoword_binding.dart';
+import 'package:ftc_stocks/Screens/password_screen/password_view.dart';
 import 'package:ftc_stocks/Screens/signin_screen/signin_view.dart';
 import 'package:ftc_stocks/Screens/signin_screen/singin_binding.dart';
 import 'package:ftc_stocks/Screens/splash_screen/splash_binding.dart';
@@ -36,9 +36,9 @@ class AppPages {
       transitionDuration: transitionDuration,
     ),
     GetPage(
-      name: Routes.dashboardScreen,
-      page: () => const DashboardView(),
-      binding: DashboardBinding(),
+      name: Routes.homeScreen,
+      page: () => const HomeView(),
+      binding: HomeBinding(),
       transition: Transition.rightToLeftWithFade,
       transitionDuration: transitionDuration,
     ),

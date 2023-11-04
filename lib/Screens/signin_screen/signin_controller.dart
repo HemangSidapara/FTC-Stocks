@@ -21,7 +21,7 @@ class SignInController extends GetxController {
     final isValid = signInFormKey.currentState!.validate();
     if (!isValid) {
     } else {
-      Get.toNamed(Routes.passwordScreen);
+      await Get.toNamed(Routes.passwordScreen, arguments: phoneNumberController.text);
     }
   }
 }

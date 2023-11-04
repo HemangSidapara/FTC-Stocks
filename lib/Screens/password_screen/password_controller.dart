@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Network/services/auth_service/auth_service.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,13 @@ class PasswordController extends GetxController {
     final isValid = passwordFormKey.currentState!.validate();
     if (!isValid) {
     } else {
-      Get.toNamed(Routes.dashboardScreen);
+      final isSuccess = await AuthService().loginService(
+        phone: Get.arguments,
+        password: passwordController.text,
+      );
+      if (isSuccess) {
+        await Get.offAllNamed(Routes.homeScreen);
+      }
     }
   }
 }

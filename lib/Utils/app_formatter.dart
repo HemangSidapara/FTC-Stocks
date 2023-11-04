@@ -1,4 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+extension GetArgs on BuildContext {
+  dynamic get arguments {
+    return ModalRoute.of(this)?.settings.arguments;
+  }
+}
 
 extension StringToInt on String {
   int toInt() {

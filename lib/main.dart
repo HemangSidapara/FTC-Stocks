@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('gu', 'IN'),
       fallbackLocale: const Locale('en', 'IN'),
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.WHITE_COLOR,
+        scaffoldBackgroundColor: AppColors.SECONDARY_COLOR,
         primaryColor: AppColors.PRIMARY_COLOR,
         textTheme: GoogleFonts.nunitoSansTextTheme(),
         datePickerTheme: DatePickerThemeData(headerBackgroundColor: AppColors.SECONDARY_COLOR),

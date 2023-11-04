@@ -4,10 +4,14 @@ import 'package:ftc_stocks/Utils/app_sizer.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget? child;
+  final Color? bgColorTop;
+  final Color? bgColorBottom;
 
   const BackgroundWidget({
     super.key,
     this.child,
+    this.bgColorTop,
+    this.bgColorBottom,
   });
 
   @override
@@ -26,12 +30,12 @@ class BackgroundWidget extends StatelessWidget {
                     Container(
                       height: 40.h,
                       width: 100.w,
-                      color: AppColors.PRIMARY_COLOR,
+                      color: bgColorTop ?? AppColors.PRIMARY_COLOR,
                     ),
                     Container(
                       height: 60.h,
                       width: 100.w,
-                      color: AppColors.SECONDARY_COLOR,
+                      color: bgColorBottom ?? AppColors.SECONDARY_COLOR,
                     ),
                   ],
                 ),

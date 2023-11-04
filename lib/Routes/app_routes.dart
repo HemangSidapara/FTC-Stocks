@@ -5,5 +5,7 @@ class Routes {
   static const splashScreen = '/splash';
   static const signInScreen = '/signIn';
   static const passwordScreen = '/password';
+  static const homeScreen = '/home';
   static const dashboardScreen = '/dashboard';
+  static const createStocksScreen = '/createStocks';
 }

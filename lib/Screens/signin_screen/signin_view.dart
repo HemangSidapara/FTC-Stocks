@@ -23,9 +23,9 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     return BackgroundWidget(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h).copyWith(bottom: 6.h),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: [
             ///Heading
             Text(
@@ -36,31 +36,43 @@ class _SignInViewState extends State<SignInView> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: 2.h),
+            SizedBox(height: 1.h),
 
             ///Login Image
-            Image.asset(
-              Images.loginImage,
-              height: 35.h,
-            ),
-            SizedBox(height: 2.h),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      Images.loginImage,
+                      height: 35.h,
+                    ),
+                    SizedBox(height: 2.h),
 
-            ///Phone Field
-            Form(
-              key: controller.signInFormKey,
-              autovalidateMode: AutovalidateMode.always,
-              child: TextFieldWidget(
-                controller: controller.phoneNumberController,
-                title: AppStrings.phoneNumber.tr,
-                hintText: AppStrings.enterPhoneNumber.tr,
-                keyboardType: TextInputType.number,
-                maxLength: 10,
-                validator: (value) {
-                  return controller.validatePhoneNumber(value!);
-                },
+                    ///Phone Field
+                    Form(
+                      key: controller.signInFormKey,
+                      autovalidateMode: AutovalidateMode.always,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom != 0 ? 2.h : 0),
+                        child: TextFieldWidget(
+                          controller: controller.phoneNumberController,
+                          title: AppStrings.phoneNumber.tr,
+                          hintText: AppStrings.enterPhoneNumber.tr,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.done,
+                          maxLength: 10,
+                          validator: (value) {
+                            return controller.validatePhoneNumber(value!);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const Spacer(),
 
             ///Submit
             ButtonWidget(
@@ -69,7 +81,6 @@ class _SignInViewState extends State<SignInView> {
               },
               buttonTitle: AppStrings.next.tr,
             ),
-            SizedBox(height: 3.h),
           ],
         ),
       ),

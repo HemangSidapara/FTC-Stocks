@@ -8,7 +8,7 @@ class AppColors {
   static Color BLACK_COLOR = Colors.black;
   static Color DARK_BLACK_COLOR = const Color(0xff494A50);
   static Color TRANS_BLACK_COLOR = const Color(0x08454545);
-  static Color LIGHT_BLACK_COLOR = const Color(0xff71727A);
+  static Color LIGHT_BLACK_COLOR = const Color(0xffC8C8C8);
   static Color HINT_COLOR = const Color(0xffB7B7B7);
   static Color PRIMARY_COLOR = const Color(0xffE86834);
   static Color SECONDARY_COLOR = const Color(0xff363636);
