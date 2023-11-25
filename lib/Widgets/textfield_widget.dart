@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 
 class TextFieldWidget extends StatelessWidget {
@@ -34,7 +34,7 @@ class TextFieldWidget extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: AppColors.WHITE_COLOR,
+            color: AppColors.PRIMARY_COLOR,
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
           ),
@@ -44,7 +44,7 @@ class TextFieldWidget extends StatelessWidget {
           controller: controller,
           validator: validator,
           style: TextStyle(
-            color: AppColors.WHITE_COLOR,
+            color: AppColors.PRIMARY_COLOR,
             fontWeight: FontWeight.w600,
             fontSize: 10.sp,
           ),
@@ -54,46 +54,47 @@ class TextFieldWidget extends StatelessWidget {
           maxLength: maxLength,
           cursorColor: AppColors.WHITE_COLOR,
           decoration: InputDecoration(
-            counterStyle: TextStyle(color: AppColors.WHITE_COLOR),
+            counterStyle: TextStyle(color: AppColors.PRIMARY_COLOR),
             filled: true,
             enabled: true,
+            fillColor: AppColors.WHITE_COLOR,
             hintText: hintText,
             suffixIcon: suffixIcon,
             hintStyle: TextStyle(
-              color: AppColors.WHITE_COLOR.withOpacity(0.5),
+              color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
               fontSize: 10.sp,
               fontWeight: FontWeight.w600,
             ),
             errorStyle: TextStyle(
-              color: AppColors.PRIMARY_COLOR,
+              color: AppColors.ERROR_COLOR,
               fontSize: 10.sp,
               fontWeight: FontWeight.w500,
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.ERROR_COLOR,
                 width: 1,
               ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.ERROR_COLOR,
                 width: 1,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: AppColors.WHITE_COLOR,
+                color: AppColors.PRIMARY_COLOR,
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: AppColors.WHITE_COLOR,
+                color: AppColors.PRIMARY_COLOR,
                 width: 1,
               ),
             ),

@@ -6,14 +6,15 @@ import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:get/get.dart';
 
-class CreateStocksView extends StatefulWidget {
-  const CreateStocksView({super.key});
+class CreateOrderView extends StatefulWidget {
+  const CreateOrderView({super.key});
 
   @override
-  State<CreateStocksView> createState() => _CreateStocksViewState();
+  State<CreateOrderView> createState() => _CreateOrderViewState();
 }
 
-class _CreateStocksViewState extends State<CreateStocksView> {
+class _CreateOrderViewState extends State<CreateOrderView> {
+  @override
   Widget build(BuildContext context) {
     return CustomScaffoldWidget(
       isPadded: true,
@@ -43,7 +44,7 @@ class _CreateStocksViewState extends State<CreateStocksView> {
               ),
               SizedBox(width: 2.w),
               Text(
-                AppStrings.addStock.tr,
+                AppStrings.createOrder.tr,
                 style: TextStyle(
                   color: AppColors.PRIMARY_COLOR,
                   fontSize: 16.sp,
@@ -52,7 +53,7 @@ class _CreateStocksViewState extends State<CreateStocksView> {
               ),
               SizedBox(width: 2.w),
               Image.asset(
-                AppAssets.addStockIcon,
+                AppAssets.createOrderImage,
                 width: 8.w,
               ),
             ],

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';

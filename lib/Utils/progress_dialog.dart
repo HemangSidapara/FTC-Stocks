@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:get/get.dart';
 
 class ProgressDialog {

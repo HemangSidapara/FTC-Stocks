@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/dashboard_navigator.dart';
+import 'package:ftc_stocks/Routes/nasted_navigator/settings_navigator.dart';
+import 'package:ftc_stocks/Screens/home_screen/settings_screen/settings_controller.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -8,13 +10,29 @@ class HomeController extends GetxController {
 
   List<Widget> bottomItemWidgetList = [
     const DashboardNavigator(),
-    const DashboardNavigator(),
-    const DashboardNavigator(),
-    const DashboardNavigator(),
+    const SettingsNavigator(),
   ];
 
   Future<void> onBottomItemChange({required int index}) async {
     bottomIndex.value = index;
-    pageController.jumpToPage(bottomIndex.value);
+    if (index == 0) {
+      if (Get.keys[0]?.currentState?.canPop() == true) {
+        Get.back(id: 0);
+      }
+      if (Get.isRegistered<SettingsController>()) {
+        if (Get.find<SettingsController>().expansionTileController.isExpanded) {
+          Get.find<SettingsController>().expansionTileController.collapse();
+        }
+      }
+    } else if (index == 1) {
+      if (Get.keys[1]?.currentState?.canPop() == true) {
+        Get.back(id: 1);
+      }
+    }
+    pageController.animateToPage(
+      bottomIndex.value,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 }

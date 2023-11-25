@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Localization/localization.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
@@ -27,12 +29,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       translations: Localization(),
-      locale: const Locale('gu', 'IN'),
+      locale: Locale(getString(AppConstance.languageCode) ?? 'gu', getString(AppConstance.languageCountryCode) ?? 'IN'),
       fallbackLocale: const Locale('en', 'IN'),
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.SECONDARY_COLOR,
+        scaffoldBackgroundColor: AppColors.WHITE_COLOR,
         primaryColor: AppColors.PRIMARY_COLOR,
-        textTheme: GoogleFonts.nunitoSansTextTheme(),
+        textTheme: GoogleFonts.interTextTheme(),
         datePickerTheme: DatePickerThemeData(headerBackgroundColor: AppColors.SECONDARY_COLOR),
       ),
       initialRoute: Routes.splashScreen,

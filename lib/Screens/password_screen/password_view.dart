@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
-import 'package:ftc_stocks/Constants/app_images.dart';
+import 'package:ftc_stocks/Constants/app_assets.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/password_screen/password_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
-import 'package:ftc_stocks/Widgets/background_widget.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
+import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 
@@ -21,34 +21,58 @@ class _PasswordViewState extends State<PasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundWidget(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h).copyWith(bottom: 6.h),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ///Heading
-            Text(
-              AppStrings.password.tr,
-              style: TextStyle(
-                color: AppColors.SECONDARY_COLOR,
-                fontSize: 25.sp,
-                fontWeight: FontWeight.w700,
-              ),
+    return CustomScaffoldWidget(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ///Heading
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h).copyWith(bottom: 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Image.asset(
+                    AppAssets.backIcon,
+                    width: 10.w,
+                    color: AppColors.SECONDARY_COLOR,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: Text(
+                      AppStrings.password.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.SECONDARY_COLOR,
+                        fontSize: 25.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 1.h),
+          ),
+          SizedBox(height: 1.h),
 
-            ///Password Image
-            Expanded(
-              child: SingleChildScrollView(
+          ///Password Image
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h).copyWith(bottom: 6.h),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      Images.otpImage,
-                      height: 30.h,
+                      AppAssets.otpImage,
+                      height: 28.h,
                     ),
-                    SizedBox(height: 7.5.h),
+                    SizedBox(height: 4.8.h),
 
                     ///Password Field
                     Obx(() {
@@ -83,17 +107,17 @@ class _PasswordViewState extends State<PasswordView> {
                 ),
               ),
             ),
+          ),
 
-            ///Submit
-            ButtonWidget(
-              onPressed: () async {
-                await controller.checkPassword();
-              },
-              buttonTitle: AppStrings.login.tr,
-            ),
-            SizedBox(height: 3.h),
-          ],
-        ),
+          ///Submit
+          ButtonWidget(
+            onPressed: () async {
+              await controller.checkPassword();
+            },
+            buttonTitle: AppStrings.login.tr,
+          ),
+          SizedBox(height: 3.h),
+        ],
       ),
     );
   }

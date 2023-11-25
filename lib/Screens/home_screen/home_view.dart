@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_assets.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
@@ -20,15 +21,16 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: AppColors.SECONDARY_COLOR,
+        statusBarColor: AppColors.WHITE_COLOR,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (value) {
         if (Get.keys[0]?.currentState?.canPop() == true) {
           Get.keys[0]?.currentState?.pop(true);
         } else {
@@ -38,7 +40,6 @@ class _HomeViewState extends State<HomeView> {
             controller.bottomIndex.value = 0;
           }
         }
-        return false;
       },
       child: SafeArea(
         child: Scaffold(
@@ -48,19 +49,13 @@ class _HomeViewState extends State<HomeView> {
           bottomNavigationBar: Container(
             padding: EdgeInsets.symmetric(vertical: 1.5.h),
             decoration: BoxDecoration(
-              color: AppColors.SECONDARY_COLOR,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
+              color: AppColors.LIGHT_SECONDARY_COLOR,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AssetImages(index: 0, iconName: Icons.home_work_rounded),
-                AssetImages(index: 1, iconName: Icons.receipt_rounded),
-                AssetImages(index: 2, iconName: Icons.shopping_cart_rounded),
-                AssetImages(index: 3, iconName: Icons.settings_rounded),
+                AssetImages(index: 0, iconName: AppAssets.homeIcon),
+                AssetImages(index: 1, iconName: AppAssets.settingsIcon),
               ],
             ),
           ),
@@ -77,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
   // ignore: non_constant_identifier_names
   Widget AssetImages({
     required int index,
-    required IconData iconName,
+    required String iconName,
   }) {
     return Obx(
       () {
@@ -85,9 +80,9 @@ class _HomeViewState extends State<HomeView> {
           onTap: () async {
             await controller.onBottomItemChange(index: index);
           },
-          child: Icon(
+          child: Image.asset(
             iconName,
-            size: 7.w,
+            width: 8.w,
             color: controller.bottomIndex.value == index ? AppColors.PRIMARY_COLOR : AppColors.LIGHT_BLACK_COLOR,
           ),
         );

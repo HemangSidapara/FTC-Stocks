@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_assets.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/splash_screen/splash_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
@@ -29,12 +31,20 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 20.h,
-              width: 20.h,
-              color: AppColors.PRIMARY_COLOR,
+            Image.asset(
+              AppAssets.splashImage,
+              width: 80.w,
+            ),
+            SizedBox(height: 3.h),
+            Text(
+              AppStrings.appName,
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR,
+                fontSize: 28.sp,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ],
         ),

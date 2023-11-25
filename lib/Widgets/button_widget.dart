@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ftc_stocks/Constants/app_color.dart';
+import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 
 class ButtonWidget extends StatelessWidget {
@@ -31,7 +31,7 @@ class ButtonWidget extends StatelessWidget {
           Text(
             buttonTitle,
             style: TextStyle(
-              color: AppColors.SECONDARY_COLOR,
+              color: AppColors.WHITE_COLOR,
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
             ),

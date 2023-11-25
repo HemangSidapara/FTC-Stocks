@@ -11,4 +11,14 @@ class AppStrings {
   static const String temporaryServiceIsNotAvailable = 'Temporary service is not available.';
   static const String fileIsSavedToDownloadFolder = 'File is saved to download folder.';
   static const String next = 'Next';
+  static const String hello = 'Hello 👋,';
+  static const String createOrder = 'Create Order';
+  static const String settings = 'Settings';
+  static const String changeLanguage = 'Change Language';
+  static const String english = 'English';
+  static const String gujarati = 'Gujarati';
+  static const String addStock = 'Add Stock';
+  static const String availableStock = 'Available Stock';
+  static const String pendingOrders = 'Pending Orders';
+  static const String challan = 'Challan';
 }
