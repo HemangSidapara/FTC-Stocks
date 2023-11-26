@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.WHITE_COLOR,
         primaryColor: AppColors.PRIMARY_COLOR,
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.nunitoSansTextTheme(),
         datePickerTheme: DatePickerThemeData(headerBackgroundColor: AppColors.SECONDARY_COLOR),
       ),
       initialRoute: Routes.splashScreen,

@@ -21,4 +21,18 @@ class AppStrings {
   static const String availableStock = 'Available Stock';
   static const String pendingOrders = 'Pending Orders';
   static const String challan = 'Challan';
+  static const String category = 'Category';
+  static const String selectCategory = 'Select Category';
+  static const String noDataFound = 'No data found';
+  static const String handle = 'Handle';
+  static const String mainDoor = 'Main Door';
+  static const String dabbi = 'Dabbi';
+  static const String pleaseSelectCategory = 'Please select category.';
+  static const String add = 'Add';
+  static const String product = 'Product';
+  static const String selectProduct = 'Select Product';
+  static const String pleaseSelectProduct = 'Please select product.';
+  static const String enterProductName = 'Enter Product Name';
+  static const String size = 'Size';
+  static const String selectSize = 'Select Size';
 }

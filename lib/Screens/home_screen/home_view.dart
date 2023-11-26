@@ -47,7 +47,6 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: AppColors.WHITE_COLOR,
           extendBodyBehindAppBar: true,
           bottomNavigationBar: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.5.h),
             decoration: BoxDecoration(
               color: AppColors.LIGHT_SECONDARY_COLOR,
             ),
@@ -80,10 +79,19 @@ class _HomeViewState extends State<HomeView> {
           onTap: () async {
             await controller.onBottomItemChange(index: index);
           },
-          child: Image.asset(
-            iconName,
-            width: 8.w,
-            color: controller.bottomIndex.value == index ? AppColors.PRIMARY_COLOR : AppColors.LIGHT_BLACK_COLOR,
+          child: SizedBox(
+            height: 12.w,
+            width: 12.w,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  iconName,
+                  width: 8.w,
+                  color: controller.bottomIndex.value == index ? AppColors.PRIMARY_COLOR : AppColors.LIGHT_BLACK_COLOR,
+                ),
+              ],
+            ),
           ),
         );
       },

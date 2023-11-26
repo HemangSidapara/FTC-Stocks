@@ -6,12 +6,16 @@ class ButtonWidget extends StatelessWidget {
   final void Function()? onPressed;
   final Widget? child;
   final String buttonTitle;
+  final Size? fixedSize;
+  final OutlinedBorder? shape;
 
   const ButtonWidget({
     super.key,
     this.onPressed,
     this.child,
     this.buttonTitle = '',
+    this.fixedSize,
+    this.shape,
   });
 
   @override
@@ -22,10 +26,11 @@ class ButtonWidget extends StatelessWidget {
         backgroundColor: AppColors.PRIMARY_COLOR,
         elevation: 4,
         shadowColor: AppColors.WHITE_COLOR.withOpacity(0.7),
-        fixedSize: Size(84.w, 5.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        fixedSize: fixedSize ?? Size(84.w, 5.h),
+        shape: shape ??
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
       ),
       child: child ??
           Text(

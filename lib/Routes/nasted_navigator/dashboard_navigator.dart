@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_stocks_screen/create_stocks_binding.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_stocks_screen/create_stocks_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_view.dart';
 import 'package:get/get.dart';
@@ -17,11 +17,11 @@ class DashboardNavigator extends StatelessWidget {
       key: Get.nestedKey(0),
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case Routes.createStocksScreen:
+          case Routes.addStockScreen:
             return GetPageRoute(
-              routeName: Routes.createStocksScreen,
-              page: () => const CreateStocksView(),
-              binding: CreateStocksBindings(),
+              routeName: Routes.addStockScreen,
+              page: () => const AddStockView(),
+              binding: AddStockBindings(),
               transition: Transition.rightToLeftWithFade,
               transitionDuration: transitionDuration,
               settings: RouteSettings(

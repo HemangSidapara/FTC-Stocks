@@ -3,8 +3,8 @@ import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  final String title;
-  final String hintText;
+  final String? title;
+  final String? hintText;
   final int? maxLength;
   final bool? obscureText;
   final Widget? suffixIcon;
@@ -12,18 +12,22 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextEditingController? controller;
   final String? Function(String? value)? validator;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool? isDisable;
 
   const TextFieldWidget({
     super.key,
-    required this.title,
+    this.title,
     this.controller,
     this.validator,
-    required this.hintText,
+    this.hintText,
     this.maxLength,
     this.keyboardType,
     this.textInputAction,
     this.obscureText,
     this.suffixIcon,
+    this.contentPadding,
+    this.isDisable = false,
   });
 
   @override
@@ -31,14 +35,15 @@ class TextFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.PRIMARY_COLOR,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
+        if (title != null)
+          Text(
+            title!,
+            style: TextStyle(
+              color: AppColors.PRIMARY_COLOR,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
         SizedBox(height: 1.h),
         TextFormField(
           controller: controller,
@@ -53,6 +58,7 @@ class TextFieldWidget extends StatelessWidget {
           keyboardType: keyboardType,
           maxLength: maxLength,
           cursorColor: AppColors.WHITE_COLOR,
+          enabled: isDisable == false,
           decoration: InputDecoration(
             counterStyle: TextStyle(color: AppColors.PRIMARY_COLOR),
             filled: true,
@@ -71,33 +77,42 @@ class TextFieldWidget extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 color: AppColors.ERROR_COLOR,
                 width: 1,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 color: AppColors.ERROR_COLOR,
                 width: 1,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 color: AppColors.PRIMARY_COLOR,
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 color: AppColors.PRIMARY_COLOR,
                 width: 1,
               ),
             ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: AppColors.PRIMARY_COLOR,
+                width: 1,
+              ),
+            ),
+            isDense: true,
+            contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h).copyWith(right: 1.5.w),
           ),
         ),
       ],
