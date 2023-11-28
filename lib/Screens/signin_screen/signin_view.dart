@@ -53,7 +53,7 @@ class _SignInViewState extends State<SignInView> {
                     ///Phone Field
                     Form(
                       key: controller.signInFormKey,
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom != 0 ? 2.h : 0),
                         child: TextFieldWidget(

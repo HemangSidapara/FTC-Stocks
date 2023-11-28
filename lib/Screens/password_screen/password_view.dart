@@ -78,7 +78,7 @@ class _PasswordViewState extends State<PasswordView> {
                     Obx(() {
                       return Form(
                         key: controller.passwordFormKey,
-                        autovalidateMode: AutovalidateMode.always,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Padding(
                           padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom != 0 ? 2.h : 0),
                           child: TextFieldWidget(

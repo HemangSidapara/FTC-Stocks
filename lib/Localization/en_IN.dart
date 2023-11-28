@@ -36,4 +36,12 @@ Map<String, String> enIN = <String, String>{
   AppStrings.enterProductName: "Enter Product Name",
   AppStrings.size: "Size",
   AppStrings.selectSize: "Select Size",
+  AppStrings.select: "Select",
+  AppStrings.searchSize: "Search size",
+  AppStrings.three: '3',
+  AppStrings.four: '4',
+  AppStrings.six: '6',
+  AppStrings.eight: '8',
+  AppStrings.ten: '10',
+  AppStrings.twelve: '12',
 };

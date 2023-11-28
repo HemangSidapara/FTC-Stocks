@@ -36,4 +36,12 @@ Map<String, String> guIN = <String, String>{
   AppStrings.enterProductName: "પ્રોડક્ટ નામ દાખલ કરો",
   AppStrings.size: "સાઈઝ",
   AppStrings.selectSize: "સાઈઝ પસંદ કરો",
+  AppStrings.select: "પસંદ કરો",
+  AppStrings.searchSize: "સાઈઝ શોધો",
+  AppStrings.three: '૩',
+  AppStrings.four: '૪',
+  AppStrings.six: '૬',
+  AppStrings.eight: '૮',
+  AppStrings.ten: '૧૦',
+  AppStrings.twelve: '૧૨',
 };

@@ -46,6 +46,7 @@ class TextFieldWidget extends StatelessWidget {
           ),
         SizedBox(height: 1.h),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
           validator: validator,
           style: TextStyle(

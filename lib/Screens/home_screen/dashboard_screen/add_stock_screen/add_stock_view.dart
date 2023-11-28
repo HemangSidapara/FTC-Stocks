@@ -111,6 +111,19 @@ class _AddStockViewState extends State<AddStockView> {
                     DropDownWidget(
                       title: AppStrings.category.tr,
                       hintText: AppStrings.selectCategory.tr,
+                      selectedItemBuilder: (context) {
+                        return [
+                          for (int i = 0; i < addStockController.categoryList.length; i++)
+                            Text(
+                              addStockController.categoryList[i],
+                              style: TextStyle(
+                                color: AppColors.PRIMARY_COLOR,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                        ];
+                      },
                       items: [
                         for (int i = 0; i < addStockController.categoryList.length; i++)
                           DropdownMenuItem(
@@ -173,6 +186,9 @@ class _AddStockViewState extends State<AddStockView> {
                     SizedBox(height: 0.6.h),
                     DropdownSearch.multiSelection(
                       dropdownButtonProps: DropdownButtonProps(
+                        constraints: BoxConstraints.loose(
+                          Size(7.w, 4.5.h),
+                        ),
                         icon: Icon(
                           Icons.keyboard_arrow_down_rounded,
                           color: AppColors.SECONDARY_COLOR,
@@ -226,9 +242,183 @@ class _AddStockViewState extends State<AddStockView> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h).copyWith(right: 1.5.w),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
                         ),
                       ),
+                      items: addStockController.sizeList,
+                      popupProps: PopupPropsMultiSelection.menu(
+                        menuProps: MenuProps(
+                          backgroundColor: AppColors.WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        validationWidgetBuilder: (context, item) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8),
+                            child: ButtonWidget(
+                              fixedSize: Size(double.maxFinite, 5.h),
+                              onPressed: () {
+                                setState(() {
+                                  addStockController.selectedSizeList.clear();
+                                  addStockController.selectedSizeList.addAll(item.map((e) => e.toString()).toList());
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              buttonTitle: AppStrings.select.tr,
+                            ),
+                          );
+                        },
+                        itemBuilder: (context, item, isSelected) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                            child: Text(
+                              item.toString().tr,
+                              style: TextStyle(
+                                color: AppColors.PRIMARY_COLOR,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          );
+                        },
+                        showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+                          cursorColor: AppColors.PRIMARY_COLOR,
+                          decoration: InputDecoration(
+                            hintText: AppStrings.searchSize.tr,
+                            hintStyle: TextStyle(
+                              color: AppColors.HINT_GREY_COLOR,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
+                          ),
+                        ),
+                        selectionWidget: (context, item, isSelected) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSelected = !isSelected;
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              padding: const EdgeInsets.all(1.5),
+                              margin: EdgeInsets.only(right: 4.w),
+                              decoration: BoxDecoration(
+                                color: isSelected ? AppColors.PRIMARY_COLOR : AppColors.TRANSPARENT,
+                                border: Border.all(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  width: 2,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.check,
+                                color: AppColors.WHITE_COLOR,
+                                size: 4.3.w,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      dropdownBuilder: (context, selectedItems) {
+                        selectedItems.clear();
+                        selectedItems.addAll(addStockController.selectedSizeList);
+                        return selectedItems.isEmpty
+                            ? Text(
+                                AppStrings.selectSize.tr,
+                                style: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            : SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Wrap(
+                                  children: selectedItems.map(
+                                    (value) {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedItems.removeWhere(
+                                                  (element) {
+                                                    return element == value;
+                                                  },
+                                                );
+                                                addStockController.selectedSizeList.removeWhere(
+                                                  (element) {
+                                                    return element == value;
+                                                  },
+                                                );
+                                              });
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(left: 2.w, right: 3.w, top: 0.3.h, bottom: 0.3.h),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      color: AppColors.PRIMARY_COLOR,
+                                                    ),
+                                                    margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
+                                                    child: Text(
+                                                      value.toString().tr,
+                                                      textAlign: TextAlign.end,
+                                                      style: TextStyle(
+                                                        color: AppColors.WHITE_COLOR,
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 10.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 2.5,
+                                                  right: 1.5.w,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.WHITE_COLOR,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.ERROR_COLOR.withOpacity(0.8),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      padding: const EdgeInsets.all(2),
+                                                      child: Icon(
+                                                        size: 2.w,
+                                                        Icons.close,
+                                                        color: AppColors.WHITE_COLOR,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ).toList(),
+                                ),
+                              );
+                      },
+                      selectedItems: addStockController.selectedSizeList,
                     ),
                     SizedBox(height: 2.h),
 

@@ -35,4 +35,12 @@ class AppStrings {
   static const String enterProductName = 'Enter Product Name';
   static const String size = 'Size';
   static const String selectSize = 'Select Size';
+  static const String select = 'Select';
+  static const String searchSize = 'Search size';
+  static const String three = '3';
+  static const String four = '4';
+  static const String six = '6';
+  static const String eight = '8';
+  static const String ten = '10';
+  static const String twelve = '12';
 }

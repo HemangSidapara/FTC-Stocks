@@ -36,6 +36,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 4,
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 icon: Image.asset(
                   AppAssets.backIcon,

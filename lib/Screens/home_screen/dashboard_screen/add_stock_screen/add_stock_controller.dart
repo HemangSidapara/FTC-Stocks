@@ -18,6 +18,16 @@ class AddStockController extends GetxController {
     AppStrings.dabbi,
   ];
 
+  List<String> sizeList = [
+    AppStrings.three,
+    AppStrings.four,
+    AppStrings.six,
+    AppStrings.eight,
+    AppStrings.ten,
+    AppStrings.twelve,
+  ];
+  RxList<String> selectedSizeList = RxList();
+
   String? validateCategory(int? value) {
     if (value == null) {
       return AppStrings.pleaseSelectCategory.tr;
