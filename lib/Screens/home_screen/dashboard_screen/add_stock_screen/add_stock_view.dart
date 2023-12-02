@@ -331,94 +331,104 @@ class _AddStockViewState extends State<AddStockView> {
                       dropdownBuilder: (context, selectedItems) {
                         selectedItems.clear();
                         selectedItems.addAll(addStockController.selectedSizeList);
-                        return selectedItems.isEmpty
-                            ? Text(
-                                AppStrings.selectSize.tr,
-                                style: TextStyle(
-                                  color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Wrap(
-                                  children: selectedItems.map(
-                                    (value) {
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                selectedItems.removeWhere(
-                                                  (element) {
-                                                    return element == value;
-                                                  },
-                                                );
-                                                addStockController.selectedSizeList.removeWhere(
-                                                  (element) {
-                                                    return element == value;
-                                                  },
-                                                );
-                                              });
-                                            },
-                                            child: Stack(
-                                              children: [
-                                                Align(
-                                                  alignment: Alignment.center,
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(left: 2.w, right: 3.w, top: 0.3.h, bottom: 0.3.h),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      color: AppColors.PRIMARY_COLOR,
-                                                    ),
-                                                    margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
-                                                    child: Text(
-                                                      value.toString().tr,
-                                                      textAlign: TextAlign.end,
-                                                      style: TextStyle(
-                                                        color: AppColors.WHITE_COLOR,
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 10.sp,
-                                                      ),
-                                                    ),
+                        if (selectedItems.isEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 0.3.h),
+                            child: Text(
+                              AppStrings.selectSize.tr,
+                              style: TextStyle(
+                                color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Wrap(
+                              children: selectedItems.map(
+                                (value) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedItems.removeWhere(
+                                              (element) {
+                                                return element == value;
+                                              },
+                                            );
+                                            addStockController.selectedSizeList.removeWhere(
+                                              (element) {
+                                                return element == value;
+                                              },
+                                            );
+                                          });
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: Container(
+                                                padding: EdgeInsets.only(left: 2.w, right: 3.w, top: 0.3.h, bottom: 0.3.h),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  color: AppColors.PRIMARY_COLOR,
+                                                ),
+                                                margin: EdgeInsets.only(right: 2.5.w),
+                                                child: Text(
+                                                  value.toString().tr,
+                                                  textAlign: TextAlign.end,
+                                                  style: TextStyle(
+                                                    color: AppColors.WHITE_COLOR,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 10.sp,
                                                   ),
                                                 ),
-                                                Positioned(
-                                                  top: 2.5,
-                                                  right: 1.5.w,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.WHITE_COLOR,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: AppColors.ERROR_COLOR.withOpacity(0.8),
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      padding: const EdgeInsets.all(2),
-                                                      child: Icon(
-                                                        size: 2.w,
-                                                        Icons.close,
-                                                        color: AppColors.WHITE_COLOR,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
-                              );
+                                            Positioned(
+                                              top: 2.5,
+                                              right: 1.5.w,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.WHITE_COLOR,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.ERROR_COLOR.withOpacity(0.8),
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  padding: const EdgeInsets.all(2),
+                                                  child: Icon(
+                                                    size: 2.w,
+                                                    Icons.close,
+                                                    color: AppColors.WHITE_COLOR,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          );
+                        }
                       },
                       selectedItems: addStockController.selectedSizeList,
+                    ),
+                    TextFieldWidget(
+                      controller: addStockController.productNameController,
+                      hintText: AppStrings.enterProductName.tr,
+                      isDisable: true,
                     ),
                     SizedBox(height: 2.h),
 

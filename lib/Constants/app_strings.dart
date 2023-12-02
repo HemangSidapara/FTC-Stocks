@@ -43,4 +43,5 @@ class AppStrings {
   static const String eight = '8';
   static const String ten = '10';
   static const String twelve = '12';
+  static const String enterProductSize = 'Enter Product Size';
 }

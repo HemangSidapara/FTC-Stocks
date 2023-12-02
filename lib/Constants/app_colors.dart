@@ -22,4 +22,5 @@ class AppColors {
   static Color ERROR_COLOR = const Color(0xffEF4444);
   static Color WARNING_COLOR = const Color(0xffe2b13c);
   static Color SUCCESS_COLOR = const Color(0xff27C193);
+  static Color ORANGE_COLOR = const Color(0xffE56736);
 }
