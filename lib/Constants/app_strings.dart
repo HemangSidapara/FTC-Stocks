@@ -65,4 +65,5 @@ class AppStrings {
   static const String selectUnitOfWeight = 'Select Unit Of Weight';
   static const String firstEnterWeightOfSinglePieceAndUnitOfWeight = 'First enter weight of single piece and unit of weight.';
   static const String quantityMustBeAFractionValue = 'Quantity must be a fraction value.';
+  static const String logOut = 'Log Out';
 }

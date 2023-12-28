@@ -3,8 +3,10 @@ import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
+import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/settings_screen/settings_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:get/get.dart';
 
 class SettingsView extends StatefulWidget {
@@ -153,6 +155,17 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                 );
               })
             ],
+          ),
+          const Spacer(),
+
+          ///LogOut
+          ButtonWidget(
+            onPressed: () {
+              clearData();
+              Get.offAllNamed(Routes.signInScreen);
+            },
+            buttonTitle: AppStrings.logOut.tr,
+            fixedSize: Size(double.maxFinite, 6.h),
           ),
         ],
       ),

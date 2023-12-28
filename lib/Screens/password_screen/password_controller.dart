@@ -5,6 +5,8 @@ import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class PasswordController extends GetxController {
+  RxBool isSignInLoading = false.obs;
+
   GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
 
   TextEditingController passwordController = TextEditingController();
@@ -19,15 +21,19 @@ class PasswordController extends GetxController {
   }
 
   Future<void> checkPassword() async {
-    final isValid = passwordFormKey.currentState!.validate();
-    if (!isValid) {
-    } else {
-      final isSuccess = await AuthService().loginService(
-        phone: Get.arguments,
-        password: passwordController.text,
-      );
-      if (isSuccess) {
-        await Get.offAllNamed(Routes.homeScreen);
+    final isValid = passwordFormKey.currentState?.validate();
+    if (isValid == true) {
+      try {
+        isSignInLoading(true);
+        final isSuccess = await AuthService().loginService(
+          phone: Get.arguments,
+          password: passwordController.text,
+        );
+        if (isSuccess) {
+          await Get.offAllNamed(Routes.homeScreen);
+        }
+      } finally {
+        isSignInLoading(false);
       }
     }
   }

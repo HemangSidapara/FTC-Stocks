@@ -63,6 +63,8 @@ Map<String, String> guIN = <String, String>{
   AppStrings.gram: 'ગ્રામ',
   AppStrings.kilogram: 'કિલોગ્રામ (કિલો)',
   AppStrings.pleaseSelectUnitOfWeight: 'કૃપા કરીને વજનનું એકમ પસંદ કરો.',
+  AppStrings.selectUnitOfWeight: 'વજનનું એકમ પસંદ કરો',
   AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight: 'પ્રથમ એક પીસનું વજન અને વજનનું એકમ દાખલ કરો.',
   AppStrings.quantityMustBeAFractionValue: 'જથ્થો અપૂર્ણાંક મૂલ્ય હોવો જોઈએ.',
+  AppStrings.logOut: 'લૉગ આઉટ',
 };

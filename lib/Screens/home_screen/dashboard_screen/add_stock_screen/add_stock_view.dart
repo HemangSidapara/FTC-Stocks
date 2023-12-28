@@ -33,9 +33,12 @@ class _AddStockViewState extends State<AddStockView> {
         bottomSheet: addStockController.isGetStockLoading.value
             ? null
             : ButtonWidget(
-                onPressed: () async {
-                  await addStockController.checkAddStock();
-                },
+                onPressed: addStockController.isAddStockLoading.value
+                    ? () {}
+                    : () async {
+                        await addStockController.checkAddStock();
+                      },
+                isLoading: addStockController.isAddStockLoading.value,
                 fixedSize: Size(double.maxFinite, 5.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -129,7 +132,7 @@ class _AddStockViewState extends State<AddStockView> {
                                 return [
                                   for (int i = 0; i < addStockController.categoryList.length; i++)
                                     Text(
-                                      addStockController.categoryList[i],
+                                      addStockController.categoryList[i].tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
                                         fontSize: 10.sp,
@@ -143,7 +146,7 @@ class _AddStockViewState extends State<AddStockView> {
                                   DropdownMenuItem(
                                     value: i,
                                     child: Text(
-                                      addStockController.categoryList[i],
+                                      addStockController.categoryList[i].tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
                                         fontWeight: FontWeight.w500,
@@ -212,40 +215,40 @@ class _AddStockViewState extends State<AddStockView> {
                                     get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => e.size == addStockController.selectedSizeList[i]).toList().firstOrNull;
                                     switch (addStockController.selectedSizeList[i]) {
                                       case '3':
-                                        addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeThreeUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeThreeQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeThreeWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeThreeQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeThreeWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       case '4':
-                                        addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeFourUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeFourQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeFourWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeFourQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeFourWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       case '6':
-                                        addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeSixUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeSixQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeSixWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeSixQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeSixWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       case '8':
-                                        addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeEightUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeEightQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeEightWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeEightQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeEightWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       case '10':
-                                        addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeTenUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeTenQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeTenWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeTenQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeTenWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       case '12':
-                                        addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeTwelveUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeTwelveQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeTwelveWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeTwelveQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeTwelveWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                       default:
-                                        addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
+                                        addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
                                         addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeCustomQuantityController.text = tempSizeData?.piece ?? '';
-                                        addStockController.sizeCustomWeightController.text = tempSizeData?.weight ?? '';
+                                        addStockController.sizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.sizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                     }
                                   }
                                 }
@@ -553,6 +556,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeThreeQuantityController.clear();
                                         addStockController.sizeThreeWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -566,7 +570,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -582,7 +586,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -631,6 +635,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeThreeUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -649,6 +654,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeThreeUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -685,6 +691,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeFourQuantityController.clear();
                                         addStockController.sizeFourWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -698,7 +705,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -714,7 +721,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -763,6 +770,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeFourUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -781,6 +789,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeFourUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -817,6 +826,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeSixQuantityController.clear();
                                         addStockController.sizeSixWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -830,7 +840,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -846,7 +856,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -895,6 +905,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeSixUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -913,6 +924,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeSixUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -949,6 +961,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeEightQuantityController.clear();
                                         addStockController.sizeEightWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -962,7 +975,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -978,7 +991,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -1027,6 +1040,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeEightUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -1045,6 +1059,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeEightUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -1081,6 +1096,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeTenQuantityController.clear();
                                         addStockController.sizeTenWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -1094,7 +1110,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -1110,7 +1126,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -1157,6 +1173,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeTenUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -1175,6 +1192,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeTenUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -1211,6 +1229,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeTwelveQuantityController.clear();
                                         addStockController.sizeTwelveWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -1224,7 +1243,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -1240,7 +1259,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -1289,6 +1308,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeTwelveUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -1307,6 +1327,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeTwelveUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],
@@ -1343,6 +1364,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.sizeCustomQuantityController.clear();
                                         addStockController.sizeCustomWeightController.clear();
                                       },
+                                      keyboardType: TextInputType.number,
                                     ),
                                   ),
                                   SizedBox(
@@ -1356,7 +1378,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             SizedBox(
                                               width: 22.w,
                                               child: Text(
-                                                addStockController.weightUnitList[i],
+                                                addStockController.weightUnitList[i].tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   color: AppColors.PRIMARY_COLOR,
@@ -1372,7 +1394,7 @@ class _AddStockViewState extends State<AddStockView> {
                                           DropdownMenuItem(
                                             value: i,
                                             child: Text(
-                                              addStockController.weightUnitList[i],
+                                              addStockController.weightUnitList[i].tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
                                                 fontWeight: FontWeight.w500,
@@ -1421,6 +1443,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeCustomUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     SizedBox(
@@ -1439,6 +1462,7 @@ class _AddStockViewState extends State<AddStockView> {
                                             addStockController.selectedSizeCustomUnitOfWeight,
                                           );
                                         },
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ],

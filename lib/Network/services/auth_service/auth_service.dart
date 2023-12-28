@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:ftc_stocks/Constants/api_keys.dart';
 import 'package:ftc_stocks/Constants/api_urls.dart';
@@ -19,12 +21,12 @@ class AuthService {
     };
     var response = await ApiBaseHelper().postHTTP(
       ApiUrls.loginApi,
-      showProgress: true,
+      showProgress: false,
       onError: (error) {
         Utils.validationCheck(message: error.message);
       },
       onSuccess: (data) {
-        final loginModel = loginModelFromJson(data.response!.data.toString());
+        final loginModel = loginModelFromJson(jsonEncode(data.response!.data));
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
           setData(AppConstance.authorizationToken, loginModel.token);
           if (kDebugMode) {

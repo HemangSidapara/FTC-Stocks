@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class AddStockController extends GetxController {
   RxBool isGetStockLoading = true.obs;
+  RxBool isAddStockLoading = false.obs;
 
   GlobalKey<FormState> addStockFormKey = GlobalKey<FormState>();
   TextEditingController productNameController = TextEditingController();
@@ -162,72 +163,77 @@ class AddStockController extends GetxController {
   Future<void> checkAddStock() async {
     final isValid = addStockFormKey.currentState?.validate();
     if (isValid == true) {
-      List<Map<String, String>> sizeData = List.empty(growable: true);
-      for (int i = 0; i < selectedSizeList.length; i++) {
-        switch (selectedSizeList[i]) {
-          case '3':
-            sizeData.add({
-              ApiKeys.size: '3',
-              ApiKeys.weightOfPiece: sizeThreeWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeThreeUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeThreeQuantityController.text.trim(),
-            });
-          case '4':
-            sizeData.add({
-              ApiKeys.size: '4',
-              ApiKeys.weightOfPiece: sizeFourWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeFourUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeFourQuantityController.text.trim(),
-            });
-          case '6':
-            sizeData.add({
-              ApiKeys.size: '6',
-              ApiKeys.weightOfPiece: sizeSixWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeSixUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeSixWeightController.text.notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeSixQuantityController.text.trim(),
-            });
-          case '8':
-            sizeData.add({
-              ApiKeys.size: '8',
-              ApiKeys.weightOfPiece: sizeEightWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeEightUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeEightQuantityController.text.trim(),
-            });
-          case '10':
-            sizeData.add({
-              ApiKeys.size: '10',
-              ApiKeys.weightOfPiece: sizeTenWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTenUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeTenQuantityController.text.trim(),
-            });
-          case '12':
-            sizeData.add({
-              ApiKeys.size: '12',
-              ApiKeys.weightOfPiece: sizeTwelveWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTwelveUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-              ApiKeys.weight: sizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-              ApiKeys.piece: sizeTwelveQuantityController.text.trim(),
-            });
+      try {
+        isAddStockLoading(true);
+        List<Map<String, String>> sizeData = List.empty(growable: true);
+        for (int i = 0; i < selectedSizeList.length; i++) {
+          switch (selectedSizeList[i]) {
+            case '3':
+              sizeData.add({
+                ApiKeys.size: '3',
+                ApiKeys.weightOfPiece: sizeThreeWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeThreeUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeThreeQuantityController.text.trim(),
+              });
+            case '4':
+              sizeData.add({
+                ApiKeys.size: '4',
+                ApiKeys.weightOfPiece: sizeFourWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeFourUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeFourQuantityController.text.trim(),
+              });
+            case '6':
+              sizeData.add({
+                ApiKeys.size: '6',
+                ApiKeys.weightOfPiece: sizeSixWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeSixUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeSixWeightController.text.notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeSixQuantityController.text.trim(),
+              });
+            case '8':
+              sizeData.add({
+                ApiKeys.size: '8',
+                ApiKeys.weightOfPiece: sizeEightWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeEightUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeEightQuantityController.text.trim(),
+              });
+            case '10':
+              sizeData.add({
+                ApiKeys.size: '10',
+                ApiKeys.weightOfPiece: sizeTenWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTenUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeTenQuantityController.text.trim(),
+              });
+            case '12':
+              sizeData.add({
+                ApiKeys.size: '12',
+                ApiKeys.weightOfPiece: sizeTwelveWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTwelveUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: sizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeTwelveQuantityController.text.trim(),
+              });
+          }
         }
-      }
 
-      if (isAddedCustomSize.isTrue) {
-        sizeData.add({
-          ApiKeys.size: customProductSizeController.text.trim(),
-          ApiKeys.weightOfPiece: sizeCustomWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeCustomUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-          ApiKeys.weight: sizeCustomWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-          ApiKeys.piece: sizeCustomQuantityController.text.trim(),
-        });
-      }
+        if (isAddedCustomSize.isTrue) {
+          sizeData.add({
+            ApiKeys.size: customProductSizeController.text.trim(),
+            ApiKeys.weightOfPiece: sizeCustomWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeCustomUnitOfWeight.value == 0 ? ' gm' : ' kg'),
+            ApiKeys.weight: sizeCustomWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+            ApiKeys.piece: sizeCustomQuantityController.text.trim(),
+          });
+        }
 
-      final response = await AddStockService().addStockService(
-        productName: selectedProduct.value != -1 ? productList[selectedProduct.value] : productNameController.text,
-        categoryName: categoryList[selectedCategory.value],
-        sizeData: sizeData,
-      );
+        final response = await AddStockService().addStockService(
+          productName: selectedProduct.value != -1 ? productList[selectedProduct.value] : productNameController.text,
+          categoryName: categoryList[selectedCategory.value],
+          sizeData: sizeData,
+        );
 
-      if (response.isSuccess) {
-        Get.back(id: 0);
-        Utils.validationCheck(message: response.message);
+        if (response.isSuccess) {
+          Get.back(id: 0);
+          Utils.validationCheck(message: response.message);
+        }
+      } finally {
+        isAddStockLoading(false);
       }
     }
   }

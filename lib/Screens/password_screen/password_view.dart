@@ -110,12 +110,17 @@ class _PasswordViewState extends State<PasswordView> {
           ),
 
           ///Submit
-          ButtonWidget(
-            onPressed: () async {
-              await controller.checkPassword();
-            },
-            buttonTitle: AppStrings.login.tr,
-          ),
+          Obx(() {
+            return ButtonWidget(
+              onPressed: controller.isSignInLoading.value
+                  ? () {}
+                  : () async {
+                      await controller.checkPassword();
+                    },
+              isLoading: controller.isSignInLoading.value,
+              buttonTitle: AppStrings.login.tr,
+            );
+          }),
           SizedBox(height: 3.h),
         ],
       ),

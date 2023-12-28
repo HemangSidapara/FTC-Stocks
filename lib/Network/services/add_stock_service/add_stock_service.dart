@@ -43,7 +43,7 @@ class AddStockService {
     };
     final response = await ApiBaseHelper().postHTTP(
       ApiUrls.addStockApi,
-      showProgress: true,
+      showProgress: false,
       onError: (error) {
         Utils.validationCheck(message: error.message);
       },
