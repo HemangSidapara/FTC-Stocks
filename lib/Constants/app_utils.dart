@@ -32,19 +32,35 @@ class Utils {
   }
 
   ///showSnackBar
-  static void validationCheck({String? message, bool isError = false, Color? barColor, Color? iconColor, Color? textColor}) {
+  static void validationCheck({
+    String? message,
+    bool isError = false,
+    bool isWarning = false,
+    Color? barColor,
+    Color? iconColor,
+    Color? textColor,
+  }) {
     if (!Get.isSnackbarOpen) {
       Get.rawSnackbar(
         margin: EdgeInsets.only(bottom: 5.h, left: 7.w, right: 7.w),
         snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(milliseconds: 3500),
-        backgroundColor: barColor ?? (isError ? AppColors.ERROR_COLOR : AppColors.SUCCESS_COLOR),
+        backgroundColor: barColor ??
+            (isError
+                ? AppColors.ERROR_COLOR
+                : isWarning
+                    ? AppColors.WARNING_COLOR
+                    : AppColors.SUCCESS_COLOR),
         borderRadius: 30,
         padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
         messageText: Row(
           children: [
             Icon(
-              isError ? Icons.error_rounded : Icons.check_circle_rounded,
+              isError
+                  ? Icons.error_rounded
+                  : isWarning
+                      ? Icons.warning_rounded
+                      : Icons.check_circle_rounded,
               color: iconColor ?? AppColors.WHITE_COLOR,
             ),
             SizedBox(width: 3.w),

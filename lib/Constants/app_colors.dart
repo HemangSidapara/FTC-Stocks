@@ -19,6 +19,7 @@ class AppColors {
   static Color RED_COLOR = Colors.red;
   static Color GOOGLE_RED_COLOR = const Color(0xffED3241);
   static Color FACEBOOK_BLUE_COLOR = const Color(0xff0262F8);
+  static Color LIGHT_BLUE_COLOR = const Color(0xff0065ff);
   static Color ERROR_COLOR = const Color(0xffEF4444);
   static Color WARNING_COLOR = const Color(0xffe2b13c);
   static Color SUCCESS_COLOR = const Color(0xff27C193);

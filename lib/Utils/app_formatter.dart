@@ -13,6 +13,18 @@ extension StringToInt on String {
   }
 }
 
+extension StringToIsDouble on String {
+  bool isDouble() {
+    return contains('.');
+  }
+}
+
+extension StringToIsInt on String {
+  bool isInt() {
+    return int.parse(split('.').last) == 0;
+  }
+}
+
 extension StringToDouble on String {
   double toDouble() {
     return double.parse(this);
@@ -52,5 +64,15 @@ extension RupeesGrandTotalFromList on List {
       }
     }
     return totalAmount.toString();
+  }
+}
+
+extension NotContainsAndAddSubString on String {
+  String notContainsAndAddSubstring(String requiredString) {
+    if (contains(requiredString) == false) {
+      return this + requiredString;
+    } else {
+      return this;
+    }
   }
 }

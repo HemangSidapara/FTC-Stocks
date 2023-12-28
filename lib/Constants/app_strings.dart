@@ -44,4 +44,25 @@ class AppStrings {
   static const String ten = '10';
   static const String twelve = '12';
   static const String enterProductSize = 'Enter Product Size';
+  static const String size3QuantityWeight = 'Size 3 Quantity & Weight';
+  static const String size4QuantityWeight = 'Size 4 Quantity & Weight';
+  static const String size6QuantityWeight = 'Size 6 Quantity & Weight';
+  static const String size8QuantityWeight = 'Size 8 Quantity & Weight';
+  static const String size10QuantityWeight = 'Size 10 Quantity & Weight';
+  static const String size12QuantityWeight = 'Size 12 Quantity & Weight';
+  static const String sizeCustomQuantityWeight = 'Size Custom Quantity & Weight';
+  static const String enterQuantity = 'Enter Quantity (Piece)';
+  static const String enterWeight = 'Enter Weight (Kg)';
+  static const String enterWeightOfSinglePiece = 'Enter Weight Of Single Piece';
+  static const String pleaseEnterProductSize = 'Please enter product size.';
+  static const String pleaseSelectProductSize = 'Please select product size.';
+  static const String pleaseEnterQuantity = 'Please enter quantity.';
+  static const String pleaseEnterWeight = 'Please enter weight.';
+  static const String reset = 'Reset';
+  static const String gram = 'Gram (gm)';
+  static const String kilogram = 'Kilogram (kg)';
+  static const String pleaseSelectUnitOfWeight = 'Please select unit of weight.';
+  static const String selectUnitOfWeight = 'Select Unit Of Weight';
+  static const String firstEnterWeightOfSinglePieceAndUnitOfWeight = 'First enter weight of single piece and unit of weight.';
+  static const String quantityMustBeAFractionValue = 'Quantity must be a fraction value.';
 }

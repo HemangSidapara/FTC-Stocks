@@ -14,6 +14,8 @@ class TextFieldWidget extends StatelessWidget {
   final String? Function(String? value)? validator;
   final EdgeInsetsGeometry? contentPadding;
   final bool? isDisable;
+  final void Function(String value)? onChanged;
+  final void Function(String? value)? onSaved;
 
   const TextFieldWidget({
     super.key,
@@ -28,6 +30,8 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.contentPadding,
     this.isDisable = false,
+    this.onChanged,
+    this.onSaved,
   });
 
   @override
@@ -58,8 +62,10 @@ class TextFieldWidget extends StatelessWidget {
           textInputAction: textInputAction,
           keyboardType: keyboardType,
           maxLength: maxLength,
-          cursorColor: AppColors.WHITE_COLOR,
+          cursorColor: AppColors.PRIMARY_COLOR,
           enabled: isDisable == false,
+          onChanged: onChanged,
+          onSaved: onSaved,
           decoration: InputDecoration(
             counterStyle: TextStyle(color: AppColors.PRIMARY_COLOR),
             filled: true,
@@ -112,6 +118,7 @@ class TextFieldWidget extends StatelessWidget {
                 width: 1,
               ),
             ),
+            errorMaxLines: 2,
             isDense: true,
             contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h).copyWith(right: 1.5.w),
           ),

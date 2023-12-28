@@ -24,7 +24,7 @@ class AuthService {
         Utils.validationCheck(message: error.message);
       },
       onSuccess: (data) {
-        final loginModel = loginModelFromJson(data.response?.data);
+        final loginModel = loginModelFromJson(data.response!.data.toString());
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
           setData(AppConstance.authorizationToken, loginModel.token);
           if (kDebugMode) {

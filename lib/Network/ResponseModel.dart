@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 class ResponseModel {
@@ -7,13 +6,13 @@ class ResponseModel {
 
   ResponseModel({this.statusCode, this.response});
 
-  get data => response!.data['data'];
+  get data => response!.data;
 
-  get message => response!.data['message'];
+  get message => response!.data['msg'];
 
-  getExtraData(String paramName){
+  bool get isSuccess => response!.statusCode! >= 200 && response!.statusCode! <= 299;
+
+  getExtraData(String paramName) {
     return response!.data[paramName];
   }
-
 }
-

@@ -8,6 +8,7 @@ class ButtonWidget extends StatelessWidget {
   final String buttonTitle;
   final Size? fixedSize;
   final OutlinedBorder? shape;
+  final bool isLoading;
 
   const ButtonWidget({
     super.key,
@@ -16,14 +17,16 @@ class ButtonWidget extends StatelessWidget {
     this.buttonTitle = '',
     this.fixedSize,
     this.shape,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: isLoading ? () {} : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.PRIMARY_COLOR,
+        surfaceTintColor: isLoading ? AppColors.PRIMARY_COLOR : null,
         elevation: 4,
         shadowColor: AppColors.WHITE_COLOR.withOpacity(0.7),
         fixedSize: fixedSize ?? Size(84.w, 5.h),
@@ -32,15 +35,24 @@ class ButtonWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
       ),
-      child: child ??
-          Text(
-            buttonTitle,
-            style: TextStyle(
-              color: AppColors.WHITE_COLOR,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+      child: isLoading
+          ? SizedBox(
+              height: 5.w,
+              width: 5.w,
+              child: CircularProgressIndicator(
+                color: AppColors.WHITE_COLOR,
+                strokeWidth: 1.6,
+              ),
+            )
+          : child ??
+              Text(
+                buttonTitle,
+                style: TextStyle(
+                  color: AppColors.WHITE_COLOR,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
     );
   }
 }

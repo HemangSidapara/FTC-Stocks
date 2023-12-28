@@ -12,6 +12,8 @@ class DropDownWidget extends StatelessWidget {
   final String? Function(int? value)? validator;
   final void Function(int? value)? onChanged;
   final void Function(int?)? onSaved;
+  final int? value;
+  final List<Widget>? titleChildren;
 
   const DropDownWidget({
     super.key,
@@ -22,6 +24,8 @@ class DropDownWidget extends StatelessWidget {
     this.validator,
     required this.onChanged,
     this.onSaved,
+    this.value,
+    this.titleChildren,
   });
 
   @override
@@ -29,19 +33,29 @@ class DropDownWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
-          Padding(
-            padding: EdgeInsets.only(left: 2.w),
-            child: Text(
-              title!,
-              style: TextStyle(
-                color: AppColors.PRIMARY_COLOR,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
+        if (title != null) ...[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 2.w),
+                child: Text(
+                  title!,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
-            ),
+              Row(
+                children: titleChildren ?? [],
+              ),
+            ],
           ),
-        SizedBox(height: 0.6.h),
+        ],
+        SizedBox(height: 1.h),
         DropdownButtonFormField(
           style: TextStyle(
             color: AppColors.PRIMARY_COLOR,
@@ -58,6 +72,11 @@ class DropDownWidget extends StatelessWidget {
               color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
               fontSize: 10.sp,
               fontWeight: FontWeight.w600,
+            ),
+            errorStyle: TextStyle(
+              color: AppColors.ERROR_COLOR,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(
@@ -94,6 +113,7 @@ class DropDownWidget extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(8),
             ),
+            errorMaxLines: 2,
             isDense: true,
             contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h).copyWith(right: 1.5.w),
           ),
@@ -116,6 +136,7 @@ class DropDownWidget extends StatelessWidget {
           validator: validator,
           onChanged: onChanged,
           onSaved: onSaved,
+          value: value,
         ),
       ],
     );

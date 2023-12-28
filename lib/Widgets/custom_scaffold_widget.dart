@@ -18,6 +18,7 @@ class CustomScaffoldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -25,7 +26,7 @@ class CustomScaffoldWidget extends StatelessWidget {
           color: AppColors.WHITE_COLOR,
           borderRadius: BorderRadius.zero,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w).copyWith(top: 0),
+            padding: EdgeInsets.symmetric(vertical: keyboardPadding != 0 ? 0.h : 3.h, horizontal: 5.w).copyWith(top: 0),
             child: bottomSheet,
           ),
         ),
