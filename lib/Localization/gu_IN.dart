@@ -67,4 +67,9 @@ Map<String, String> guIN = <String, String>{
   AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight: 'પ્રથમ એક પીસનું વજન અને વજનનું એકમ દાખલ કરો.',
   AppStrings.quantityMustBeAFractionValue: 'જથ્થો અપૂર્ણાંક મૂલ્ય હોવો જોઈએ.',
   AppStrings.logOut: 'લૉગ આઉટ',
+  AppStrings.loginSuccessfully: 'સફળતાપૂર્વક લૉગિન',
+  AppStrings.invalidPhoneOrPassword: 'અમાન્ય ફોન અથવા પાસવર્ડ',
+  AppStrings.weightOfPiece: 'પીસનું વજન: ',
+  AppStrings.availableStockQuantityWeight: 'ઉપલબ્ધ સ્ટોક (જથ્થા/વજન[કિલો]): ',
+  AppStrings.pieces: ' નંગ',
 };

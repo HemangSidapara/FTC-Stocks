@@ -66,4 +66,9 @@ class AppStrings {
   static const String firstEnterWeightOfSinglePieceAndUnitOfWeight = 'First enter weight of single piece and unit of weight.';
   static const String quantityMustBeAFractionValue = 'Quantity must be a fraction value.';
   static const String logOut = 'Log Out';
+  static const String loginSuccessfully = 'Login Successfully';
+  static const String invalidPhoneOrPassword = 'Invalid Phone OR Password';
+  static const String weightOfPiece = 'Weight of Piece: ';
+  static const String availableStockQuantityWeight = 'Available Stock (Quantity/Weight[kg]): ';
+  static const String pieces = ' pieces';
 }

@@ -40,12 +40,15 @@ class TextFieldWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (title != null)
-          Text(
-            title!,
-            style: TextStyle(
-              color: AppColors.PRIMARY_COLOR,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
+          Padding(
+            padding: EdgeInsets.only(left: 2.w),
+            child: Text(
+              title!,
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         SizedBox(height: 1.h),

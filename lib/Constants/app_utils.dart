@@ -52,7 +52,7 @@ class Utils {
                     ? AppColors.WARNING_COLOR
                     : AppColors.SUCCESS_COLOR),
         borderRadius: 30,
-        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
         messageText: Row(
           children: [
             Icon(

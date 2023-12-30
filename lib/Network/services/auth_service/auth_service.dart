@@ -8,6 +8,8 @@ import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Network/api_base_helper.dart';
 import 'package:ftc_stocks/Network/models/auth_models/login_model.dart';
+import 'package:ftc_stocks/Utils/app_formatter.dart';
+import 'package:get/get.dart';
 
 class AuthService {
   ///login Service
@@ -27,21 +29,21 @@ class AuthService {
       },
       onSuccess: (data) {
         final loginModel = loginModelFromJson(jsonEncode(data.response!.data));
-        if (data.statusCode! >= 200 && data.statusCode! <= 299) {
+        if (data.isSuccess && loginModel.code!.toInt() >= 200 && loginModel.code!.toInt() <= 299) {
           setData(AppConstance.authorizationToken, loginModel.token);
           if (kDebugMode) {
             print("login success message :::: ${loginModel.msg}");
           }
-          Utils.validationCheck(message: loginModel.msg);
+          Utils.validationCheck(message: loginModel.msg?.tr);
         } else {
           if (kDebugMode) {
             print("login error message :::: ${loginModel.msg}");
           }
-          Utils.validationCheck(message: loginModel.msg, isError: true);
+          Utils.validationCheck(message: loginModel.msg?.tr, isError: true);
         }
       },
       params: param,
     );
-    return response.statusCode! >= 200 && response.statusCode! <= 299;
+    return response.isSuccess;
   }
 }

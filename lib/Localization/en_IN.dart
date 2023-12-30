@@ -67,4 +67,9 @@ Map<String, String> enIN = <String, String>{
   AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight: 'First enter weight of single piece and unit of weight.',
   AppStrings.quantityMustBeAFractionValue: 'Quantity must be a fraction value.',
   AppStrings.logOut: 'Log Out',
+  AppStrings.loginSuccessfully: 'Login Successfully',
+  AppStrings.invalidPhoneOrPassword: 'Invalid Phone OR Password',
+  AppStrings.weightOfPiece: 'Weight of Piece: ',
+  AppStrings.availableStockQuantityWeight: 'Available Stock (Quantity/Weight[kg]): ',
+  AppStrings.pieces: ' pieces',
 };

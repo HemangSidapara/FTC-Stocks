@@ -165,7 +165,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
               Get.offAllNamed(Routes.signInScreen);
             },
             buttonTitle: AppStrings.logOut.tr,
-            fixedSize: Size(double.maxFinite, 6.h),
+            fixedSize: Size(double.maxFinite, 5.h),
           ),
         ],
       ),
