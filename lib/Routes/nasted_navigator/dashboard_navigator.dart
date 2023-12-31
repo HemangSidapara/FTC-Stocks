@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/available_stock_screen/available_stock_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/available_stock_screen/available_stock_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/challan_screen/challan_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/challan_screen/challan_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
 import 'package:get/get.dart';
 
 class DashboardNavigator extends StatelessWidget {
@@ -17,17 +23,6 @@ class DashboardNavigator extends StatelessWidget {
       key: Get.nestedKey(0),
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case Routes.addStockScreen:
-            return GetPageRoute(
-              routeName: Routes.addStockScreen,
-              page: () => const AddStockView(),
-              binding: AddStockBindings(),
-              transition: Transition.rightToLeftWithFade,
-              transitionDuration: transitionDuration,
-              settings: RouteSettings(
-                arguments: settings.arguments,
-              ),
-            );
           case Routes.createOrderScreen:
             return GetPageRoute(
               routeName: Routes.createOrderScreen,
@@ -39,6 +34,55 @@ class DashboardNavigator extends StatelessWidget {
                 arguments: settings.arguments,
               ),
             );
+
+          case Routes.addStockScreen:
+            return GetPageRoute(
+              routeName: Routes.addStockScreen,
+              page: () => const AddStockView(),
+              binding: AddStockBindings(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.pendingOrdersScreen:
+            return GetPageRoute(
+              routeName: Routes.pendingOrdersScreen,
+              page: () => const PendingOrdersView(),
+              binding: PendingOrdersBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.availableStockScreen:
+            return GetPageRoute(
+              routeName: Routes.availableStockScreen,
+              page: () => const AvailableStockView(),
+              binding: AvailableStockBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.challanScreen:
+            return GetPageRoute(
+              routeName: Routes.challanScreen,
+              page: () => const ChallanView(),
+              binding: ChallanBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
           default:
             return GetPageRoute(
               routeName: Routes.dashboardScreen,

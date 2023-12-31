@@ -58,7 +58,8 @@ class _HomeViewState extends State<HomeView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AssetImages(index: 0, iconName: AppAssets.homeIcon),
-                AssetImages(index: 1, iconName: AppAssets.settingsIcon),
+                AssetImages(index: 1, iconName: AppAssets.ordersHistoryIcon),
+                AssetImages(index: 2, iconName: AppAssets.settingsIcon),
               ],
             ),
           ),

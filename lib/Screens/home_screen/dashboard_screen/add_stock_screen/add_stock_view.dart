@@ -1,3 +1,4 @@
+// ignore_for_file: non_constant_identifier_names
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
@@ -529,946 +530,74 @@ class _AddStockViewState extends State<AddStockView> {
                             SizedBox(height: 2.h),
 
                             ///Size 3
-                            if (addStockController.selectedSizeList.contains('3')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size3QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('3'))
+                              SizeOfTheStock(
+                                title: AppStrings.size3QuantityWeight,
+                                weightOfPieceController: addStockController.sizeThreeWeightOfPieceController,
+                                quantityController: addStockController.sizeThreeQuantityController,
+                                weightController: addStockController.sizeThreeWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeThreeUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeThreeWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeThreeQuantityController.clear();
-                                        addStockController.sizeThreeWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeThreeUnitOfWeight.value == -1 ? null : addStockController.selectedSizeThreeUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeThreeUnitOfWeight.value != value) {
-                                          addStockController.sizeThreeQuantityController.clear();
-                                          addStockController.sizeThreeWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeThreeUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeThreeWeightOfPieceController.text.isEmpty || addStockController.selectedSizeThreeUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeThreeQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeThreeQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeThreeWeightOfPieceController.text.isEmpty || addStockController.selectedSizeThreeUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeThreeWeightController,
-                                            addStockController.sizeThreeQuantityController,
-                                            addStockController.sizeThreeWeightOfPieceController,
-                                            addStockController.selectedSizeThreeUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeThreeWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeThreeWeightOfPieceController.text.isEmpty || addStockController.selectedSizeThreeUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeThreeQuantityController,
-                                            addStockController.sizeThreeWeightController,
-                                            addStockController.sizeThreeWeightOfPieceController,
-                                            addStockController.selectedSizeThreeUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 4
-                            if (addStockController.selectedSizeList.contains('4')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size4QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('4'))
+                              SizeOfTheStock(
+                                title: AppStrings.size4QuantityWeight,
+                                weightOfPieceController: addStockController.sizeFourWeightOfPieceController,
+                                quantityController: addStockController.sizeFourQuantityController,
+                                weightController: addStockController.sizeFourWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeFourUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeFourWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeFourQuantityController.clear();
-                                        addStockController.sizeFourWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeFourUnitOfWeight.value == -1 ? null : addStockController.selectedSizeFourUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeFourUnitOfWeight.value != value) {
-                                          addStockController.sizeFourQuantityController.clear();
-                                          addStockController.sizeFourWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeFourUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeFourWeightOfPieceController.text.isEmpty || addStockController.selectedSizeFourUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeFourQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeFourQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeFourWeightOfPieceController.text.isEmpty || addStockController.selectedSizeFourUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeFourWeightController,
-                                            addStockController.sizeFourQuantityController,
-                                            addStockController.sizeFourWeightOfPieceController,
-                                            addStockController.selectedSizeFourUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeFourWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeFourWeightOfPieceController.text.isEmpty || addStockController.selectedSizeFourUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeFourQuantityController,
-                                            addStockController.sizeFourWeightController,
-                                            addStockController.sizeFourWeightOfPieceController,
-                                            addStockController.selectedSizeFourUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 6
-                            if (addStockController.selectedSizeList.contains('6')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size6QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('6'))
+                              SizeOfTheStock(
+                                title: AppStrings.size6QuantityWeight,
+                                weightOfPieceController: addStockController.sizeSixWeightOfPieceController,
+                                quantityController: addStockController.sizeSixQuantityController,
+                                weightController: addStockController.sizeSixWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeSixUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeSixWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeSixQuantityController.clear();
-                                        addStockController.sizeSixWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeSixUnitOfWeight.value == -1 ? null : addStockController.selectedSizeSixUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeSixUnitOfWeight.value != value) {
-                                          addStockController.sizeSixQuantityController.clear();
-                                          addStockController.sizeSixWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeSixUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeSixWeightOfPieceController.text.isEmpty || addStockController.selectedSizeSixUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeSixQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeSixQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeSixWeightOfPieceController.text.isEmpty || addStockController.selectedSizeSixUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeSixWeightController,
-                                            addStockController.sizeSixQuantityController,
-                                            addStockController.sizeSixWeightOfPieceController,
-                                            addStockController.selectedSizeSixUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeSixWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeSixWeightOfPieceController.text.isEmpty || addStockController.selectedSizeSixUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeSixQuantityController,
-                                            addStockController.sizeSixWeightController,
-                                            addStockController.sizeSixWeightOfPieceController,
-                                            addStockController.selectedSizeSixUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 8
-                            if (addStockController.selectedSizeList.contains('8')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size8QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('8'))
+                              SizeOfTheStock(
+                                title: AppStrings.size8QuantityWeight,
+                                weightOfPieceController: addStockController.sizeEightWeightOfPieceController,
+                                quantityController: addStockController.sizeEightQuantityController,
+                                weightController: addStockController.sizeEightWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeEightUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeEightWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeEightQuantityController.clear();
-                                        addStockController.sizeEightWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeEightUnitOfWeight.value == -1 ? null : addStockController.selectedSizeEightUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeEightUnitOfWeight.value != value) {
-                                          addStockController.sizeEightQuantityController.clear();
-                                          addStockController.sizeEightWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeEightUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeEightWeightOfPieceController.text.isEmpty || addStockController.selectedSizeEightUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeEightQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeEightQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeEightWeightOfPieceController.text.isEmpty || addStockController.selectedSizeEightUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeEightWeightController,
-                                            addStockController.sizeEightQuantityController,
-                                            addStockController.sizeEightWeightOfPieceController,
-                                            addStockController.selectedSizeEightUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeEightWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeEightWeightOfPieceController.text.isEmpty || addStockController.selectedSizeEightUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeEightQuantityController,
-                                            addStockController.sizeEightWeightController,
-                                            addStockController.sizeEightWeightOfPieceController,
-                                            addStockController.selectedSizeEightUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 10
-                            if (addStockController.selectedSizeList.contains('10')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size10QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('10'))
+                              SizeOfTheStock(
+                                title: AppStrings.size10QuantityWeight,
+                                weightOfPieceController: addStockController.sizeTenWeightOfPieceController,
+                                quantityController: addStockController.sizeTenQuantityController,
+                                weightController: addStockController.sizeTenWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeTenUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeTenWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeTenQuantityController.clear();
-                                        addStockController.sizeTenWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeTenUnitOfWeight.value == -1 ? null : addStockController.selectedSizeTenUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        addStockController.selectedSizeTenUnitOfWeight.value = value ?? -1;
-                                        addStockController.sizeTenQuantityController.clear();
-                                        addStockController.sizeTenWeightController.clear();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeTenWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTenUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeTenQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeTenQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeTenWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTenUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeTenWeightController,
-                                            addStockController.sizeTenQuantityController,
-                                            addStockController.sizeTenWeightOfPieceController,
-                                            addStockController.selectedSizeTenUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeTenWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeTenWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTenUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeTenQuantityController,
-                                            addStockController.sizeTenWeightController,
-                                            addStockController.sizeTenWeightOfPieceController,
-                                            addStockController.selectedSizeTenUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 12
-                            if (addStockController.selectedSizeList.contains('12')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size12QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.selectedSizeList.contains('12'))
+                              SizeOfTheStock(
+                                title: AppStrings.size12QuantityWeight,
+                                weightOfPieceController: addStockController.sizeTwelveWeightOfPieceController,
+                                quantityController: addStockController.sizeTwelveQuantityController,
+                                weightController: addStockController.sizeTwelveWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeTwelveUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeTwelveWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeTwelveQuantityController.clear();
-                                        addStockController.sizeTwelveWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeTwelveUnitOfWeight.value == -1 ? null : addStockController.selectedSizeTwelveUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeTwelveUnitOfWeight.value != value) {
-                                          addStockController.sizeTwelveQuantityController.clear();
-                                          addStockController.sizeTwelveWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeTwelveUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeTwelveWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTwelveUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeTwelveQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeTwelveQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeTwelveWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTwelveUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeTwelveWeightController,
-                                            addStockController.sizeTwelveQuantityController,
-                                            addStockController.sizeTwelveWeightOfPieceController,
-                                            addStockController.selectedSizeTwelveUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeTwelveWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeTwelveWeightOfPieceController.text.isEmpty || addStockController.selectedSizeTwelveUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeTwelveQuantityController,
-                                            addStockController.sizeTwelveWeightController,
-                                            addStockController.sizeTwelveWeightOfPieceController,
-                                            addStockController.selectedSizeTwelveUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Custom Size
-                            if (addStockController.isAddedCustomSize.isTrue) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.sizeCustomQuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (addStockController.isAddedCustomSize.isTrue)
+                              SizeOfTheStock(
+                                title: AppStrings.sizeCustomQuantityWeight,
+                                weightOfPieceController: addStockController.sizeCustomWeightOfPieceController,
+                                quantityController: addStockController.sizeCustomQuantityController,
+                                weightController: addStockController.sizeCustomWeightController,
+                                selectedUnitOfWeight: addStockController.selectedSizeCustomUnitOfWeight,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 54.w,
-                                    child: TextFieldWidget(
-                                      controller: addStockController.sizeCustomWeightOfPieceController,
-                                      hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                                      validator: addStockController.validateWeight,
-                                      onChanged: (value) {
-                                        addStockController.sizeCustomQuantityController.clear();
-                                        addStockController.sizeCustomWeightController.clear();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32.w,
-                                    child: DropDownWidget(
-                                      value: addStockController.selectedSizeCustomUnitOfWeight.value == -1 ? null : addStockController.selectedSizeCustomUnitOfWeight.value,
-                                      hintText: AppStrings.selectUnitOfWeight.tr,
-                                      selectedItemBuilder: (context) {
-                                        return [
-                                          for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                            SizedBox(
-                                              width: 22.w,
-                                              child: Text(
-                                                addStockController.weightUnitList[i].tr,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: AppColors.PRIMARY_COLOR,
-                                                  fontSize: 10.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                        ];
-                                      },
-                                      items: [
-                                        for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                                          DropdownMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              addStockController.weightUnitList[i].tr,
-                                              style: TextStyle(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10.sp,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                      validator: addStockController.validateWeightUnit,
-                                      onChanged: (value) {
-                                        if (addStockController.selectedSizeCustomUnitOfWeight.value != value) {
-                                          addStockController.sizeCustomQuantityController.clear();
-                                          addStockController.sizeCustomWeightController.clear();
-                                        }
-                                        addStockController.selectedSizeCustomUnitOfWeight.value = value ?? -1;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: addStockController.sizeCustomWeightOfPieceController.text.isEmpty || addStockController.selectedSizeCustomUnitOfWeight.value == -1
-                                    ? () {
-                                        Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                                      }
-                                    : null,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeCustomQuantityController,
-                                        hintText: AppStrings.enterQuantity.tr,
-                                        validator: (value) {
-                                          return addStockController.validateQuantity(value, addStockController.sizeCustomQuantityController);
-                                        },
-                                        isDisable: addStockController.sizeCustomWeightOfPieceController.text.isEmpty || addStockController.selectedSizeCustomUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateWeightByQuantity(
-                                            value,
-                                            addStockController.sizeCustomWeightController,
-                                            addStockController.sizeCustomQuantityController,
-                                            addStockController.sizeCustomWeightOfPieceController,
-                                            addStockController.selectedSizeCustomUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 43.w,
-                                      child: TextFieldWidget(
-                                        controller: addStockController.sizeCustomWeightController,
-                                        hintText: AppStrings.enterWeight.tr,
-                                        validator: addStockController.validateWeight,
-                                        isDisable: addStockController.sizeCustomWeightOfPieceController.text.isEmpty || addStockController.selectedSizeCustomUnitOfWeight.value == -1,
-                                        onChanged: (value) {
-                                          addStockController.calculateQuantityByWeight(
-                                            value,
-                                            addStockController.sizeCustomQuantityController,
-                                            addStockController.sizeCustomWeightController,
-                                            addStockController.sizeCustomWeightOfPieceController,
-                                            addStockController.selectedSizeCustomUnitOfWeight,
-                                          );
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
                             SizedBox(height: keyboardPadding != 0 ? 0 : 8.h),
                           ],
                         ),
@@ -1482,5 +611,150 @@ class _AddStockViewState extends State<AddStockView> {
         ),
       );
     });
+  }
+
+  Widget SizeOfTheStock({
+    required String title,
+    required TextEditingController weightOfPieceController,
+    required TextEditingController quantityController,
+    required TextEditingController weightController,
+    required RxInt selectedUnitOfWeight,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 2.w),
+          child: Text(
+            title.tr,
+            style: TextStyle(
+              color: AppColors.PRIMARY_COLOR,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        SizedBox(height: 0.6.h),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 54.w,
+              child: TextFieldWidget(
+                controller: weightOfPieceController,
+                hintText: AppStrings.enterWeightOfSinglePiece.tr,
+                validator: addStockController.validateWeight,
+                onChanged: (value) {
+                  quantityController.clear();
+                  weightController.clear();
+                },
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            SizedBox(
+              width: 32.w,
+              child: DropDownWidget(
+                value: selectedUnitOfWeight.value == -1 ? null : selectedUnitOfWeight.value,
+                hintText: AppStrings.selectUnitOfWeight.tr,
+                selectedItemBuilder: (context) {
+                  return [
+                    for (int i = 0; i < addStockController.weightUnitList.length; i++)
+                      SizedBox(
+                        width: 22.w,
+                        child: Text(
+                          addStockController.weightUnitList[i].tr,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppColors.PRIMARY_COLOR,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                  ];
+                },
+                items: [
+                  for (int i = 0; i < addStockController.weightUnitList.length; i++)
+                    DropdownMenuItem(
+                      value: i,
+                      child: Text(
+                        addStockController.weightUnitList[i].tr,
+                        style: TextStyle(
+                          color: AppColors.PRIMARY_COLOR,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10.sp,
+                        ),
+                      ),
+                    ),
+                ],
+                validator: addStockController.validateWeightUnit,
+                onChanged: (value) {
+                  if (selectedUnitOfWeight.value != value) {
+                    quantityController.clear();
+                    weightController.clear();
+                  }
+                  selectedUnitOfWeight.value = value ?? -1;
+                },
+              ),
+            ),
+          ],
+        ),
+        GestureDetector(
+          onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
+              ? () {
+                  Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                }
+              : null,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 43.w,
+                child: TextFieldWidget(
+                  controller: quantityController,
+                  hintText: AppStrings.enterQuantity.tr,
+                  validator: (value) {
+                    return addStockController.validateQuantity(value, quantityController);
+                  },
+                  isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
+                  onChanged: (value) {
+                    addStockController.calculateWeightByQuantity(
+                      value,
+                      weightController,
+                      quantityController,
+                      weightOfPieceController,
+                      selectedUnitOfWeight,
+                    );
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              SizedBox(
+                width: 43.w,
+                child: TextFieldWidget(
+                  controller: weightController,
+                  hintText: AppStrings.enterWeight.tr,
+                  validator: addStockController.validateWeight,
+                  isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
+                  onChanged: (value) {
+                    addStockController.calculateQuantityByWeight(
+                      value,
+                      quantityController,
+                      weightController,
+                      weightOfPieceController,
+                      selectedUnitOfWeight,
+                    );
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 2.h),
+      ],
+    );
   }
 }

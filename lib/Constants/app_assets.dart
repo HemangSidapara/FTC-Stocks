@@ -17,4 +17,6 @@ class AppAssets {
   static const String addStockIcon = "assets/icons/add_stock_icon.png";
   static const String challanIcon = "assets/icons/challan_icon.png";
   static const String totalStockIcon = "assets/icons/total_stock_icon.png";
+  static const String ordersHistoryIcon = "assets/icons/orders_history.png";
+  static const String ordersDoneIcon = "assets/icons/orders_done.png";
 }

@@ -102,6 +102,12 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                   onPressed: () {
                     if (index == 0) {
                       Get.toNamed(Routes.addStockScreen, id: 0);
+                    } else if (index == 1) {
+                      Get.toNamed(Routes.availableStockScreen, id: 0);
+                    } else if (index == 2) {
+                      Get.toNamed(Routes.pendingOrdersScreen, id: 0);
+                    } else if (index == 3) {
+                      Get.toNamed(Routes.challanScreen, id: 0);
                     }
                   },
                   style: ElevatedButton.styleFrom(

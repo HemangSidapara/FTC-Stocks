@@ -79,4 +79,6 @@ Map<String, String> enIN = <String, String>{
   AppStrings.orderOfSize10: 'Order Of Size 10',
   AppStrings.orderOfSize12: 'Order Of Size 12',
   AppStrings.orderOfSizeCustom: 'Order Of Size Custom',
+  AppStrings.pleaseSelectAnySizeForTheOrder: 'Please select any size for the order.',
+  AppStrings.ordersHistory: 'Orders History',
 };

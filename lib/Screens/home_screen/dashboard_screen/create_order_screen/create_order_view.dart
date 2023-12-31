@@ -561,7 +561,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               OrderOfSizesWidget(
                                 title: AppStrings.orderOfSize3,
                                 orderQuantityController: createOrderController.orderSizeThreeQuantityController,
-                                orderWeightController: createOrderController.orderSizeThreeQuantityController,
+                                orderWeightController: createOrderController.orderSizeThreeWeightController,
+                                weightOfPieceController: createOrderController.sizeThreeWeightOfPieceController,
                               ),
 
                             ///Order of Size 4
@@ -570,6 +571,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSize4,
                                 orderQuantityController: createOrderController.orderSizeFourQuantityController,
                                 orderWeightController: createOrderController.orderSizeFourWeightController,
+                                weightOfPieceController: createOrderController.sizeFourWeightOfPieceController,
                               ),
 
                             ///Order of Size 6
@@ -578,6 +580,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSize6,
                                 orderQuantityController: createOrderController.orderSizeSixQuantityController,
                                 orderWeightController: createOrderController.orderSizeSixWeightController,
+                                weightOfPieceController: createOrderController.sizeSixWeightOfPieceController,
                               ),
 
                             ///Order of Size 8
@@ -586,6 +589,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSize8,
                                 orderQuantityController: createOrderController.orderSizeEightQuantityController,
                                 orderWeightController: createOrderController.orderSizeEightWeightController,
+                                weightOfPieceController: createOrderController.sizeEightWeightOfPieceController,
                               ),
 
                             ///Order of Size 10
@@ -594,6 +598,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSize10,
                                 orderQuantityController: createOrderController.orderSizeTenQuantityController,
                                 orderWeightController: createOrderController.orderSizeTenWeightController,
+                                weightOfPieceController: createOrderController.sizeTenWeightOfPieceController,
                               ),
 
                             ///Order of Size 12
@@ -602,6 +607,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSize12,
                                 orderQuantityController: createOrderController.orderSizeTwelveQuantityController,
                                 orderWeightController: createOrderController.orderSizeTwelveWeightController,
+                                weightOfPieceController: createOrderController.sizeTwelveWeightOfPieceController,
                               ),
 
                             ///Order of Size Custom
@@ -610,6 +616,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 title: AppStrings.orderOfSizeCustom,
                                 orderQuantityController: createOrderController.orderSizeCustomQuantityController,
                                 orderWeightController: createOrderController.orderSizeCustomWeightController,
+                                weightOfPieceController: createOrderController.sizeCustomWeightOfPieceController,
                               ),
                             SizedBox(height: 6.h),
                           ],
@@ -735,7 +742,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     required String title,
     required TextEditingController orderQuantityController,
     required TextEditingController orderWeightController,
+    required TextEditingController weightOfPieceController,
   }) {
+    final tempWeightOfPieceController = TextEditingController(text: weightOfPieceController.text.replaceAll(' gm', '').replaceAll(' kg', ''));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -761,6 +770,15 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                 hintText: AppStrings.enterQuantity.tr,
                 keyboardType: TextInputType.number,
                 validator: (value) => createOrderController.validateQuantity(value, orderQuantityController),
+                onChanged: (value) {
+                  createOrderController.calculateWeightByQuantity(
+                    value,
+                    orderWeightController,
+                    orderQuantityController,
+                    tempWeightOfPieceController,
+                    weightOfPieceController.text.contains('gm') == true ? 0.obs : 1.obs,
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -770,6 +788,15 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                 hintText: AppStrings.enterWeight,
                 keyboardType: TextInputType.number,
                 validator: (value) => createOrderController.validateWeight(value),
+                onChanged: (value) {
+                  createOrderController.calculateQuantityByWeight(
+                    value,
+                    orderQuantityController,
+                    orderWeightController,
+                    tempWeightOfPieceController,
+                    weightOfPieceController.text.contains('gm') == true ? 0.obs : 1.obs,
+                  );
+                },
               ),
             ),
           ],

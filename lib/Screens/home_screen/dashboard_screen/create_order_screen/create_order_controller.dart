@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
@@ -114,6 +115,26 @@ class CreateOrderController extends GetxController {
     return null;
   }
 
+  void calculateWeightByQuantity(String value, TextEditingController weightController, TextEditingController quantityController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
+    if (weightOfPieceController.text.isNotEmpty) {
+      if (value.isNotEmpty) {
+        weightController.text = ((weightOfPieceController.text.toDouble() * quantityController.text.toDouble()) / (unitOfWeight.value == 0 ? 1000 : 1)).toString();
+      } else {
+        weightController.clear();
+      }
+    }
+  }
+
+  void calculateQuantityByWeight(String value, TextEditingController quantityController, TextEditingController weightController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
+    if (weightOfPieceController.text.isNotEmpty) {
+      if (value.isNotEmpty) {
+        quantityController.text = ((weightController.text.toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.toDouble()).toString();
+      } else {
+        quantityController.clear();
+      }
+    }
+  }
+
   Future<void> getStockApiCall() async {
     try {
       isGetStockLoading(true);
@@ -131,7 +152,69 @@ class CreateOrderController extends GetxController {
     }
   }
 
-  Future<void> checkAddOrder() async {}
+  Future<void> checkAddOrder() async {
+    final isValid = createOrderFormKey.currentState?.validate();
 
-  void resetSizeControllers() {}
+    if (isValid == true) {
+      if (isChecked()) {
+      } else {
+        Utils.validationCheck(message: AppStrings.pleaseSelectAnySizeForTheOrder.tr, isError: true);
+      }
+    }
+  }
+
+  bool isChecked() {
+    return sizeThreeCheckbox.isTrue || sizeFourCheckbox.isTrue || sizeSixCheckbox.isTrue || sizeEightCheckbox.isTrue || sizeTenCheckbox.isTrue || sizeTwelveCheckbox.isTrue || sizeCustomCheckbox.isTrue;
+  }
+
+  void resetSizeControllers() {
+    sizeThreeWeightOfPieceController.clear();
+    sizeThreeQuantityController.clear();
+    sizeThreeWeightController.clear();
+    sizeThreeCheckbox(false);
+    orderSizeThreeQuantityController.clear();
+    orderSizeThreeWeightController.clear();
+
+    sizeFourWeightOfPieceController.clear();
+    sizeFourQuantityController.clear();
+    sizeFourWeightController.clear();
+    sizeFourCheckbox(false);
+    orderSizeFourQuantityController.clear();
+    orderSizeFourWeightController.clear();
+
+    sizeSixWeightOfPieceController.clear();
+    sizeSixQuantityController.clear();
+    sizeSixWeightController.clear();
+    sizeSixCheckbox(false);
+    orderSizeSixQuantityController.clear();
+    orderSizeSixWeightController.clear();
+
+    sizeEightWeightOfPieceController.clear();
+    sizeEightQuantityController.clear();
+    sizeEightWeightController.clear();
+    sizeEightCheckbox(false);
+    orderSizeEightQuantityController.clear();
+    orderSizeEightWeightController.clear();
+
+    sizeTenWeightOfPieceController.clear();
+    sizeTenQuantityController.clear();
+    sizeTenWeightController.clear();
+    sizeTenCheckbox(false);
+    orderSizeTenQuantityController.clear();
+    orderSizeTenWeightController.clear();
+
+    sizeTwelveWeightOfPieceController.clear();
+    sizeTwelveQuantityController.clear();
+    sizeTwelveWeightController.clear();
+    sizeTwelveCheckbox(false);
+    orderSizeTwelveQuantityController.clear();
+    orderSizeTwelveWeightController.clear();
+
+    sizeCustomWeightOfPieceController.clear();
+    sizeCustomQuantityController.clear();
+    sizeCustomWeightController.clear();
+    sizeCustomCheckbox(false);
+    orderSizeCustomQuantityController.clear();
+    orderSizeCustomWeightController.clear();
+  }
 }

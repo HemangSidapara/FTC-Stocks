@@ -78,4 +78,6 @@ class AppStrings {
   static const String orderOfSize10 = 'Order Of Size 10';
   static const String orderOfSize12 = 'Order Of Size 12';
   static const String orderOfSizeCustom = 'Order Of Size Custom';
+  static const String pleaseSelectAnySizeForTheOrder = 'Please select any size for the order.';
+  static const String ordersHistory = 'Orders History';
 }

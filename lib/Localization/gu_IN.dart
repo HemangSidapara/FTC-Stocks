@@ -79,4 +79,6 @@ Map<String, String> guIN = <String, String>{
   AppStrings.orderOfSize10: 'સાઈઝ ૧૦ નો ઓર્ડર',
   AppStrings.orderOfSize12: 'સાઈઝ ૧૨ નો ઓર્ડર',
   AppStrings.orderOfSizeCustom: 'સાઈઝ કસ્ટમ નો ઓર્ડર',
+  AppStrings.pleaseSelectAnySizeForTheOrder: 'કૃપા કરીને ઓર્ડર માટે કોઈપણ કદ પસંદ કરો.',
+  AppStrings.ordersHistory: 'ઓર્ડર્સની યાદી',
 };
