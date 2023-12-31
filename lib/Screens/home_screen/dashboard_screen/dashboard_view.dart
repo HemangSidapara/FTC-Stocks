@@ -116,12 +116,12 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                       color: AppColors.LIGHT_SECONDARY_COLOR,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h).copyWith(bottom: 0.5.h, right: 0),
+                    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h).copyWith(bottom: 0.5.h, right: 2.w),
                     child: Row(
                       children: [
                         Expanded(
                           child: Align(
-                            alignment: Alignment.topCenter,
+                            alignment: Alignment.topLeft,
                             child: Text(
                               dashboardController.contentList[index].tr,
                               overflow: TextOverflow.fade,
@@ -135,7 +135,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                         ),
                         Expanded(
                           child: Align(
-                            alignment: Alignment.bottomCenter,
+                            alignment: Alignment.bottomRight,
                             child: Image.asset(
                               dashboardController.contentIconList[index],
                               width: 14.w,

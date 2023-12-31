@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
+import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 
 class CreateOrderController extends GetxController {
@@ -27,6 +28,14 @@ class CreateOrderController extends GetxController {
   ];
   RxList<String> selectedSizeList = RxList();
 
+  RxBool sizeThreeCheckbox = false.obs;
+  RxBool sizeFourCheckbox = false.obs;
+  RxBool sizeSixCheckbox = false.obs;
+  RxBool sizeEightCheckbox = false.obs;
+  RxBool sizeTenCheckbox = false.obs;
+  RxBool sizeTwelveCheckbox = false.obs;
+  RxBool sizeCustomCheckbox = false.obs;
+
   TextEditingController sizeThreeWeightOfPieceController = TextEditingController();
   TextEditingController sizeFourWeightOfPieceController = TextEditingController();
   TextEditingController sizeSixWeightOfPieceController = TextEditingController();
@@ -51,17 +60,26 @@ class CreateOrderController extends GetxController {
   TextEditingController sizeTwelveWeightController = TextEditingController();
   TextEditingController sizeCustomWeightController = TextEditingController();
 
+  TextEditingController orderSizeThreeQuantityController = TextEditingController();
+  TextEditingController orderSizeFourQuantityController = TextEditingController();
+  TextEditingController orderSizeSixQuantityController = TextEditingController();
+  TextEditingController orderSizeEightQuantityController = TextEditingController();
+  TextEditingController orderSizeTenQuantityController = TextEditingController();
+  TextEditingController orderSizeTwelveQuantityController = TextEditingController();
+  TextEditingController orderSizeCustomQuantityController = TextEditingController();
+
+  TextEditingController orderSizeThreeWeightController = TextEditingController();
+  TextEditingController orderSizeFourWeightController = TextEditingController();
+  TextEditingController orderSizeSixWeightController = TextEditingController();
+  TextEditingController orderSizeEightWeightController = TextEditingController();
+  TextEditingController orderSizeTenWeightController = TextEditingController();
+  TextEditingController orderSizeTwelveWeightController = TextEditingController();
+  TextEditingController orderSizeCustomWeightController = TextEditingController();
+
   @override
   void onInit() async {
     super.onInit();
     await getStockApiCall();
-  }
-
-  String? validateCategory(int? value) {
-    if (value == null) {
-      return AppStrings.pleaseSelectCategory.tr;
-    }
-    return null;
   }
 
   String? validateProduct(int? value) {
@@ -74,6 +92,24 @@ class CreateOrderController extends GetxController {
   String? validateProductSize(List value) {
     if (value.isEmpty) {
       return AppStrings.pleaseSelectProductSize.tr;
+    }
+    return null;
+  }
+
+  String? validateQuantity(String? value, TextEditingController quantityController) {
+    if (value?.isEmpty == true) {
+      return AppStrings.pleaseEnterQuantity.tr;
+    } else if (value?.isDouble() == true && value?.isInt() == false) {
+      return AppStrings.quantityMustBeAFractionValue.tr;
+    } else if (value?.isInt() == true && value != null) {
+      quantityController.text = double.parse(value).toInt().toString();
+    }
+    return null;
+  }
+
+  String? validateWeight(String? value) {
+    if (value?.isEmpty == true) {
+      return AppStrings.pleaseEnterWeight.tr;
     }
     return null;
   }

@@ -72,4 +72,11 @@ Map<String, String> enIN = <String, String>{
   AppStrings.weightOfPiece: 'Weight of Piece: ',
   AppStrings.availableStockQuantityWeight: 'Available Stock (Quantity/Weight[kg]): ',
   AppStrings.pieces: ' pieces',
+  AppStrings.orderOfSize3: 'Order Of Size 3',
+  AppStrings.orderOfSize4: 'Order Of Size 4',
+  AppStrings.orderOfSize6: 'Order Of Size 6',
+  AppStrings.orderOfSize8: 'Order Of Size 8',
+  AppStrings.orderOfSize10: 'Order Of Size 10',
+  AppStrings.orderOfSize12: 'Order Of Size 12',
+  AppStrings.orderOfSizeCustom: 'Order Of Size Custom',
 };

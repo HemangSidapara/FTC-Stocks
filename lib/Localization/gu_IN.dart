@@ -72,4 +72,11 @@ Map<String, String> guIN = <String, String>{
   AppStrings.weightOfPiece: 'પીસનું વજન: ',
   AppStrings.availableStockQuantityWeight: 'ઉપલબ્ધ સ્ટોક (જથ્થા/વજન[કિલો]): ',
   AppStrings.pieces: ' નંગ',
+  AppStrings.orderOfSize3: 'સાઈઝ ૩ નો ઓર્ડર',
+  AppStrings.orderOfSize4: 'સાઈઝ ૪ નો ઓર્ડર',
+  AppStrings.orderOfSize6: 'સાઈઝ ૬ નો ઓર્ડર',
+  AppStrings.orderOfSize8: 'સાઈઝ ૮ નો ઓર્ડર',
+  AppStrings.orderOfSize10: 'સાઈઝ ૧૦ નો ઓર્ડર',
+  AppStrings.orderOfSize12: 'સાઈઝ ૧૨ નો ઓર્ડર',
+  AppStrings.orderOfSizeCustom: 'સાઈઝ કસ્ટમ નો ઓર્ડર',
 };

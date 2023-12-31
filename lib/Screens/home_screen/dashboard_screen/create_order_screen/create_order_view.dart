@@ -1,3 +1,4 @@
+// ignore_for_file: non_constant_identifier_names
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
@@ -472,438 +473,145 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                             SizedBox(height: 2.h),
 
                             ///Size 3
-                            if (createOrderController.selectedSizeList.contains('3')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size3QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('3'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size3QuantityWeight,
+                                isSelected: createOrderController.sizeThreeCheckbox,
+                                weightOfPieceController: createOrderController.sizeThreeWeightOfPieceController,
+                                quantityController: createOrderController.sizeThreeQuantityController,
+                                weightController: createOrderController.sizeThreeWeightController,
+                                orderQuantityController: createOrderController.orderSizeThreeQuantityController,
+                                orderWeightController: createOrderController.orderSizeThreeWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeThreeWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeThreeQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeThreeWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 4
-                            if (createOrderController.selectedSizeList.contains('4')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size4QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('4'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size4QuantityWeight,
+                                isSelected: createOrderController.sizeFourCheckbox,
+                                weightOfPieceController: createOrderController.sizeFourWeightOfPieceController,
+                                quantityController: createOrderController.sizeFourQuantityController,
+                                weightController: createOrderController.sizeFourWeightController,
+                                orderQuantityController: createOrderController.orderSizeFourQuantityController,
+                                orderWeightController: createOrderController.orderSizeFourWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeFourWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeFourQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeFourWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 6
-                            if (createOrderController.selectedSizeList.contains('6')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size6QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('6'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size6QuantityWeight,
+                                isSelected: createOrderController.sizeSixCheckbox,
+                                weightOfPieceController: createOrderController.sizeSixWeightOfPieceController,
+                                quantityController: createOrderController.sizeSixQuantityController,
+                                weightController: createOrderController.sizeSixWeightController,
+                                orderQuantityController: createOrderController.orderSizeSixQuantityController,
+                                orderWeightController: createOrderController.orderSizeSixWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeSixWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeSixQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeSixWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 8
-                            if (createOrderController.selectedSizeList.contains('8')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size8QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('8'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size8QuantityWeight,
+                                isSelected: createOrderController.sizeEightCheckbox,
+                                weightOfPieceController: createOrderController.sizeEightWeightOfPieceController,
+                                quantityController: createOrderController.sizeEightQuantityController,
+                                weightController: createOrderController.sizeEightWeightController,
+                                orderQuantityController: createOrderController.orderSizeEightQuantityController,
+                                orderWeightController: createOrderController.orderSizeEightWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeEightWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeEightQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeEightWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 10
-                            if (createOrderController.selectedSizeList.contains('10')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size10QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('10'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size10QuantityWeight,
+                                isSelected: createOrderController.sizeTenCheckbox,
+                                weightOfPieceController: createOrderController.sizeTenWeightOfPieceController,
+                                quantityController: createOrderController.sizeTenQuantityController,
+                                weightController: createOrderController.sizeTenWeightController,
+                                orderQuantityController: createOrderController.orderSizeTenQuantityController,
+                                orderWeightController: createOrderController.orderSizeTenWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeTenWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeTenQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeTenWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size 12
-                            if (createOrderController.selectedSizeList.contains('12')) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.size12QuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.selectedSizeList.contains('12'))
+                              SizeStockDetailsWidget(
+                                title: AppStrings.size12QuantityWeight,
+                                isSelected: createOrderController.sizeTwelveCheckbox,
+                                weightOfPieceController: createOrderController.sizeTwelveWeightOfPieceController,
+                                quantityController: createOrderController.sizeTwelveQuantityController,
+                                weightController: createOrderController.sizeTwelveWeightController,
+                                orderQuantityController: createOrderController.orderSizeTwelveQuantityController,
+                                orderWeightController: createOrderController.orderSizeTwelveWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeTwelveWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeTwelveQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeTwelveWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 2.h),
-                            ],
 
                             ///Size Custom
-                            if (createOrderController.sizeCustomQuantityController.text.isNotEmpty) ...[
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.sizeCustomQuantityWeight.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            if (createOrderController.sizeCustomQuantityController.text.isNotEmpty)
+                              SizeStockDetailsWidget(
+                                title: AppStrings.sizeCustomQuantityWeight,
+                                isSelected: createOrderController.sizeCustomCheckbox,
+                                weightOfPieceController: createOrderController.sizeCustomWeightOfPieceController,
+                                quantityController: createOrderController.sizeCustomQuantityController,
+                                weightController: createOrderController.sizeCustomWeightController,
+                                orderQuantityController: createOrderController.orderSizeCustomQuantityController,
+                                orderWeightController: createOrderController.orderSizeCustomWeightController,
                               ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.weightOfPiece.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: createOrderController.sizeCustomWeightOfPieceController.text,
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.availableStockQuantityWeight.tr}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.PRIMARY_COLOR,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${createOrderController.sizeCustomQuantityController.text}${AppStrings.pieces.tr}/${createOrderController.sizeCustomWeightController.text}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: const TextStyle(height: 1.8),
-                                    ),
-                                  ),
-                                ],
+
+                            ///Order of Size 3
+                            if (createOrderController.sizeThreeCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize3,
+                                orderQuantityController: createOrderController.orderSizeThreeQuantityController,
+                                orderWeightController: createOrderController.orderSizeThreeQuantityController,
                               ),
-                              SizedBox(height: 2.h),
-                            ],
+
+                            ///Order of Size 4
+                            if (createOrderController.sizeFourCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize4,
+                                orderQuantityController: createOrderController.orderSizeFourQuantityController,
+                                orderWeightController: createOrderController.orderSizeFourWeightController,
+                              ),
+
+                            ///Order of Size 6
+                            if (createOrderController.sizeSixCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize6,
+                                orderQuantityController: createOrderController.orderSizeSixQuantityController,
+                                orderWeightController: createOrderController.orderSizeSixWeightController,
+                              ),
+
+                            ///Order of Size 8
+                            if (createOrderController.sizeEightCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize8,
+                                orderQuantityController: createOrderController.orderSizeEightQuantityController,
+                                orderWeightController: createOrderController.orderSizeEightWeightController,
+                              ),
+
+                            ///Order of Size 10
+                            if (createOrderController.sizeTenCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize10,
+                                orderQuantityController: createOrderController.orderSizeTenQuantityController,
+                                orderWeightController: createOrderController.orderSizeTenWeightController,
+                              ),
+
+                            ///Order of Size 12
+                            if (createOrderController.sizeTwelveCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSize12,
+                                orderQuantityController: createOrderController.orderSizeTwelveQuantityController,
+                                orderWeightController: createOrderController.orderSizeTwelveWeightController,
+                              ),
+
+                            ///Order of Size Custom
+                            if (createOrderController.sizeCustomCheckbox.isTrue)
+                              OrderOfSizesWidget(
+                                title: AppStrings.orderOfSizeCustom,
+                                orderQuantityController: createOrderController.orderSizeCustomQuantityController,
+                                orderWeightController: createOrderController.orderSizeCustomWeightController,
+                              ),
+                            SizedBox(height: 6.h),
                           ],
                         ),
                       ),
@@ -916,5 +624,158 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         ),
       );
     });
+  }
+
+  Widget SizeStockDetailsWidget({
+    required String title,
+    required RxBool isSelected,
+    required TextEditingController weightOfPieceController,
+    required TextEditingController quantityController,
+    required TextEditingController weightController,
+    required TextEditingController orderQuantityController,
+    required TextEditingController orderWeightController,
+  }) {
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              isSelected.toggle();
+              orderQuantityController.clear();
+              orderWeightController.clear();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title.tr,
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: isSelected.value ? AppColors.LIGHT_BLUE_COLOR : AppColors.WHITE_COLOR,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected.value ? AppColors.LIGHT_BLUE_COLOR : AppColors.PRIMARY_COLOR,
+                        width: 2,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      color: AppColors.WHITE_COLOR,
+                      size: 3.5.w,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 0.6.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    text: AppStrings.weightOfPiece.tr,
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: weightOfPieceController.text.isNotEmpty ? weightOfPieceController.text : '-',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.DARK_GREEN_COLOR,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '\n${AppStrings.availableStockQuantityWeight.tr}',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.PRIMARY_COLOR,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '${quantityController.text.isNotEmpty ? quantityController.text : '0'}${AppStrings.pieces.tr}/${weightController.text.isNotEmpty ? weightController.text : '0 kg'}',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.DARK_GREEN_COLOR,
+                        ),
+                      ),
+                    ],
+                  ),
+                  style: const TextStyle(height: 1.8),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 2.h),
+        ],
+      );
+    });
+  }
+
+  Widget OrderOfSizesWidget({
+    required String title,
+    required TextEditingController orderQuantityController,
+    required TextEditingController orderWeightController,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
+          child: Text(
+            title.tr,
+            style: TextStyle(
+              color: AppColors.PRIMARY_COLOR,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        SizedBox(height: 0.6.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 43.w,
+              child: TextFieldWidget(
+                controller: orderQuantityController,
+                hintText: AppStrings.enterQuantity.tr,
+                keyboardType: TextInputType.number,
+                validator: (value) => createOrderController.validateQuantity(value, orderQuantityController),
+              ),
+            ),
+            SizedBox(
+              width: 43.w,
+              child: TextFieldWidget(
+                controller: orderWeightController,
+                hintText: AppStrings.enterWeight,
+                keyboardType: TextInputType.number,
+                validator: (value) => createOrderController.validateWeight(value),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 2.h),
+      ],
+    );
   }
 }

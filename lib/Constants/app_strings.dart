@@ -71,4 +71,11 @@ class AppStrings {
   static const String weightOfPiece = 'Weight of Piece: ';
   static const String availableStockQuantityWeight = 'Available Stock (Quantity/Weight[kg]): ';
   static const String pieces = ' pieces';
+  static const String orderOfSize3 = 'Order Of Size 3';
+  static const String orderOfSize4 = 'Order Of Size 4';
+  static const String orderOfSize6 = 'Order Of Size 6';
+  static const String orderOfSize8 = 'Order Of Size 8';
+  static const String orderOfSize10 = 'Order Of Size 10';
+  static const String orderOfSize12 = 'Order Of Size 12';
+  static const String orderOfSizeCustom = 'Order Of Size Custom';
 }

@@ -21,7 +21,11 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.WHITE_COLOR,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
         statusBarColor: AppColors.WHITE_COLOR,
+        statusBarBrightness: Brightness.dark,
       ),
     );
   }
