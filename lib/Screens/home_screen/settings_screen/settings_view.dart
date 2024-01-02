@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
@@ -25,6 +26,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ///Header
@@ -39,10 +41,9 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                 ),
               ),
               SizedBox(width: 2.w),
-              Icon(
-                Icons.handyman_rounded,
-                color: AppColors.PRIMARY_COLOR,
-                size: 6.w,
+              Image.asset(
+                AppAssets.settingsAnim,
+                width: 7.w,
               ),
             ],
           ),
@@ -75,83 +76,129 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
               ),
               SizedBox(height: 1.h),
               Obx(() {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ///Gujarati
-                    InkWell(
-                      onTap: () async {
-                        await setData(AppConstance.languageCode, 'gu');
-                        await setData(AppConstance.languageCountryCode, 'IN');
-                        await Get.updateLocale(
-                          Locale(getString(AppConstance.languageCode) ?? 'gu', getString(AppConstance.languageCountryCode) ?? 'IN'),
-                        );
-                        settingsController.isGujaratiLang(true);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
-                        child: Row(
-                          children: [
-                            AnimatedOpacity(
-                              opacity: settingsController.isGujaratiLang.isTrue ? 1 : 0,
-                              duration: const Duration(milliseconds: 300),
-                              child: Icon(
-                                Icons.done_rounded,
-                                size: 6.w,
-                                color: AppColors.PRIMARY_COLOR,
+                return ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: 50.w, minHeight: 0.w, maxWidth: 90.w, minWidth: 90.w),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    crossAxisSpacing: 5.w,
+                    childAspectRatio: 3,
+                    children: [
+                      ///Gujarati
+                      InkWell(
+                        onTap: () async {
+                          await setData(AppConstance.languageCode, 'gu');
+                          await setData(AppConstance.languageCountryCode, 'IN');
+                          await Get.updateLocale(
+                            Locale(getString(AppConstance.languageCode) ?? 'gu', getString(AppConstance.languageCountryCode) ?? 'IN'),
+                          );
+                          settingsController.isGujaratiLang(true);
+                          settingsController.isHindiLang(false);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                          child: Row(
+                            children: [
+                              AnimatedOpacity(
+                                opacity: settingsController.isGujaratiLang.isTrue ? 1 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  Icons.done_rounded,
+                                  size: 6.w,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              AppStrings.gujarati.tr,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.PRIMARY_COLOR,
+                              SizedBox(width: 2.w),
+                              Text(
+                                AppStrings.gujarati.tr,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    ///English
-                    InkWell(
-                      onTap: () async {
-                        await setData(AppConstance.languageCode, 'en');
-                        await setData(AppConstance.languageCountryCode, 'IN');
-                        await Get.updateLocale(
-                          Locale(getString(AppConstance.languageCode) ?? 'en', getString(AppConstance.languageCountryCode) ?? 'IN'),
-                        );
-                        settingsController.isGujaratiLang(false);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
-                        child: Row(
-                          children: [
-                            AnimatedOpacity(
-                              opacity: settingsController.isGujaratiLang.isFalse ? 1 : 0,
-                              duration: const Duration(milliseconds: 300),
-                              child: Icon(
-                                Icons.done_rounded,
-                                size: 6.w,
-                                color: AppColors.PRIMARY_COLOR,
+                      ///English
+                      InkWell(
+                        onTap: () async {
+                          await setData(AppConstance.languageCode, 'en');
+                          await setData(AppConstance.languageCountryCode, 'IN');
+                          await Get.updateLocale(
+                            Locale(getString(AppConstance.languageCode) ?? 'en', getString(AppConstance.languageCountryCode) ?? 'IN'),
+                          );
+                          settingsController.isGujaratiLang(false);
+                          settingsController.isHindiLang(false);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                          child: Row(
+                            children: [
+                              AnimatedOpacity(
+                                opacity: settingsController.isGujaratiLang.isFalse && settingsController.isHindiLang.isFalse ? 1 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  Icons.done_rounded,
+                                  size: 6.w,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              AppStrings.english.tr,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.PRIMARY_COLOR,
+                              SizedBox(width: 2.w),
+                              Text(
+                                AppStrings.english.tr,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      ///Hindi
+                      InkWell(
+                        onTap: () async {
+                          await setData(AppConstance.languageCode, 'hi');
+                          await setData(AppConstance.languageCountryCode, 'IN');
+                          await Get.updateLocale(
+                            Locale(getString(AppConstance.languageCode) ?? 'hi', getString(AppConstance.languageCountryCode) ?? 'IN'),
+                          );
+                          settingsController.isGujaratiLang(false);
+                          settingsController.isHindiLang(true);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                          child: Row(
+                            children: [
+                              AnimatedOpacity(
+                                opacity: settingsController.isHindiLang.isTrue ? 1 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  Icons.done_rounded,
+                                  size: 6.w,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
+                              ),
+                              SizedBox(width: 2.w),
+                              Text(
+                                AppStrings.hindi.tr,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               })
             ],

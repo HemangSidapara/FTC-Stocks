@@ -7,6 +7,7 @@ import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_controller.dart';
+import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -124,6 +125,199 @@ class _AddStockViewState extends State<AddStockView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            ///Product
+                            Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: Text(
+                                AppStrings.product.tr,
+                                style: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            DropdownSearch<String>(
+                              onChanged: (value) {
+                                if (value != null) {
+                                  addStockController.selectedProduct.value = addStockController.productList.indexOf(value);
+                                  addStockController.productNameController.clear();
+                                  addStockController.selectedCategory.value = addStockController.categoryList.indexOf(addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.category ?? '');
+                                  addStockController.selectedSizeList.clear();
+                                  addStockController.selectedSizeList.addAll(addStockController.sizeList.where((element) => addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
+                                  addStockController.resetSizeControllers();
+
+                                  for (int i = 0; i < addStockController.selectedSizeList.length; i++) {
+                                    get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => e.size == addStockController.selectedSizeList[i]).toList().firstOrNull;
+                                    switch (addStockController.selectedSizeList[i]) {
+                                      case '3':
+                                        addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeThreeUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeThreeQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeThreeWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      case '4':
+                                        addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeFourUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeFourQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeFourWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      case '6':
+                                        addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeSixUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeSixQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeSixWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      case '8':
+                                        addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeEightUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeEightQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeEightWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      case '10':
+                                        addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeTenUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeTenQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeTenWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      case '12':
+                                        addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeTwelveUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeTwelveQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeTwelveWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                      default:
+                                        addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                        addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                        addStockController.stockedSizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                        addStockController.stockedSizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                    }
+                                  }
+                                }
+                              },
+                              dropdownButtonProps: DropdownButtonProps(
+                                constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppColors.SECONDARY_COLOR,
+                                  size: 5.w,
+                                ),
+                              ),
+                              validator: addStockController.validateProduct,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                baseStyle: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 10.sp,
+                                ),
+                                dropdownSearchDecoration: InputDecoration(
+                                  filled: true,
+                                  enabled: true,
+                                  fillColor: AppColors.WHITE_COLOR,
+                                  hintText: AppStrings.selectProduct.tr,
+                                  hintStyle: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  errorStyle: TextStyle(
+                                    color: AppColors.ERROR_COLOR,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
+                                ),
+                              ),
+                              items: addStockController.productList,
+                              popupProps: PopupProps.menu(
+                                menuProps: MenuProps(
+                                  backgroundColor: AppColors.WHITE_COLOR,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                emptyBuilder: (context, searchEntry) {
+                                  return Center(
+                                    child: Text(
+                                      AppStrings.noDataFound.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (context, item, isSelected) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                    child: Text(
+                                      item.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                showSearchBox: true,
+                                searchFieldProps: TextFieldProps(
+                                  cursorColor: AppColors.PRIMARY_COLOR,
+                                  decoration: InputDecoration(
+                                    hintText: AppStrings.searchProduct.tr,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.HINT_GREY_COLOR,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextFieldWidget(
+                              controller: addStockController.productNameController,
+                              hintText: AppStrings.enterProductName.tr,
+                              isDisable: addStockController.selectedProduct.value != -1,
+                            ),
+                            SizedBox(height: 2.h),
+
                             ///Category
                             DropDownWidget(
                               value: addStockController.selectedCategory.value == -1 ? null : addStockController.selectedCategory.value,
@@ -160,105 +354,6 @@ class _AddStockViewState extends State<AddStockView> {
                               onChanged: (value) {
                                 addStockController.selectedCategory.value = value ?? -1;
                               },
-                            ),
-                            SizedBox(height: 2.h),
-
-                            ///Product
-                            DropDownWidget(
-                              title: AppStrings.product.tr,
-                              value: addStockController.selectedProduct.value != -1 ? addStockController.selectedProduct.value : null,
-                              titleChildren: [
-                                TextButton(
-                                  onPressed: () {
-                                    addStockController.selectedCategory(-1);
-                                    addStockController.selectedProduct(-1);
-                                    addStockController.productNameController.clear();
-                                    addStockController.selectedSizeList.clear();
-                                    addStockController.customProductSizeController.clear();
-                                    addStockController.resetSizeControllers();
-                                  },
-                                  child: Text(
-                                    AppStrings.reset.tr,
-                                    style: TextStyle(
-                                      color: AppColors.LIGHT_BLUE_COLOR,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              hintText: AppStrings.selectProduct.tr,
-                              items: [
-                                for (int i = 0; i < addStockController.productList.length; i++)
-                                  DropdownMenuItem(
-                                    value: i,
-                                    child: Text(
-                                      addStockController.productList[i],
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                              validator: addStockController.validateProduct,
-                              onChanged: (value) {
-                                addStockController.selectedProduct.value = value ?? -1;
-                                addStockController.productNameController.clear();
-                                if (value != null) {
-                                  addStockController.selectedCategory.value = addStockController.categoryList.indexOf(addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.category ?? '');
-                                  addStockController.selectedSizeList.clear();
-                                  addStockController.selectedSizeList.addAll(addStockController.sizeList.where((element) => addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
-                                  addStockController.resetSizeControllers();
-
-                                  for (int i = 0; i < addStockController.selectedSizeList.length; i++) {
-                                    get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => e.size == addStockController.selectedSizeList[i]).toList().firstOrNull;
-                                    switch (addStockController.selectedSizeList[i]) {
-                                      case '3':
-                                        addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeThreeUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeThreeQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeThreeWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '4':
-                                        addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeFourUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeFourQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeFourWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '6':
-                                        addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeSixUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeSixQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeSixWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '8':
-                                        addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeEightUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeEightQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeEightWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '10':
-                                        addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeTenUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeTenQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeTenWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '12':
-                                        addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeTwelveUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeTwelveQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeTwelveWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      default:
-                                        addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.sizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.sizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                    }
-                                  }
-                                }
-                              },
-                            ),
-                            TextFieldWidget(
-                              controller: addStockController.productNameController,
-                              hintText: AppStrings.enterProductName.tr,
-                              isDisable: addStockController.selectedProduct.value != -1,
                             ),
                             SizedBox(height: 2.h),
 
@@ -299,6 +394,11 @@ class _AddStockViewState extends State<AddStockView> {
                                     color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w600,
+                                  ),
+                                  errorStyle: TextStyle(
+                                    color: AppColors.ERROR_COLOR,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -355,6 +455,8 @@ class _AddStockViewState extends State<AddStockView> {
                                           addStockController.selectedSizeList.clear();
                                           addStockController.selectedSizeList.addAll(item.map((e) => e.toString()).toList());
                                           addStockController.customProductSizeController.clear();
+                                          addStockController.stockedSizeCustomQuantityController.clear();
+                                          addStockController.stockedSizeCustomWeightController.clear();
                                           addStockController.sizeCustomQuantityController.clear();
                                           addStockController.sizeCustomWeightController.clear();
                                         });
@@ -534,6 +636,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size3QuantityWeight,
                                 weightOfPieceController: addStockController.sizeThreeWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeThreeQuantityController,
+                                stockedWeightController: addStockController.stockedSizeThreeWeightController,
                                 quantityController: addStockController.sizeThreeQuantityController,
                                 weightController: addStockController.sizeThreeWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeThreeUnitOfWeight,
@@ -544,6 +648,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size4QuantityWeight,
                                 weightOfPieceController: addStockController.sizeFourWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeFourQuantityController,
+                                stockedWeightController: addStockController.stockedSizeFourWeightController,
                                 quantityController: addStockController.sizeFourQuantityController,
                                 weightController: addStockController.sizeFourWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeFourUnitOfWeight,
@@ -554,6 +660,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size6QuantityWeight,
                                 weightOfPieceController: addStockController.sizeSixWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeSixQuantityController,
+                                stockedWeightController: addStockController.stockedSizeSixWeightController,
                                 quantityController: addStockController.sizeSixQuantityController,
                                 weightController: addStockController.sizeSixWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeSixUnitOfWeight,
@@ -564,6 +672,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size8QuantityWeight,
                                 weightOfPieceController: addStockController.sizeEightWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeEightQuantityController,
+                                stockedWeightController: addStockController.stockedSizeEightWeightController,
                                 quantityController: addStockController.sizeEightQuantityController,
                                 weightController: addStockController.sizeEightWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeEightUnitOfWeight,
@@ -574,6 +684,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size10QuantityWeight,
                                 weightOfPieceController: addStockController.sizeTenWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeTenQuantityController,
+                                stockedWeightController: addStockController.stockedSizeTenWeightController,
                                 quantityController: addStockController.sizeTenQuantityController,
                                 weightController: addStockController.sizeTenWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeTenUnitOfWeight,
@@ -584,6 +696,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.size12QuantityWeight,
                                 weightOfPieceController: addStockController.sizeTwelveWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeTwelveQuantityController,
+                                stockedWeightController: addStockController.stockedSizeTwelveWeightController,
                                 quantityController: addStockController.sizeTwelveQuantityController,
                                 weightController: addStockController.sizeTwelveWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeTwelveUnitOfWeight,
@@ -594,6 +708,8 @@ class _AddStockViewState extends State<AddStockView> {
                               SizeOfTheStock(
                                 title: AppStrings.sizeCustomQuantityWeight,
                                 weightOfPieceController: addStockController.sizeCustomWeightOfPieceController,
+                                stockedQuantityController: addStockController.stockedSizeCustomQuantityController,
+                                stockedWeightController: addStockController.stockedSizeCustomWeightController,
                                 quantityController: addStockController.sizeCustomQuantityController,
                                 weightController: addStockController.sizeCustomWeightController,
                                 selectedUnitOfWeight: addStockController.selectedSizeCustomUnitOfWeight,
@@ -616,145 +732,240 @@ class _AddStockViewState extends State<AddStockView> {
   Widget SizeOfTheStock({
     required String title,
     required TextEditingController weightOfPieceController,
+    required TextEditingController stockedQuantityController,
+    required TextEditingController stockedWeightController,
     required TextEditingController quantityController,
     required TextEditingController weightController,
     required RxInt selectedUnitOfWeight,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 2.w),
-          child: Text(
-            title.tr,
-            style: TextStyle(
-              color: AppColors.PRIMARY_COLOR,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
+    quantityController.addListener(() {
+      setState(() {});
+    });
+    weightController.addListener(() {
+      setState(() {});
+    });
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 2.w),
+            child: Text(
+              title.tr,
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 0.6.h),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 54.w,
-              child: TextFieldWidget(
-                controller: weightOfPieceController,
-                hintText: AppStrings.enterWeightOfSinglePiece.tr,
-                validator: addStockController.validateWeight,
-                onChanged: (value) {
-                  quantityController.clear();
-                  weightController.clear();
-                },
-                keyboardType: TextInputType.number,
+          SizedBox(height: 0.6.h),
+
+          ///Total Quantity & Weight
+          Text.rich(
+            TextSpan(
+              text: AppStrings.totalQuantity.tr,
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                height: 1.7,
               ),
-            ),
-            SizedBox(
-              width: 32.w,
-              child: DropDownWidget(
-                value: selectedUnitOfWeight.value == -1 ? null : selectedUnitOfWeight.value,
-                hintText: AppStrings.selectUnitOfWeight.tr,
-                selectedItemBuilder: (context) {
-                  return [
-                    for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                      SizedBox(
-                        width: 22.w,
-                        child: Text(
-                          addStockController.weightUnitList[i].tr,
-                          overflow: TextOverflow.ellipsis,
+              children: [
+                ///Total Quantity
+                TextSpan(
+                  text: stockedQuantityController.text.trim(),
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' + ${quantityController.text.trim().isEmpty ? 0 : quantityController.text.trim()}',
+                      style: TextStyle(
+                        color: AppColors.WARNING_COLOR,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' = ${(stockedQuantityController.text.trim().toDouble() + (quantityController.text.trim().isEmpty ? 0 : quantityController.text.trim().toDouble())).toStringAsFixed(0)}',
                           style: TextStyle(
-                            color: AppColors.PRIMARY_COLOR,
+                            color: AppColors.SUCCESS_COLOR,
                             fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
-                  ];
-                },
-                items: [
-                  for (int i = 0; i < addStockController.weightUnitList.length; i++)
-                    DropdownMenuItem(
-                      value: i,
-                      child: Text(
-                        addStockController.weightUnitList[i].tr,
-                        style: TextStyle(
-                          color: AppColors.PRIMARY_COLOR,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10.sp,
-                        ),
-                      ),
+                      ],
                     ),
-                ],
-                validator: addStockController.validateWeightUnit,
-                onChanged: (value) {
-                  if (selectedUnitOfWeight.value != value) {
-                    quantityController.clear();
-                    weightController.clear();
-                  }
-                  selectedUnitOfWeight.value = value ?? -1;
-                },
-              ),
+                  ],
+                ),
+
+                ///Total Weight
+                TextSpan(
+                  text: '\n${AppStrings.totalWeight.tr}',
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w600,
+                    height: 1.6,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: stockedWeightController.text.trim(),
+                      style: TextStyle(
+                        color: AppColors.PRIMARY_COLOR,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' + ${weightController.text.trim().isEmpty ? 0 : weightController.text.trim()}',
+                          style: TextStyle(
+                            color: AppColors.WARNING_COLOR,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ' = ${(stockedWeightController.text.trim().toDouble() + (weightController.text.trim().isEmpty ? 0 : weightController.text.trim().toDouble())).toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: AppColors.SUCCESS_COLOR,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-        GestureDetector(
-          onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
-              ? () {
-                  Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
-                }
-              : null,
-          child: Row(
+          ),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 43.w,
+                width: 54.w,
                 child: TextFieldWidget(
-                  controller: quantityController,
-                  hintText: AppStrings.enterQuantity.tr,
-                  validator: (value) {
-                    return addStockController.validateQuantity(value, quantityController);
-                  },
-                  isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
+                  controller: weightOfPieceController,
+                  hintText: AppStrings.enterWeightOfSinglePiece.tr,
+                  validator: addStockController.validateWeight,
                   onChanged: (value) {
-                    addStockController.calculateWeightByQuantity(
-                      value,
-                      weightController,
-                      quantityController,
-                      weightOfPieceController,
-                      selectedUnitOfWeight,
-                    );
+                    quantityController.clear();
+                    weightController.clear();
                   },
                   keyboardType: TextInputType.number,
                 ),
               ),
               SizedBox(
-                width: 43.w,
-                child: TextFieldWidget(
-                  controller: weightController,
-                  hintText: AppStrings.enterWeight.tr,
-                  validator: addStockController.validateWeight,
-                  isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
-                  onChanged: (value) {
-                    addStockController.calculateQuantityByWeight(
-                      value,
-                      quantityController,
-                      weightController,
-                      weightOfPieceController,
-                      selectedUnitOfWeight,
-                    );
+                width: 32.w,
+                child: DropDownWidget(
+                  value: selectedUnitOfWeight.value == -1 ? null : selectedUnitOfWeight.value,
+                  hintText: AppStrings.selectUnitOfWeight.tr,
+                  selectedItemBuilder: (context) {
+                    return [
+                      for (int i = 0; i < addStockController.weightUnitList.length; i++)
+                        SizedBox(
+                          width: 22.w,
+                          child: Text(
+                            addStockController.weightUnitList[i].tr,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColors.PRIMARY_COLOR,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                    ];
                   },
-                  keyboardType: TextInputType.number,
+                  items: [
+                    for (int i = 0; i < addStockController.weightUnitList.length; i++)
+                      DropdownMenuItem(
+                        value: i,
+                        child: Text(
+                          addStockController.weightUnitList[i].tr,
+                          style: TextStyle(
+                            color: AppColors.PRIMARY_COLOR,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                      ),
+                  ],
+                  validator: addStockController.validateWeightUnit,
+                  onChanged: (value) {
+                    if (selectedUnitOfWeight.value != value) {
+                      quantityController.clear();
+                      weightController.clear();
+                    }
+                    selectedUnitOfWeight.value = value ?? -1;
+                  },
                 ),
               ),
             ],
           ),
-        ),
-        SizedBox(height: 2.h),
-      ],
-    );
+          GestureDetector(
+            onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
+                ? () {
+                    Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                  }
+                : null,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 43.w,
+                  child: TextFieldWidget(
+                    controller: quantityController,
+                    hintText: AppStrings.enterQuantity.tr,
+                    validator: (value) {
+                      return addStockController.validateQuantity(value, quantityController);
+                    },
+                    isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
+                    onChanged: (value) {
+                      addStockController.calculateWeightByQuantity(
+                        value,
+                        weightController,
+                        quantityController,
+                        weightOfPieceController,
+                        selectedUnitOfWeight,
+                      );
+                    },
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                SizedBox(
+                  width: 43.w,
+                  child: TextFieldWidget(
+                    controller: weightController,
+                    hintText: AppStrings.enterWeight.tr,
+                    validator: addStockController.validateWeight,
+                    isDisable: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1,
+                    onChanged: (value) {
+                      addStockController.calculateQuantityByWeight(
+                        value,
+                        quantityController,
+                        weightController,
+                        weightOfPieceController,
+                        selectedUnitOfWeight,
+                      );
+                    },
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 2.h),
+        ],
+      );
+    });
   }
 }

@@ -8,6 +8,7 @@ class Routes {
   static const homeScreen = '/home';
   static const dashboardScreen = '/dashboard';
   static const ordersHistoryScreen = '/ordersHistory';
+  static const addNewProductScreen = '/addNewProduct';
   static const settingsScreen = '/settings';
   static const createOrderScreen = '/createOrder';
   static const addStockScreen = '/addStock';

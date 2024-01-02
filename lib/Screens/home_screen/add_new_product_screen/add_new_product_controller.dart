@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/api_keys.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
-import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 
-class AddStockController extends GetxController {
-  RxBool isGetStockLoading = true.obs;
-  RxBool isAddStockLoading = false.obs;
+class AddNewProductController extends GetxController {
+  RxBool isFormReset = true.obs;
+  RxBool isAddProductLoading = false.obs;
 
-  GlobalKey<FormState> addStockFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addProductFormKey = GlobalKey<FormState>();
+
   TextEditingController productNameController = TextEditingController();
 
   List<String> categoryList = [
@@ -20,11 +20,6 @@ class AddStockController extends GetxController {
     AppStrings.dabbi,
   ];
   RxInt selectedCategory = (-1).obs;
-
-  RxList<get_stock.Data> productDataList = RxList<get_stock.Data>();
-
-  List<String> productList = [];
-  RxInt selectedProduct = (-1).obs;
 
   List<String> sizeList = [
     AppStrings.three,
@@ -59,22 +54,6 @@ class AddStockController extends GetxController {
   TextEditingController sizeTwelveWeightOfPieceController = TextEditingController();
   TextEditingController sizeCustomWeightOfPieceController = TextEditingController();
 
-  TextEditingController stockedSizeThreeQuantityController = TextEditingController();
-  TextEditingController stockedSizeFourQuantityController = TextEditingController();
-  TextEditingController stockedSizeSixQuantityController = TextEditingController();
-  TextEditingController stockedSizeEightQuantityController = TextEditingController();
-  TextEditingController stockedSizeTenQuantityController = TextEditingController();
-  TextEditingController stockedSizeTwelveQuantityController = TextEditingController();
-  TextEditingController stockedSizeCustomQuantityController = TextEditingController();
-
-  TextEditingController stockedSizeThreeWeightController = TextEditingController();
-  TextEditingController stockedSizeFourWeightController = TextEditingController();
-  TextEditingController stockedSizeSixWeightController = TextEditingController();
-  TextEditingController stockedSizeEightWeightController = TextEditingController();
-  TextEditingController stockedSizeTenWeightController = TextEditingController();
-  TextEditingController stockedSizeTwelveWeightController = TextEditingController();
-  TextEditingController stockedSizeCustomWeightController = TextEditingController();
-
   TextEditingController sizeThreeQuantityController = TextEditingController();
   TextEditingController sizeFourQuantityController = TextEditingController();
   TextEditingController sizeSixQuantityController = TextEditingController();
@@ -91,12 +70,6 @@ class AddStockController extends GetxController {
   TextEditingController sizeTwelveWeightController = TextEditingController();
   TextEditingController sizeCustomWeightController = TextEditingController();
 
-  @override
-  void onInit() async {
-    super.onInit();
-    await getStockApiCall();
-  }
-
   String? validateCategory(int? value) {
     if (value == null) {
       return AppStrings.pleaseSelectCategory.tr;
@@ -105,8 +78,8 @@ class AddStockController extends GetxController {
   }
 
   String? validateProduct(String? value) {
-    if ((value == null || value == '') && productNameController.text.isEmpty) {
-      return AppStrings.pleaseSelectProduct.tr;
+    if (value == null || value.isEmpty) {
+      return AppStrings.pleaseEnterProductName.tr;
     }
     return null;
   }
@@ -159,28 +132,11 @@ class AddStockController extends GetxController {
     }
   }
 
-  Future<void> getStockApiCall() async {
-    try {
-      isGetStockLoading(true);
-      final response = await AddStockService().getStockService();
-
-      if (response.isSuccess) {
-        get_stock.GetStockModel getStockModel = get_stock.getStockModelFromJson(response.response.toString());
-        productDataList.clear();
-        productList.clear();
-        productDataList.addAll(getStockModel.data?.toList() ?? []);
-        productList.addAll(getStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
-      }
-    } finally {
-      isGetStockLoading(false);
-    }
-  }
-
-  Future<void> checkAddStock() async {
-    final isValid = addStockFormKey.currentState?.validate();
+  Future<void> checkAddProduct() async {
+    final isValid = addProductFormKey.currentState?.validate();
     if (isValid == true) {
       try {
-        isAddStockLoading(true);
+        isAddProductLoading(true);
         List<Map<String, String>> sizeData = List.empty(growable: true);
         for (int i = 0; i < selectedSizeList.length; i++) {
           switch (selectedSizeList[i]) {
@@ -188,79 +144,43 @@ class AddStockController extends GetxController {
               sizeData.add({
                 ApiKeys.size: '3',
                 ApiKeys.weightOfPiece: sizeThreeWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeThreeUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeThreeWeightController,
-                  weightController: sizeThreeWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeThreeQuantityController,
-                  quantityController: sizeThreeQuantityController,
-                ),
+                ApiKeys.weight: sizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeThreeQuantityController.text.trim(),
               });
             case '4':
               sizeData.add({
                 ApiKeys.size: '4',
                 ApiKeys.weightOfPiece: sizeFourWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeFourUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeFourWeightController,
-                  weightController: sizeFourWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeFourQuantityController,
-                  quantityController: sizeFourQuantityController,
-                ),
+                ApiKeys.weight: sizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeFourQuantityController.text.trim(),
               });
             case '6':
               sizeData.add({
                 ApiKeys.size: '6',
                 ApiKeys.weightOfPiece: sizeSixWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeSixUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeSixWeightController,
-                  weightController: sizeSixWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeSixQuantityController,
-                  quantityController: sizeSixQuantityController,
-                ),
+                ApiKeys.weight: sizeSixWeightController.text.notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeSixQuantityController.text.trim(),
               });
             case '8':
               sizeData.add({
                 ApiKeys.size: '8',
                 ApiKeys.weightOfPiece: sizeEightWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeEightUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeEightWeightController,
-                  weightController: sizeEightWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeEightQuantityController,
-                  quantityController: sizeEightQuantityController,
-                ),
+                ApiKeys.weight: sizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeEightQuantityController.text.trim(),
               });
             case '10':
               sizeData.add({
                 ApiKeys.size: '10',
                 ApiKeys.weightOfPiece: sizeTenWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTenUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeTenWeightController,
-                  weightController: sizeTenWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeTenQuantityController,
-                  quantityController: sizeTenQuantityController,
-                ),
+                ApiKeys.weight: sizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeTenQuantityController.text.trim(),
               });
             case '12':
               sizeData.add({
                 ApiKeys.size: '12',
                 ApiKeys.weightOfPiece: sizeTwelveWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeTwelveUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-                ApiKeys.weight: totalWeight(
-                  stockedWeightController: stockedSizeTwelveWeightController,
-                  weightController: sizeTwelveWeightController,
-                ),
-                ApiKeys.piece: totalQuantity(
-                  stockedQuantityController: stockedSizeTwelveQuantityController,
-                  quantityController: sizeTwelveQuantityController,
-                ),
+                ApiKeys.weight: sizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                ApiKeys.piece: sizeTwelveQuantityController.text.trim(),
               });
           }
         }
@@ -269,48 +189,30 @@ class AddStockController extends GetxController {
           sizeData.add({
             ApiKeys.size: customProductSizeController.text.trim(),
             ApiKeys.weightOfPiece: sizeCustomWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeCustomUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-            ApiKeys.weight: totalWeight(
-              stockedWeightController: stockedSizeCustomWeightController,
-              weightController: sizeCustomWeightController,
-            ),
-            ApiKeys.piece: totalQuantity(
-              stockedQuantityController: stockedSizeCustomQuantityController,
-              quantityController: sizeCustomQuantityController,
-            ),
+            ApiKeys.weight: sizeCustomWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+            ApiKeys.piece: sizeCustomQuantityController.text.trim(),
           });
         }
 
         final response = await AddStockService().addStockService(
-          productName: selectedProduct.value != -1 ? productList[selectedProduct.value] : productNameController.text.trim(),
+          productName: productNameController.text,
           categoryName: categoryList[selectedCategory.value],
           sizeData: sizeData,
         );
 
         if (response.isSuccess) {
-          Get.back(id: 0);
+          resetSizeControllers();
           Utils.validationCheck(message: response.message);
         }
       } finally {
-        isAddStockLoading(false);
+        isAddProductLoading(false);
       }
     }
   }
 
-  String totalQuantity({
-    required TextEditingController stockedQuantityController,
-    required TextEditingController quantityController,
-  }) {
-    return (stockedQuantityController.text.trim().toDouble() + (quantityController.text.trim().isEmpty ? 0 : quantityController.text.trim().toDouble())).toStringAsFixed(0).trim();
-  }
-
-  String totalWeight({
-    required TextEditingController stockedWeightController,
-    required TextEditingController weightController,
-  }) {
-    return (stockedWeightController.text.trim().toDouble() + (weightController.text.trim().isEmpty ? 0 : weightController.text.trim().toDouble())).toStringAsFixed(2).trim();
-  }
-
   void resetSizeControllers() {
+    addProductFormKey.currentState?.reset();
+    isFormReset(false);
     sizeThreeWeightOfPieceController.clear();
     selectedSizeThreeUnitOfWeight(-1);
     sizeThreeQuantityController.clear();
@@ -345,5 +247,18 @@ class AddStockController extends GetxController {
     selectedSizeCustomUnitOfWeight(-1);
     sizeCustomQuantityController.clear();
     sizeCustomWeightController.clear();
+    customProductSizeController.clear();
+
+    selectedSizeList.clear();
+    productNameController.clear();
+    selectedCategory.value = -1;
+
+    Future.delayed(
+      const Duration(milliseconds: 300),
+      () {
+        isFormReset(true);
+        update();
+      },
+    );
   }
 }

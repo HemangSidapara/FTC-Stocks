@@ -17,6 +17,7 @@ class AppStrings {
   static const String changeLanguage = 'Change Language';
   static const String english = 'English';
   static const String gujarati = 'Gujarati';
+  static const String hindi = 'Hindi';
   static const String addStock = 'Add Stock';
   static const String availableStock = 'Available Stock';
   static const String pendingOrders = 'Pending Orders';
@@ -37,6 +38,7 @@ class AppStrings {
   static const String selectSize = 'Select Size';
   static const String select = 'Select';
   static const String searchSize = 'Search size';
+  static const String searchProduct = 'Search product';
   static const String three = '3';
   static const String four = '4';
   static const String six = '6';
@@ -80,4 +82,8 @@ class AppStrings {
   static const String orderOfSizeCustom = 'Order Of Size Custom';
   static const String pleaseSelectAnySizeForTheOrder = 'Please select any size for the order.';
   static const String ordersHistory = 'Orders History';
+  static const String addNewProduct = 'Add New Product';
+  static const String pleaseEnterProductName = 'Please enter product name.';
+  static const String totalQuantity = 'Total quantity: ';
+  static const String totalWeight = 'Total weight: ';
 }

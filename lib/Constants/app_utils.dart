@@ -42,7 +42,7 @@ class Utils {
   }) {
     if (!Get.isSnackbarOpen) {
       Get.rawSnackbar(
-        margin: EdgeInsets.only(bottom: 5.h, left: 7.w, right: 7.w),
+        margin: EdgeInsets.only(bottom: 12.w + 1.h, left: 7.w, right: 7.w),
         snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(milliseconds: 3500),
         backgroundColor: barColor ??

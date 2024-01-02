@@ -9,7 +9,6 @@ import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_scr
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
-import 'package:ftc_stocks/Widgets/dropdown_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
@@ -122,13 +121,24 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ///Product
-                            DropDownWidget(
-                              title: AppStrings.product.tr,
-                              value: createOrderController.selectedProduct.value != -1 ? createOrderController.selectedProduct.value : null,
-                              titleChildren: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2.w),
+                                  child: Text(
+                                    AppStrings.product.tr,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     createOrderController.selectedProduct(-1);
+                                    createOrderController.categoryController.clear();
                                     createOrderController.selectedSizeList.clear();
                                     createOrderController.resetSizeControllers();
                                   },
@@ -142,25 +152,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   ),
                                 ),
                               ],
-                              hintText: AppStrings.selectProduct.tr,
-                              items: [
-                                for (int i = 0; i < createOrderController.productList.length; i++)
-                                  DropdownMenuItem(
-                                    value: i,
-                                    child: Text(
-                                      createOrderController.productList[i],
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                              validator: createOrderController.validateProduct,
+                            ),
+                            DropdownSearch<String>(
+                              selectedItem: createOrderController.selectedProduct.value == -1 ? null : createOrderController.productList[createOrderController.selectedProduct.value],
                               onChanged: (value) {
-                                createOrderController.selectedProduct.value = value ?? -1;
                                 if (value != null) {
+                                  createOrderController.selectedProduct.value = createOrderController.productList.indexOf(value);
                                   createOrderController.categoryController.text = createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.category ?? '';
                                   createOrderController.selectedSizeList.clear();
                                   createOrderController.selectedSizeList.addAll(createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
@@ -201,6 +198,127 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   }
                                 }
                               },
+                              dropdownButtonProps: DropdownButtonProps(
+                                constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppColors.SECONDARY_COLOR,
+                                  size: 5.w,
+                                ),
+                              ),
+                              validator: createOrderController.validateProduct,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                baseStyle: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 10.sp,
+                                ),
+                                dropdownSearchDecoration: InputDecoration(
+                                  filled: true,
+                                  enabled: true,
+                                  fillColor: AppColors.WHITE_COLOR,
+                                  hintText: AppStrings.selectProduct.tr,
+                                  hintStyle: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  errorStyle: TextStyle(
+                                    color: AppColors.ERROR_COLOR,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
+                                ),
+                              ),
+                              items: createOrderController.productList,
+                              popupProps: PopupProps.menu(
+                                menuProps: MenuProps(
+                                  backgroundColor: AppColors.WHITE_COLOR,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                emptyBuilder: (context, searchEntry) {
+                                  return Center(
+                                    child: Text(
+                                      AppStrings.noDataFound.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (context, item, isSelected) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                    child: Text(
+                                      item.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                showSearchBox: true,
+                                searchFieldProps: TextFieldProps(
+                                  cursorColor: AppColors.PRIMARY_COLOR,
+                                  decoration: InputDecoration(
+                                    hintText: AppStrings.searchProduct.tr,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.HINT_GREY_COLOR,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(height: 2.h),
 

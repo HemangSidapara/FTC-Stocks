@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
@@ -36,12 +37,17 @@ class _HomeViewState extends State<HomeView> {
       canPop: false,
       onPopInvoked: (value) {
         if (Get.keys[0]?.currentState?.canPop() == true) {
-          Get.keys[0]?.currentState?.pop(true);
+          controller.onBottomItemChange(index: 0);
         } else {
+          if (Get.isRegistered<AddNewProductController>()) {
+            setState(() {
+              Get.find<AddNewProductController>().selectedCategory.value = -1;
+            });
+          }
           if (controller.bottomIndex.value == 0) {
             SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
           } else {
-            controller.bottomIndex.value = 0;
+            controller.onBottomItemChange(index: 0);
           }
         }
       },
@@ -58,8 +64,9 @@ class _HomeViewState extends State<HomeView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AssetImages(index: 0, iconName: AppAssets.homeIcon),
-                AssetImages(index: 1, iconName: AppAssets.ordersHistoryIcon),
-                AssetImages(index: 2, iconName: AppAssets.settingsIcon),
+                AssetImages(index: 1, iconName: AppAssets.addNewProductIcon),
+                AssetImages(index: 2, iconName: AppAssets.ordersHistoryIcon),
+                AssetImages(index: 3, iconName: AppAssets.settingsIcon),
               ],
             ),
           ),

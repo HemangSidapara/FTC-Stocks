@@ -38,8 +38,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
               SizedBox(width: 2.w),
               Image.asset(
                 AppAssets.ordersDoneIcon,
-                color: AppColors.PRIMARY_COLOR,
-                width: 6.5.w,
+                width: 7.5.w,
               ),
             ],
           ),

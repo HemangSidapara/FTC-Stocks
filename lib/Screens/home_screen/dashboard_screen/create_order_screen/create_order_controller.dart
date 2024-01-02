@@ -83,8 +83,8 @@ class CreateOrderController extends GetxController {
     await getStockApiCall();
   }
 
-  String? validateProduct(int? value) {
-    if (value == null) {
+  String? validateProduct(String? value) {
+    if (value == null || value.isEmpty) {
       return AppStrings.pleaseSelectProduct.tr;
     }
     return null;

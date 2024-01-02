@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ftc_stocks/Routes/nasted_navigator/add_new_product_navigator.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/dashboard_navigator.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/orders_history_navigator.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/settings_navigator.dart';
@@ -11,6 +12,7 @@ class HomeController extends GetxController {
 
   List<Widget> bottomItemWidgetList = [
     const DashboardNavigator(),
+    const AddNewProductNavigator(),
     const OrdersHistoryNavigator(),
     const SettingsNavigator(),
   ];
@@ -33,6 +35,10 @@ class HomeController extends GetxController {
     } else if (index == 2) {
       if (Get.keys[2]?.currentState?.canPop() == true) {
         Get.back(id: 2);
+      }
+    } else if (index == 3) {
+      if (Get.keys[3]?.currentState?.canPop() == true) {
+        Get.back(id: 3);
       }
     }
     pageController.animateToPage(

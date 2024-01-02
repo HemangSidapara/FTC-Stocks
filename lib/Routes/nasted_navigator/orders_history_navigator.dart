@@ -10,7 +10,7 @@ class OrdersHistoryNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Get.nestedKey(1),
+      key: Get.nestedKey(2),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           default:

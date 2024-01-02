@@ -10,7 +10,7 @@ class SettingsNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Get.nestedKey(2),
+      key: Get.nestedKey(3),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           default:
