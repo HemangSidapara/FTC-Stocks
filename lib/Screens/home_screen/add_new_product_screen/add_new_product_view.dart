@@ -97,6 +97,15 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            ///Product
+                            TextFieldWidget(
+                              controller: addNewProductController.productNameController,
+                              title: AppStrings.product.tr,
+                              hintText: AppStrings.enterProductName.tr,
+                              validator: addNewProductController.validateProduct,
+                            ),
+                            SizedBox(height: 2.h),
+
                             ///Category
                             DropDownWidget(
                               value: addNewProductController.selectedCategory.value == -1 ? null : addNewProductController.selectedCategory.value,
@@ -133,14 +142,6 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                               onChanged: (value) {
                                 addNewProductController.selectedCategory.value = value ?? -1;
                               },
-                            ),
-                            SizedBox(height: 2.h),
-
-                            ///Product
-                            TextFieldWidget(
-                              controller: addNewProductController.productNameController,
-                              hintText: AppStrings.enterProductName.tr,
-                              validator: addNewProductController.validateProduct,
                             ),
                             SizedBox(height: 2.h),
 

@@ -31,6 +31,16 @@ extension StringToDouble on String {
   }
 }
 
+extension EmptyToZero on String {
+  String emptyToZero() {
+    if (this == '') {
+      return '0';
+    } else {
+      return this;
+    }
+  }
+}
+
 extension RupeesFormatterFromInt on int {
   String toRupees({String? symbol}) {
     return indianRupeesFormat(symbol: symbol).format(this);

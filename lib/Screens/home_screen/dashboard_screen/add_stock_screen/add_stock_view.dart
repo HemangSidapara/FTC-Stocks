@@ -138,57 +138,7 @@ class _AddStockViewState extends State<AddStockView> {
                               ),
                             ),
                             DropdownSearch<String>(
-                              onChanged: (value) {
-                                if (value != null) {
-                                  addStockController.selectedProduct.value = addStockController.productList.indexOf(value);
-                                  addStockController.productNameController.clear();
-                                  addStockController.selectedCategory.value = addStockController.categoryList.indexOf(addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.category ?? '');
-                                  addStockController.selectedSizeList.clear();
-                                  addStockController.selectedSizeList.addAll(addStockController.sizeList.where((element) => addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
-                                  addStockController.resetSizeControllers();
-
-                                  for (int i = 0; i < addStockController.selectedSizeList.length; i++) {
-                                    get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => e.size == addStockController.selectedSizeList[i]).toList().firstOrNull;
-                                    switch (addStockController.selectedSizeList[i]) {
-                                      case '3':
-                                        addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeThreeUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeThreeQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeThreeWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '4':
-                                        addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeFourUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeFourQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeFourWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '6':
-                                        addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeSixUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeSixQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeSixWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '8':
-                                        addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeEightUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeEightQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeEightWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '10':
-                                        addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeTenUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeTenQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeTenWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      case '12':
-                                        addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeTwelveUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeTwelveQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeTwelveWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                      default:
-                                        addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
-                                        addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
-                                        addStockController.stockedSizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
-                                        addStockController.stockedSizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
-                                    }
-                                  }
-                                }
-                              },
+                              selectedItem: addStockController.selectedProduct.value == -1 ? null : addStockController.productList[addStockController.selectedProduct.value],
                               dropdownButtonProps: DropdownButtonProps(
                                 constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
                                 icon: Icon(
@@ -264,6 +214,9 @@ class _AddStockViewState extends State<AddStockView> {
                                   backgroundColor: AppColors.WHITE_COLOR,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
+                                loadingBuilder: (context, searchEntry) {
+                                  return const LoadingWidget();
+                                },
                                 emptyBuilder: (context, searchEntry) {
                                   return Center(
                                     child: Text(
@@ -277,18 +230,92 @@ class _AddStockViewState extends State<AddStockView> {
                                   );
                                 },
                                 itemBuilder: (context, item, isSelected) {
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                                    child: Text(
-                                      item.tr,
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            addStockController.selectedProduct.value = addStockController.productList.indexOf(item);
+                                            addStockController.productNameController.clear();
+                                            addStockController.selectedCategory.value = addStockController.categoryList.indexOf(addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.category ?? '');
+                                            addStockController.selectedSizeList.clear();
+                                            addStockController.selectedSizeList.addAll(addStockController.sizeList.where((element) => addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
+                                            addStockController.resetSizeControllers();
+
+                                            for (int i = 0; i < addStockController.selectedSizeList.length; i++) {
+                                              get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => e.size == addStockController.selectedSizeList[i]).toList().firstOrNull;
+                                              switch (addStockController.selectedSizeList[i]) {
+                                                case '3':
+                                                  addStockController.sizeThreeWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeThreeUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeThreeQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeThreeWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                case '4':
+                                                  addStockController.sizeFourWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeFourUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeFourQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeFourWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                case '6':
+                                                  addStockController.sizeSixWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeSixUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeSixQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeSixWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                case '8':
+                                                  addStockController.sizeEightWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeEightUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeEightQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeEightWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                case '10':
+                                                  addStockController.sizeTenWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeTenUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeTenQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeTenWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                case '12':
+                                                  addStockController.sizeTwelveWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeTwelveUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeTwelveQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeTwelveWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                                default:
+                                                  addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                                  addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                                  addStockController.stockedSizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                                  addStockController.stockedSizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                              }
+                                            }
+                                          },
+                                          style: TextButton.styleFrom(
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                                          ),
+                                          child: Text(
+                                            item.tr,
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.delete_forever_rounded,
+                                            color: AppColors.ERROR_COLOR,
+                                            size: 5.w,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   );
                                 },
+                                interceptCallBacks: true,
                                 showSearchBox: true,
                                 searchFieldProps: TextFieldProps(
                                   cursorColor: AppColors.PRIMARY_COLOR,
@@ -738,12 +765,11 @@ class _AddStockViewState extends State<AddStockView> {
     required TextEditingController weightController,
     required RxInt selectedUnitOfWeight,
   }) {
-    quantityController.addListener(() {
-      setState(() {});
-    });
-    weightController.addListener(() {
-      setState(() {});
-    });
+    stockedQuantityController.text = stockedQuantityController.text.emptyToZero();
+    stockedWeightController.text = stockedWeightController.text.emptyToZero();
+    quantityController.text = quantityController.text.emptyToZero();
+    weightController.text = weightController.text.emptyToZero();
+
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
