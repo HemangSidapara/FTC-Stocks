@@ -8,6 +8,7 @@ import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart'
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
+import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
@@ -65,44 +66,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
         child: Column(
           children: [
             ///Header
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    if (Get.keys[0]?.currentState?.canPop() == true) {
-                      Get.back(id: 0);
-                    }
-                  },
-                  style: IconButton.styleFrom(
-                    surfaceTintColor: AppColors.LIGHT_SECONDARY_COLOR,
-                    highlightColor: AppColors.LIGHT_SECONDARY_COLOR,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 4,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  icon: Image.asset(
-                    AppAssets.backIcon,
-                    width: 8.w,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Text(
-                  AppStrings.createOrder.tr,
-                  style: TextStyle(
-                    color: AppColors.PRIMARY_COLOR,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Image.asset(
-                  AppAssets.createOrderImage,
-                  width: 8.w,
-                ),
-              ],
+            CustomHeaderWidget(
+              title: AppStrings.createOrder.tr,
+              titleIcon: AppAssets.createOrderImage,
+              onBackPressed: () {
+                if (Get.keys[0]?.currentState?.canPop() == true) {
+                  Get.back(id: 0);
+                }
+              },
             ),
             SizedBox(height: 2.h),
 

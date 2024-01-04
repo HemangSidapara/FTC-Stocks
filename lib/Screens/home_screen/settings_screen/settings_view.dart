@@ -8,6 +8,7 @@ import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/settings_screen/settings_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
+import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:get/get.dart';
 
 class SettingsView extends StatefulWidget {
@@ -30,22 +31,10 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ///Header
-          Row(
-            children: [
-              Text(
-                AppStrings.settings.tr,
-                style: TextStyle(
-                  color: AppColors.PRIMARY_COLOR,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(width: 2.w),
-              Image.asset(
-                AppAssets.settingsAnim,
-                width: 7.w,
-              ),
-            ],
+          CustomHeaderWidget(
+            title: AppStrings.settings.tr,
+            titleIcon: AppAssets.settingsAnim,
+            titleIconSize: 7.w,
           ),
           SizedBox(height: 5.h),
 

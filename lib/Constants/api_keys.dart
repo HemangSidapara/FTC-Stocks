@@ -10,4 +10,5 @@ class ApiKeys {
   static const weightOfPiece = "weightOfPiece";
   static const weight = "weight";
   static const piece = "piece";
+  static const modelID = "model_id";
 }

@@ -87,4 +87,6 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.pleaseEnterProductName: 'कृपया उत्पाद का नाम दर्ज करें।',
   AppStrings.totalQuantity: 'कुल मात्रा: ',
   AppStrings.totalWeight: 'कुल वजन: ',
+  AppStrings.quantity: 'मात्रा: ',
+  AppStrings.weight: 'वज़न: ',
 };

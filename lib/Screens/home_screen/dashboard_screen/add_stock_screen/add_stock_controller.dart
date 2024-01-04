@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/api_keys.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
@@ -8,8 +9,11 @@ import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 
 class AddStockController extends GetxController {
-  RxBool isGetStockLoading = true.obs;
+  RxBool isGetStockLoading = false.obs;
   RxBool isAddStockLoading = false.obs;
+  RxBool isDeleteStockLoading = false.obs;
+  RxString deletingName = ''.obs;
+  final GlobalKey<DropdownSearchState<String>> dropdownKey = GlobalKey<DropdownSearchState<String>>();
 
   GlobalKey<FormState> addStockFormKey = GlobalKey<FormState>();
   TextEditingController productNameController = TextEditingController();
@@ -91,12 +95,6 @@ class AddStockController extends GetxController {
   TextEditingController sizeTwelveWeightController = TextEditingController();
   TextEditingController sizeCustomWeightController = TextEditingController();
 
-  @override
-  void onInit() async {
-    super.onInit();
-    await getStockApiCall();
-  }
-
   String? validateCategory(int? value) {
     if (value == null) {
       return AppStrings.pleaseSelectCategory.tr;
@@ -159,9 +157,9 @@ class AddStockController extends GetxController {
     }
   }
 
-  Future<void> getStockApiCall() async {
+  Future<List<String>> getStockApiCall({bool isLoading = true}) async {
     try {
-      isGetStockLoading(true);
+      isGetStockLoading(isLoading);
       final response = await AddStockService().getStockService();
 
       if (response.isSuccess) {
@@ -171,6 +169,7 @@ class AddStockController extends GetxController {
         productDataList.addAll(getStockModel.data?.toList() ?? []);
         productList.addAll(getStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
+      return productList;
     } finally {
       isGetStockLoading(false);
     }
@@ -293,6 +292,26 @@ class AddStockController extends GetxController {
       } finally {
         isAddStockLoading(false);
       }
+    }
+  }
+
+  Future<void> deleteStockApiCall({required String modelID}) async {
+    try {
+      isDeleteStockLoading(true);
+      final response = await AddStockService().deleteStockService(modelID: modelID);
+
+      if (response.isSuccess) {
+        dropdownKey.currentState?.closeDropDownSearch();
+        Utils.validationCheck(message: response.message);
+        await Future.delayed(
+          const Duration(milliseconds: 500),
+          () {
+            dropdownKey.currentState?.openDropDownSearch();
+          },
+        );
+      }
+    } finally {
+      isDeleteStockLoading(false);
     }
   }
 

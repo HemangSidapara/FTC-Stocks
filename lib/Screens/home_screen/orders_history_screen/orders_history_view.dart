@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
-import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/home_screen/orders_history_screen/orders_history_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:get/get.dart';
 
 class OrdersHistoryView extends StatefulWidget {
@@ -25,22 +25,9 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ///Header
-          Row(
-            children: [
-              Text(
-                AppStrings.ordersHistory.tr,
-                style: TextStyle(
-                  color: AppColors.PRIMARY_COLOR,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(width: 2.w),
-              Image.asset(
-                AppAssets.ordersDoneIcon,
-                width: 7.5.w,
-              ),
-            ],
+          CustomHeaderWidget(
+            title: AppStrings.ordersHistory.tr,
+            titleIcon: AppAssets.ordersDoneIcon,
           ),
           SizedBox(height: 5.h),
         ],

@@ -63,4 +63,34 @@ class AddStockService {
     );
     return response;
   }
+
+  ///Delete Stock Service
+  Future<ResponseModel> deleteStockService({
+    required String modelID,
+  }) async {
+    var param = {
+      ApiKeys.modelID: modelID,
+    };
+    final response = await ApiBaseHelper().deleteHTTP(
+      ApiUrls.deleteStockApi,
+      showProgress: false,
+      onError: (error) {
+        Utils.validationCheck(message: error.message);
+      },
+      onSuccess: (data) {
+        if (data.statusCode! >= 200 && data.statusCode! <= 299) {
+          if (kDebugMode) {
+            print("deleteStockApi success message :::: ${data.response?.data['msg']}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("deleteStockApi error message :::: ${data.response?.data['msg']}");
+          }
+          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+        }
+      },
+      params: param,
+    );
+    return response;
+  }
 }

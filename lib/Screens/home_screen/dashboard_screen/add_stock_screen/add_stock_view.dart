@@ -10,6 +10,7 @@ import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
+import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/dropdown_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
@@ -70,44 +71,14 @@ class _AddStockViewState extends State<AddStockView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ///Header
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    if (Get.keys[0]?.currentState?.canPop() == true) {
-                      Get.back(id: 0);
-                    }
-                  },
-                  style: IconButton.styleFrom(
-                    surfaceTintColor: AppColors.LIGHT_SECONDARY_COLOR,
-                    highlightColor: AppColors.LIGHT_SECONDARY_COLOR,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 4,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  icon: Image.asset(
-                    AppAssets.backIcon,
-                    width: 8.w,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Text(
-                  AppStrings.addStock.tr,
-                  style: TextStyle(
-                    color: AppColors.PRIMARY_COLOR,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Image.asset(
-                  AppAssets.addStockIcon,
-                  width: 8.w,
-                ),
-              ],
+            CustomHeaderWidget(
+              title: AppStrings.addStock.tr,
+              titleIcon: AppAssets.addStockIcon,
+              onBackPressed: () {
+                if (Get.keys[0]?.currentState?.canPop() == true) {
+                  Get.back(id: 0);
+                }
+              },
             ),
             SizedBox(height: 2.h),
 
@@ -138,6 +109,10 @@ class _AddStockViewState extends State<AddStockView> {
                               ),
                             ),
                             DropdownSearch<String>(
+                              key: addStockController.dropdownKey,
+                              asyncItems: (text) {
+                                return addStockController.getStockApiCall(isLoading: false);
+                              },
                               selectedItem: addStockController.selectedProduct.value == -1 ? null : addStockController.productList[addStockController.selectedProduct.value],
                               dropdownButtonProps: DropdownButtonProps(
                                 constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
@@ -208,14 +183,13 @@ class _AddStockViewState extends State<AddStockView> {
                                   contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
                                 ),
                               ),
-                              items: addStockController.productList,
                               popupProps: PopupProps.menu(
                                 menuProps: MenuProps(
                                   backgroundColor: AppColors.WHITE_COLOR,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 loadingBuilder: (context, searchEntry) {
-                                  return const LoadingWidget();
+                                  return const Center(child: LoadingWidget());
                                 },
                                 emptyBuilder: (context, searchEntry) {
                                   return Center(
@@ -301,17 +275,45 @@ class _AddStockViewState extends State<AddStockView> {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.delete_forever_rounded,
-                                            color: AppColors.ERROR_COLOR,
-                                            size: 5.w,
+                                      Obx(() {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                          child: IconButton(
+                                            onPressed: addStockController.deletingName.value == item
+                                                ? () {}
+                                                : () async {
+                                                    final modelData = addStockController.productDataList.where((p0) => p0.name == item).toList();
+                                                    if (modelData.isNotEmpty) {
+                                                      addStockController.deletingName(item);
+                                                      await addStockController.deleteStockApiCall(modelID: modelData.first.modelId ?? '');
+                                                      if (addStockController.dropdownKey.currentState?.getSelectedItem == item) {
+                                                        addStockController.selectedProduct(-1);
+                                                        addStockController.selectedCategory(-1);
+                                                        addStockController.selectedSizeList.clear();
+                                                        addStockController.customProductSizeController.clear();
+                                                        addStockController.resetSizeControllers();
+                                                      }
+                                                      addStockController.deletingName('');
+                                                    }
+                                                  },
+                                            icon: addStockController.deletingName.value == item
+                                                ? Center(
+                                                    child: SizedBox(
+                                                      height: 5.w,
+                                                      width: 5.w,
+                                                      child: CircularProgressIndicator(
+                                                        color: AppColors.PRIMARY_COLOR,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Icon(
+                                                    Icons.delete_forever_rounded,
+                                                    color: AppColors.ERROR_COLOR,
+                                                    size: 5.w,
+                                                  ),
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      }),
                                     ],
                                   );
                                 },

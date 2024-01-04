@@ -87,4 +87,6 @@ Map<String, String> guIN = <String, String>{
   AppStrings.pleaseEnterProductName: 'કૃપા કરીને પ્રોડક્ટનું નામ દાખલ કરો.',
   AppStrings.totalQuantity: 'કુલ જથ્થો: ',
   AppStrings.totalWeight: 'કૂલ વજન: ',
+  AppStrings.quantity: 'જથ્થો: ',
+  AppStrings.weight: 'વજન: ',
 };

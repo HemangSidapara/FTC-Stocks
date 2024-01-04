@@ -87,4 +87,6 @@ Map<String, String> enIN = <String, String>{
   AppStrings.pleaseEnterProductName: 'Please enter product name.',
   AppStrings.totalQuantity: 'Total quantity: ',
   AppStrings.totalWeight: 'Total weight: ',
+  AppStrings.quantity: 'Quantity: ',
+  AppStrings.weight: 'Weight: ',
 };

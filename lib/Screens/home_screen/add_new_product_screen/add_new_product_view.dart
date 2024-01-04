@@ -7,6 +7,7 @@ import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
+import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/dropdown_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
@@ -63,22 +64,10 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ///Header
-            Row(
-              children: [
-                Text(
-                  AppStrings.addNewProduct.tr,
-                  style: TextStyle(
-                    color: AppColors.PRIMARY_COLOR,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Image.asset(
-                  AppAssets.addNewProduct2Icon,
-                  width: 7.w,
-                ),
-              ],
+            CustomHeaderWidget(
+              title: AppStrings.addNewProduct.tr,
+              titleIcon: AppAssets.addNewProduct2Icon,
+              titleIconSize: 7.w,
             ),
             SizedBox(height: 2.h),
 

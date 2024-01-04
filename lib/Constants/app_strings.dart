@@ -86,4 +86,6 @@ class AppStrings {
   static const String pleaseEnterProductName = 'Please enter product name.';
   static const String totalQuantity = 'Total quantity: ';
   static const String totalWeight = 'Total weight: ';
+  static const String quantity = 'Quantity: ';
+  static const String weight = 'Weight: ';
 }
