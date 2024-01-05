@@ -259,6 +259,18 @@ class _AddStockViewState extends State<AddStockView> {
                                                   addStockController.stockedSizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
                                               }
                                             }
+
+                                            if (addStockController.selectedSizeList.isEmpty) {
+                                              get_stock.ModelMeta? tempSizeData = addStockController.productDataList.where((p0) => p0.name == addStockController.productList[addStockController.selectedProduct.value]).toList().first.modelMeta?.where((e) => !addStockController.sizeList.contains(e.size)).toList().firstOrNull;
+                                              addStockController.isAddedCustomSize(true);
+                                              addStockController.customProductSizeController.text = tempSizeData?.size ?? '';
+                                              addStockController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? '';
+                                              addStockController.selectedSizeCustomUnitOfWeight.value = tempSizeData?.weightOfPiece?.contains('gm') == true ? 0 : 1;
+                                              addStockController.stockedSizeCustomQuantityController.text = tempSizeData?.piece?.trim() ?? '';
+                                              addStockController.stockedSizeCustomWeightController.text = tempSizeData?.weight?.replaceAll(' kg', '').trim() ?? '';
+                                            } else {
+                                              addStockController.isAddedCustomSize(false);
+                                            }
                                           },
                                           style: TextButton.styleFrom(
                                             alignment: Alignment.centerLeft,
@@ -657,6 +669,13 @@ class _AddStockViewState extends State<AddStockView> {
                               controller: addStockController.customProductSizeController,
                               hintText: AppStrings.enterProductSize.tr,
                               isDisable: addStockController.selectedSizeList.isNotEmpty,
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  addStockController.isAddedCustomSize(true);
+                                } else {
+                                  addStockController.isAddedCustomSize(false);
+                                }
+                              },
                             ),
                             SizedBox(height: 2.h),
 

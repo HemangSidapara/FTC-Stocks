@@ -88,4 +88,9 @@ class AppStrings {
   static const String totalWeight = 'Total weight: ';
   static const String quantity = 'Quantity: ';
   static const String weight = 'Weight: ';
+  static const String thisSizeOfProductNotRegistered = 'This size of product is not registered. First, add the size through \'Add Stock\'.';
+  static const String done = 'Done';
+  static const String cancel = 'Cancel';
+  static const String orderDate = 'Order Date: ';
+  static const String orderTime = 'Order Time: ';
 }

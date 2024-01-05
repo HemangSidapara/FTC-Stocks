@@ -21,6 +21,7 @@ class AppColors {
   static Color FACEBOOK_BLUE_COLOR = const Color(0xff0262F8);
   static Color LIGHT_BLUE_COLOR = const Color(0xff0065ff);
   static Color DARK_GREEN_COLOR = const Color(0xff209d74);
+  static Color DARK_RED_COLOR = const Color(0xffc04a4a);
   static Color ERROR_COLOR = const Color(0xffEF4444);
   static Color WARNING_COLOR = const Color(0xffe2b13c);
   static Color SUCCESS_COLOR = const Color(0xff27C193);

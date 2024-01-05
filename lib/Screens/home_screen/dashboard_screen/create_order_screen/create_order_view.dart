@@ -125,12 +125,18 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ],
                             ),
                             DropdownSearch<String>(
+                              asyncItems: (text) {
+                                return createOrderController.getStockApiCall(isLoading: false);
+                              },
                               selectedItem: createOrderController.selectedProduct.value == -1 ? null : createOrderController.productList[createOrderController.selectedProduct.value],
                               onChanged: (value) {
                                 if (value != null) {
                                   createOrderController.selectedProduct.value = createOrderController.productList.indexOf(value);
                                   createOrderController.categoryController.text = createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.category ?? '';
+                                  createOrderController.sizeList.clear();
                                   createOrderController.selectedSizeList.clear();
+                                  createOrderController.sizeList.addAll(createOrderController.defaultList);
+                                  createOrderController.sizeList.addAll(createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.where((element) => !createOrderController.defaultList.contains(element.size)).toList().map((e) => e.size ?? '').toList() ?? []);
                                   createOrderController.selectedSizeList.addAll(createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
                                   createOrderController.resetSizeControllers();
 
@@ -238,12 +244,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
                                 ),
                               ),
-                              items: createOrderController.productList,
                               popupProps: PopupProps.menu(
                                 menuProps: MenuProps(
                                   backgroundColor: AppColors.WHITE_COLOR,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
+                                loadingBuilder: (context, searchEntry) {
+                                  return const Center(child: LoadingWidget());
+                                },
                                 emptyBuilder: (context, searchEntry) {
                                   return Center(
                                     child: Text(
@@ -316,6 +324,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                             ),
                             SizedBox(height: 0.6.h),
                             DropdownSearch.multiSelection(
+                              enabled: createOrderController.selectedProduct.value != -1,
                               dropdownButtonProps: DropdownButtonProps(
                                 constraints: BoxConstraints.loose(
                                   Size(7.w, 4.5.h),
@@ -385,6 +394,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   backgroundColor: AppColors.WHITE_COLOR,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
+                                disabledItemFn: (item) {
+                                  return !createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList().contains(item);
+                                },
                                 validationWidgetBuilder: (context, item) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8),
@@ -404,17 +416,38 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 itemBuilder: (context, item, isSelected) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                                    child: Text(
-                                      item.toString().tr,
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: item.toString().isNumericOnly ? 5.w : null,
+                                          child: Text(
+                                            item.toString().tr,
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        if (!createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList().contains(item)) ...[
+                                          SizedBox(width: 4.w),
+                                          Flexible(
+                                            child: Text(
+                                              AppStrings.thisSizeOfProductNotRegistered.tr,
+                                              style: TextStyle(
+                                                color: AppColors.ERROR_COLOR,
+                                                fontSize: 7.5.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ]
+                                      ],
                                     ),
                                   );
                                 },
-                                showSearchBox: true,
                                 searchFieldProps: TextFieldProps(
                                   cursorColor: AppColors.PRIMARY_COLOR,
                                   decoration: InputDecoration(
@@ -865,7 +898,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     orderWeightController,
                     orderQuantityController,
                     tempWeightOfPieceController,
-                    weightOfPieceController.text.contains('gm') == true ? 0.obs : 1.obs,
+                    weightOfPieceController.text.contains('gm') == true || weightOfPieceController.text.contains('kg') == false ? 0.obs : 1.obs,
                   );
                 },
               ),
@@ -883,7 +916,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     orderQuantityController,
                     orderWeightController,
                     tempWeightOfPieceController,
-                    weightOfPieceController.text.contains('gm') == true ? 0.obs : 1.obs,
+                    weightOfPieceController.text.contains('gm') == true || weightOfPieceController.text.contains('kg') == false ? 0.obs : 1.obs,
                   );
                 },
               ),

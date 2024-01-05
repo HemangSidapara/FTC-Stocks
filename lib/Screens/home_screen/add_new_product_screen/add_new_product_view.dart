@@ -72,7 +72,6 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
             SizedBox(height: 2.h),
 
             ///Fields
-
             Expanded(
               child: Obx(() {
                 if (!addNewProductController.isFormReset.value) {
@@ -398,6 +397,13 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                               controller: addNewProductController.customProductSizeController,
                               hintText: AppStrings.enterProductSize.tr,
                               isDisable: addNewProductController.selectedSizeList.isNotEmpty,
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  addNewProductController.isAddedCustomSize(true);
+                                } else {
+                                  addNewProductController.isAddedCustomSize(false);
+                                }
+                              },
                             ),
                             SizedBox(height: 2.h),
 

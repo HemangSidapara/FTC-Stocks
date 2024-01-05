@@ -89,4 +89,9 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.totalWeight: 'कुल वजन: ',
   AppStrings.quantity: 'मात्रा: ',
   AppStrings.weight: 'वज़न: ',
+  AppStrings.thisSizeOfProductNotRegistered: 'उत्पाद की यह साईज़ पंजीकृत नहीं है. सबसे पहले, \'स्टॉक जोड़ें\' के माध्यम से साईज़ जोड़ें।',
+  AppStrings.done: 'हो गया',
+  AppStrings.cancel: 'रद्द करना',
+  AppStrings.orderDate: 'आर्डर की तारीख: ',
+  AppStrings.orderTime: 'आर्डर की समय: ',
 };

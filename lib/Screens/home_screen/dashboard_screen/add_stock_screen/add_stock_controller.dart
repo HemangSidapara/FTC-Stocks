@@ -110,7 +110,7 @@ class AddStockController extends GetxController {
   }
 
   String? validateProductSize(List value) {
-    if (value.isEmpty) {
+    if (value.isEmpty && customProductSizeController.text.isEmpty) {
       return AppStrings.pleaseSelectProductSize.tr;
     }
     return null;
@@ -326,7 +326,7 @@ class AddStockController extends GetxController {
     required TextEditingController stockedWeightController,
     required TextEditingController weightController,
   }) {
-    return (stockedWeightController.text.trim().toDouble() + (weightController.text.trim().isEmpty ? 0 : weightController.text.trim().toDouble())).toStringAsFixed(2).trim();
+    return (stockedWeightController.text.trim().toDouble() + (weightController.text.trim().isEmpty ? 0 : weightController.text.trim().toDouble())).toStringAsFixed(2).trim().notContainsAndAddSubstring(' kg');
   }
 
   void resetSizeControllers() {

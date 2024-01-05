@@ -36,7 +36,7 @@ class AddStockService {
     required String categoryName,
     required List<Map<String, String>> sizeData,
   }) async {
-    var param = {
+    final params = {
       ApiKeys.name: productName,
       ApiKeys.category: categoryName,
       ApiKeys.meta: sizeData,
@@ -59,7 +59,7 @@ class AddStockService {
           Utils.validationCheck(message: data.response?.data['msg'], isError: true);
         }
       },
-      params: param,
+      params: params,
     );
     return response;
   }
@@ -68,7 +68,7 @@ class AddStockService {
   Future<ResponseModel> deleteStockService({
     required String modelID,
   }) async {
-    var param = {
+    final params = {
       ApiKeys.modelID: modelID,
     };
     final response = await ApiBaseHelper().deleteHTTP(
@@ -89,7 +89,7 @@ class AddStockService {
           Utils.validationCheck(message: data.response?.data['msg'], isError: true);
         }
       },
-      params: param,
+      params: params,
     );
     return response;
   }

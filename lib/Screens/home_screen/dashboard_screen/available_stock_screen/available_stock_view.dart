@@ -3,6 +3,7 @@ import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/available_stock_screen/available_stock_controller.dart';
+import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -42,7 +43,7 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                 padding: EdgeInsets.only(right: 2.w),
                 child: IconButton(
                   onPressed: () async {
-                    await availableStockController.getStockApiCall(isLoading: false);
+                    await availableStockController.getAvailableApiCall(isLoading: false);
                   },
                   style: IconButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -79,25 +80,70 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                   itemCount: availableStockController.productList.length,
                   itemBuilder: (context, index) {
                     return ExpansionTile(
-                      title: Text.rich(
-                        TextSpan(
-                          text: availableStockController.productList[index],
-                          style: TextStyle(
-                            color: AppColors.PRIMARY_COLOR,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: ' ( ${availableStockController.productDataList[index].category?.tr} )',
-                              style: TextStyle(
-                                color: AppColors.ORANGE_COLOR,
-                                fontSize: 10.5.sp,
-                                fontWeight: FontWeight.w500,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                '${index + 1}. ',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.PRIMARY_COLOR,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                              Text.rich(
+                                TextSpan(
+                                  text: availableStockController.productList[index],
+                                  style: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: ' ( ${availableStockController.productDataList[index].category?.tr} )',
+                                      style: TextStyle(
+                                        color: AppColors.ORANGE_COLOR,
+                                        fontSize: 10.5.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Obx(() {
+                          //   return IconButton(
+                          //     onPressed: () async {
+                          //       availableStockController.deletingId.value = availableStockController.productDataList[index].modelId ?? '';
+                          //       await availableStockController.deleteStockApiCall(modelID: availableStockController.productDataList[index].modelId ?? '');
+                          //       availableStockController.deletingId.value = '';
+                          //     },
+                          //     style: IconButton.styleFrom(
+                          //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          //     ),
+                          //     icon: availableStockController.deletingId.value == availableStockController.productDataList[index].modelId
+                          //         ? Center(
+                          //             child: SizedBox(
+                          //               height: 4.w,
+                          //               width: 4.w,
+                          //               child: CircularProgressIndicator(
+                          //                 color: AppColors.PRIMARY_COLOR,
+                          //                 strokeWidth: 2,
+                          //               ),
+                          //             ),
+                          //           )
+                          //         : Icon(
+                          //             Icons.delete_forever_rounded,
+                          //             color: AppColors.ERROR_COLOR,
+                          //             size: 5.w,
+                          //           ),
+                          //   );
+                          // }),
+                        ],
                       ),
                       collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
                       backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
@@ -155,7 +201,7 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                                           TextSpan(
                                             text: availableStockController.productDataList[index].modelMeta?[innerIndex].piece ?? '0',
                                             style: TextStyle(
-                                              color: AppColors.DARK_GREEN_COLOR,
+                                              color: (availableStockController.productDataList[index].modelMeta?[innerIndex].piece ?? '0').toDouble() < 0 ? AppColors.DARK_RED_COLOR : AppColors.DARK_GREEN_COLOR,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 10.sp,
                                             ),
@@ -169,9 +215,9 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                                             ),
                                             children: [
                                               TextSpan(
-                                                text: availableStockController.productDataList[index].modelMeta?[innerIndex].weight ?? '0',
+                                                text: availableStockController.productDataList[index].modelMeta?[innerIndex].weight ?? '0 kg',
                                                 style: TextStyle(
-                                                  color: AppColors.DARK_GREEN_COLOR,
+                                                  color: (availableStockController.productDataList[index].modelMeta?[innerIndex].weight?.split(' kg')[0] ?? '0').toDouble() < 0 ? AppColors.DARK_RED_COLOR : AppColors.DARK_GREEN_COLOR,
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 10.sp,
                                                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ftc_stocks/Constants/api_keys.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
+import 'package:ftc_stocks/Network/services/create_order_service/create_order_service.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 
@@ -19,14 +21,26 @@ class CreateOrderController extends GetxController {
   List<String> productList = [];
   RxInt selectedProduct = (-1).obs;
 
-  List<String> sizeList = [
-    AppStrings.three,
-    AppStrings.four,
-    AppStrings.six,
-    AppStrings.eight,
-    AppStrings.ten,
-    AppStrings.twelve,
-  ];
+  RxList<String> defaultList = RxList(
+    [
+      AppStrings.three,
+      AppStrings.four,
+      AppStrings.six,
+      AppStrings.eight,
+      AppStrings.ten,
+      AppStrings.twelve,
+    ],
+  );
+  RxList<String> sizeList = RxList(
+    [
+      AppStrings.three,
+      AppStrings.four,
+      AppStrings.six,
+      AppStrings.eight,
+      AppStrings.ten,
+      AppStrings.twelve,
+    ],
+  );
   RxList<String> selectedSizeList = RxList();
 
   RxBool sizeThreeCheckbox = false.obs;
@@ -116,28 +130,32 @@ class CreateOrderController extends GetxController {
   }
 
   void calculateWeightByQuantity(String value, TextEditingController weightController, TextEditingController quantityController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
-    if (weightOfPieceController.text.isNotEmpty) {
+    if (weightOfPieceController.text.trim().isNotEmpty) {
       if (value.isNotEmpty) {
-        weightController.text = ((weightOfPieceController.text.toDouble() * quantityController.text.toDouble()) / (unitOfWeight.value == 0 ? 1000 : 1)).toString();
+        weightController.text = ((weightOfPieceController.text.trim().toDouble() * quantityController.text.trim().toDouble()) / (unitOfWeight.value == 0 ? 1000 : 1)).toString();
       } else {
         weightController.clear();
       }
+    } else if (value.isNotEmpty && weightController.text.trim().isNotEmpty) {
+      weightOfPieceController.text = ((weightController.text.trim().toDouble() * 1000) / quantityController.text.trim().toDouble()).toStringAsFixed(2);
     }
   }
 
   void calculateQuantityByWeight(String value, TextEditingController quantityController, TextEditingController weightController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
-    if (weightOfPieceController.text.isNotEmpty) {
+    if (weightOfPieceController.text.trim().isNotEmpty) {
       if (value.isNotEmpty) {
-        quantityController.text = ((weightController.text.toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.toDouble()).toString();
+        quantityController.text = ((weightController.text.trim().toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.trim().toDouble()).toString();
       } else {
         quantityController.clear();
       }
+    } else if (value.isNotEmpty && quantityController.text.trim().isNotEmpty) {
+      weightOfPieceController.text = ((weightController.text.trim().toDouble() * 1000) / quantityController.text.trim().toDouble()).toStringAsFixed(2);
     }
   }
 
-  Future<void> getStockApiCall() async {
+  Future<List<String>> getStockApiCall({bool isLoading = true}) async {
     try {
-      isGetStockLoading(true);
+      isGetStockLoading(isLoading);
       final response = await AddStockService().getStockService();
 
       if (response.isSuccess) {
@@ -147,6 +165,7 @@ class CreateOrderController extends GetxController {
         productDataList.addAll(getStockModel.data?.toList() ?? []);
         productList.addAll(getStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
+      return productList;
     } finally {
       isGetStockLoading(false);
     }
@@ -157,6 +176,68 @@ class CreateOrderController extends GetxController {
 
     if (isValid == true) {
       if (isChecked()) {
+        try {
+          isAddOrderLoading(true);
+          List<Map<String, String>> orderData = List.empty(growable: true);
+          for (int i = 0; i < selectedSizeList.length; i++) {
+            switch (selectedSizeList[i]) {
+              case '3':
+                orderData.add({
+                  ApiKeys.size: '3',
+                  ApiKeys.weight: orderSizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeThreeQuantityController.text.trim(),
+                });
+              case '4':
+                orderData.add({
+                  ApiKeys.size: '4',
+                  ApiKeys.weight: orderSizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeFourQuantityController.text.trim(),
+                });
+              case '6':
+                orderData.add({
+                  ApiKeys.size: '6',
+                  ApiKeys.weight: orderSizeSixWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeSixQuantityController.text.trim(),
+                });
+              case '8':
+                orderData.add({
+                  ApiKeys.size: '8',
+                  ApiKeys.weight: orderSizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeEightQuantityController.text.trim(),
+                });
+              case '10':
+                orderData.add({
+                  ApiKeys.size: '10',
+                  ApiKeys.weight: orderSizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeTenQuantityController.text.trim(),
+                });
+              case '12':
+                orderData.add({
+                  ApiKeys.size: '12',
+                  ApiKeys.weight: orderSizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeTwelveQuantityController.text.trim(),
+                });
+              default:
+                orderData.add({
+                  ApiKeys.size: selectedSizeList[i].trim(),
+                  ApiKeys.weight: orderSizeCustomWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                  ApiKeys.piece: orderSizeCustomQuantityController.text.trim(),
+                });
+            }
+          }
+
+          final response = await CreateOrderService().createOrdersService(
+            modelId: productDataList[selectedProduct.value].modelId ?? '',
+            orderData: orderData,
+          );
+
+          if (response.isSuccess) {
+            Get.back(id: 0);
+            Utils.validationCheck(message: response.message);
+          }
+        } finally {
+          isAddOrderLoading(false);
+        }
       } else {
         Utils.validationCheck(message: AppStrings.pleaseSelectAnySizeForTheOrder.tr, isError: true);
       }

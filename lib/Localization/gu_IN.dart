@@ -89,4 +89,9 @@ Map<String, String> guIN = <String, String>{
   AppStrings.totalWeight: 'કૂલ વજન: ',
   AppStrings.quantity: 'જથ્થો: ',
   AppStrings.weight: 'વજન: ',
+  AppStrings.thisSizeOfProductNotRegistered: 'ઉત્પાદનની આ સાઈઝ નોંધાયેલ નથી. પ્રથમ, \'એડ સ્ટોક\' દ્વારા સાઈઝ ઉમેરો.',
+  AppStrings.done: 'પૂર્ણ',
+  AppStrings.cancel: 'રદ કરો',
+  AppStrings.orderDate: 'ઓર્ડર તારીખ: ',
+  AppStrings.orderTime: 'ઓર્ડર સમય: ',
 };

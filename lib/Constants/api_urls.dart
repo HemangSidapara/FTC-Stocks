@@ -6,4 +6,9 @@ class ApiUrls {
   static const String getStockApi = '${_apiPath}getModel';
   static const String addStockApi = '${_apiPath}setModel';
   static const String deleteStockApi = '${_apiPath}deleteModel';
+  static const String getOrdersApi = '${_apiPath}getOrder';
+  static const String createOrderApi = '${_apiPath}createOrder';
+  static const String completeOrderApi = '${_apiPath}completeOrder';
+  static const String cancelOrderApi = '${_apiPath}cancelOrder';
+  static const String availableStockApi = '${_apiPath}availableStock';
 }

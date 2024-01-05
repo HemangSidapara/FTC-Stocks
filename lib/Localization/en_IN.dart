@@ -89,4 +89,9 @@ Map<String, String> enIN = <String, String>{
   AppStrings.totalWeight: 'Total weight: ',
   AppStrings.quantity: 'Quantity: ',
   AppStrings.weight: 'Weight: ',
+  AppStrings.thisSizeOfProductNotRegistered: 'This size of product is not registered. First, add the size through \'Add Stock\'.',
+  AppStrings.done: 'Done',
+  AppStrings.cancel: 'Cancel',
+  AppStrings.orderDate: 'Order Date: ',
+  AppStrings.orderTime: 'Order Time: ',
 };

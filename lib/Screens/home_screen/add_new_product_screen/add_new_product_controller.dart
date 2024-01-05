@@ -85,7 +85,7 @@ class AddNewProductController extends GetxController {
   }
 
   String? validateProductSize(List value) {
-    if (value.isEmpty) {
+    if (value.isEmpty && customProductSizeController.text.isEmpty) {
       return AppStrings.pleaseSelectProductSize.tr;
     }
     return null;
