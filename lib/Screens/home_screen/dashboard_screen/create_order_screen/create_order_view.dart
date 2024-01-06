@@ -135,8 +135,10 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   createOrderController.categoryController.text = createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.category ?? '';
                                   createOrderController.sizeList.clear();
                                   createOrderController.selectedSizeList.clear();
+                                  createOrderController.customSizeList.clear();
                                   createOrderController.sizeList.addAll(createOrderController.defaultList);
                                   createOrderController.sizeList.addAll(createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.where((element) => !createOrderController.defaultList.contains(element.size)).toList().map((e) => e.size ?? '').toList() ?? []);
+                                  createOrderController.customSizeList.addAll(createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.where((element) => !createOrderController.defaultList.contains(element.size)).toList().map((e) => e.size ?? '').toList() ?? []);
                                   createOrderController.selectedSizeList.addAll(createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList());
                                   createOrderController.resetSizeControllers();
 
@@ -168,9 +170,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                         createOrderController.sizeTwelveQuantityController.text = tempSizeData?.piece ?? '';
                                         createOrderController.sizeTwelveWeightController.text = tempSizeData?.weight ?? '';
                                       default:
-                                        createOrderController.sizeCustomWeightOfPieceController.text = tempSizeData?.weightOfPiece ?? '';
-                                        createOrderController.sizeCustomQuantityController.text = tempSizeData?.piece ?? '';
-                                        createOrderController.sizeCustomWeightController.text = tempSizeData?.weight ?? '';
+                                        createOrderController.sizeCustomCheckboxList.add(false.obs);
+                                        createOrderController.sizeCustomWeightOfPieceControllerList.add(TextEditingController(text: tempSizeData?.weightOfPiece ?? ''));
+                                        createOrderController.sizeCustomQuantityControllerList.add(TextEditingController(text: tempSizeData?.piece ?? ''));
+                                        createOrderController.sizeCustomWeightControllerList.add(TextEditingController(text: tempSizeData?.weight ?? ''));
+                                        createOrderController.orderSizeCustomQuantityControllerList.add(TextEditingController());
+                                        createOrderController.orderSizeCustomWeightControllerList.add(TextEditingController());
                                     }
                                   }
                                 }
@@ -533,6 +538,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                         return element == value;
                                                       },
                                                     );
+                                                    createOrderController.sizeCustomCheckboxList[createOrderController.customSizeList.indexOf(value)].value = false;
                                                   });
                                                 },
                                                 child: Stack(
@@ -667,16 +673,19 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ),
 
                             ///Size Custom
-                            if (createOrderController.sizeCustomQuantityController.text.isNotEmpty)
-                              SizeStockDetailsWidget(
-                                title: AppStrings.sizeCustomQuantityWeight,
-                                isSelected: createOrderController.sizeCustomCheckbox,
-                                weightOfPieceController: createOrderController.sizeCustomWeightOfPieceController,
-                                quantityController: createOrderController.sizeCustomQuantityController,
-                                weightController: createOrderController.sizeCustomWeightController,
-                                orderQuantityController: createOrderController.orderSizeCustomQuantityController,
-                                orderWeightController: createOrderController.orderSizeCustomWeightController,
-                              ),
+                            if (createOrderController.customSizeList.isNotEmpty && createOrderController.customSizeList.any((element) => createOrderController.selectedSizeList.contains(element)))
+                              for (int i = 0; i < createOrderController.customSizeList.length; i++) ...[
+                                if (createOrderController.selectedSizeList.contains(createOrderController.customSizeList[i]))
+                                  CustomSizeStockDetailsWidget(
+                                    title: createOrderController.customSizeList[i],
+                                    isSelected: createOrderController.sizeCustomCheckboxList[i],
+                                    weightOfPieceController: createOrderController.sizeCustomWeightOfPieceControllerList[i],
+                                    quantityController: createOrderController.sizeCustomQuantityControllerList[i],
+                                    weightController: createOrderController.sizeCustomWeightControllerList[i],
+                                    orderQuantityController: createOrderController.orderSizeCustomQuantityControllerList[i],
+                                    orderWeightController: createOrderController.orderSizeCustomWeightControllerList[i],
+                                  ),
+                              ],
 
                             ///Order of Size 3
                             if (createOrderController.sizeThreeCheckbox.isTrue)
@@ -733,13 +742,16 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ),
 
                             ///Order of Size Custom
-                            if (createOrderController.sizeCustomCheckbox.isTrue)
-                              OrderOfSizesWidget(
-                                title: AppStrings.orderOfSizeCustom,
-                                orderQuantityController: createOrderController.orderSizeCustomQuantityController,
-                                orderWeightController: createOrderController.orderSizeCustomWeightController,
-                                weightOfPieceController: createOrderController.sizeCustomWeightOfPieceController,
-                              ),
+                            for (int i = 0; i < createOrderController.customSizeList.length; i++) ...[
+                              if (createOrderController.selectedSizeList.isNotEmpty)
+                                if (createOrderController.sizeCustomCheckboxList[i].isTrue)
+                                  CustomOrderOfSizesWidget(
+                                    title: createOrderController.customSizeList[i],
+                                    orderQuantityController: createOrderController.orderSizeCustomQuantityControllerList[i],
+                                    orderWeightController: createOrderController.orderSizeCustomWeightControllerList[i],
+                                    weightOfPieceController: createOrderController.sizeCustomWeightOfPieceControllerList[i],
+                                  ),
+                            ],
                             SizedBox(height: 6.h),
                           ],
                         ),
@@ -860,6 +872,131 @@ class _CreateOrderViewState extends State<CreateOrderView> {
     });
   }
 
+  Widget CustomSizeStockDetailsWidget({
+    required String title,
+    required RxBool isSelected,
+    required TextEditingController weightOfPieceController,
+    required TextEditingController quantityController,
+    required TextEditingController weightController,
+    required TextEditingController orderQuantityController,
+    required TextEditingController orderWeightController,
+  }) {
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              isSelected.toggle();
+              orderQuantityController.clear();
+              orderWeightController.clear();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      text: '${AppStrings.size.tr} ',
+                      style: TextStyle(
+                        color: AppColors.PRIMARY_COLOR,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: title.tr,
+                          style: TextStyle(
+                            color: AppColors.DARK_RED_COLOR,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' ${AppStrings.quantityAndWeight.tr}',
+                          style: TextStyle(
+                            color: AppColors.PRIMARY_COLOR,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: isSelected.value ? AppColors.LIGHT_BLUE_COLOR : AppColors.WHITE_COLOR,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected.value ? AppColors.LIGHT_BLUE_COLOR : AppColors.PRIMARY_COLOR,
+                        width: 2,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      color: AppColors.WHITE_COLOR,
+                      size: 3.5.w,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 0.6.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    text: AppStrings.weightOfPiece.tr,
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: weightOfPieceController.text.isNotEmpty ? weightOfPieceController.text : '-',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.DARK_GREEN_COLOR,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '\n${AppStrings.availableStockQuantityWeight.tr}',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.PRIMARY_COLOR,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '${quantityController.text.isNotEmpty ? quantityController.text : '0'}${AppStrings.pieces.tr}/${weightController.text.isNotEmpty ? weightController.text : '0 kg'}',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.DARK_GREEN_COLOR,
+                        ),
+                      ),
+                    ],
+                  ),
+                  style: const TextStyle(height: 1.8),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 2.h),
+        ],
+      );
+    });
+  }
+
   Widget OrderOfSizesWidget({
     required String title,
     required TextEditingController orderQuantityController,
@@ -878,6 +1015,86 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               color: AppColors.PRIMARY_COLOR,
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        SizedBox(height: 0.6.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 43.w,
+              child: TextFieldWidget(
+                controller: orderQuantityController,
+                hintText: AppStrings.enterQuantity.tr,
+                keyboardType: TextInputType.number,
+                validator: (value) => createOrderController.validateQuantity(value, orderQuantityController),
+                onChanged: (value) {
+                  createOrderController.calculateWeightByQuantity(
+                    value,
+                    orderWeightController,
+                    orderQuantityController,
+                    tempWeightOfPieceController,
+                    weightOfPieceController.text.contains('gm') == true || weightOfPieceController.text.contains('kg') == false ? 0.obs : 1.obs,
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              width: 43.w,
+              child: TextFieldWidget(
+                controller: orderWeightController,
+                hintText: AppStrings.enterWeight,
+                keyboardType: TextInputType.number,
+                validator: (value) => createOrderController.validateWeight(value),
+                onChanged: (value) {
+                  createOrderController.calculateQuantityByWeight(
+                    value,
+                    orderQuantityController,
+                    orderWeightController,
+                    tempWeightOfPieceController,
+                    weightOfPieceController.text.contains('gm') == true || weightOfPieceController.text.contains('kg') == false ? 0.obs : 1.obs,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 2.h),
+      ],
+    );
+  }
+
+  Widget CustomOrderOfSizesWidget({
+    required String title,
+    required TextEditingController orderQuantityController,
+    required TextEditingController orderWeightController,
+    required TextEditingController weightOfPieceController,
+  }) {
+    final tempWeightOfPieceController = TextEditingController(text: weightOfPieceController.text.replaceAll(' gm', '').replaceAll(' kg', ''));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
+          child: Text.rich(
+            TextSpan(
+              text: AppStrings.orderOfSizeCustom.tr.replaceAll('Custom', '').replaceAll('કસ્ટમ', '').replaceAll('कस्टम', ''),
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              children: [
+                TextSpan(
+                  text: title.tr,
+                  style: TextStyle(
+                    color: AppColors.DARK_RED_COLOR,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

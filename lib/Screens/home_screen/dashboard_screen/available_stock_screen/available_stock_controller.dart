@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 class AvailableStockController extends GetxController {
   RxBool isGetStockLoading = true.obs;
   RxString deletingId = ''.obs;
+  RxBool isRefreshing = false.obs;
 
   RxList<get_available_stock.Data> productDataList = RxList<get_available_stock.Data>();
   RxList<String> productList = RxList();
@@ -18,6 +19,7 @@ class AvailableStockController extends GetxController {
 
   Future<void> getAvailableApiCall({bool isLoading = true}) async {
     try {
+      isRefreshing(!isLoading);
       isGetStockLoading(isLoading);
       final response = await AvailableStockService().getAvailableStockService();
 
@@ -29,6 +31,7 @@ class AvailableStockController extends GetxController {
         productList.addAll(getAvailableStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
     } finally {
+      isRefreshing(false);
       isGetStockLoading(false);
     }
   }

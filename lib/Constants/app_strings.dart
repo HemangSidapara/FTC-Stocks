@@ -52,7 +52,6 @@ class AppStrings {
   static const String size8QuantityWeight = 'Size 8 Quantity & Weight';
   static const String size10QuantityWeight = 'Size 10 Quantity & Weight';
   static const String size12QuantityWeight = 'Size 12 Quantity & Weight';
-  static const String sizeCustomQuantityWeight = 'Size Custom Quantity & Weight';
   static const String enterQuantity = 'Enter Quantity (Piece)';
   static const String enterWeight = 'Enter Weight (Kg)';
   static const String enterWeightOfSinglePiece = 'Enter Weight Of Single Piece';
@@ -93,4 +92,5 @@ class AppStrings {
   static const String cancel = 'Cancel';
   static const String orderDate = 'Order Date: ';
   static const String orderTime = 'Order Time: ';
+  static const String quantityAndWeight = 'Quantity & Weight';
 }

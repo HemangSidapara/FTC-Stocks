@@ -41,6 +41,7 @@ class CreateOrderController extends GetxController {
       AppStrings.twelve,
     ],
   );
+  RxList<String> customSizeList = RxList();
   RxList<String> selectedSizeList = RxList();
 
   RxBool sizeThreeCheckbox = false.obs;
@@ -49,7 +50,7 @@ class CreateOrderController extends GetxController {
   RxBool sizeEightCheckbox = false.obs;
   RxBool sizeTenCheckbox = false.obs;
   RxBool sizeTwelveCheckbox = false.obs;
-  RxBool sizeCustomCheckbox = false.obs;
+  RxList<RxBool> sizeCustomCheckboxList = RxList();
 
   TextEditingController sizeThreeWeightOfPieceController = TextEditingController();
   TextEditingController sizeFourWeightOfPieceController = TextEditingController();
@@ -57,7 +58,7 @@ class CreateOrderController extends GetxController {
   TextEditingController sizeEightWeightOfPieceController = TextEditingController();
   TextEditingController sizeTenWeightOfPieceController = TextEditingController();
   TextEditingController sizeTwelveWeightOfPieceController = TextEditingController();
-  TextEditingController sizeCustomWeightOfPieceController = TextEditingController();
+  RxList<TextEditingController> sizeCustomWeightOfPieceControllerList = RxList();
 
   TextEditingController sizeThreeQuantityController = TextEditingController();
   TextEditingController sizeFourQuantityController = TextEditingController();
@@ -65,7 +66,7 @@ class CreateOrderController extends GetxController {
   TextEditingController sizeEightQuantityController = TextEditingController();
   TextEditingController sizeTenQuantityController = TextEditingController();
   TextEditingController sizeTwelveQuantityController = TextEditingController();
-  TextEditingController sizeCustomQuantityController = TextEditingController();
+  RxList<TextEditingController> sizeCustomQuantityControllerList = RxList();
 
   TextEditingController sizeThreeWeightController = TextEditingController();
   TextEditingController sizeFourWeightController = TextEditingController();
@@ -73,7 +74,7 @@ class CreateOrderController extends GetxController {
   TextEditingController sizeEightWeightController = TextEditingController();
   TextEditingController sizeTenWeightController = TextEditingController();
   TextEditingController sizeTwelveWeightController = TextEditingController();
-  TextEditingController sizeCustomWeightController = TextEditingController();
+  RxList<TextEditingController> sizeCustomWeightControllerList = RxList();
 
   TextEditingController orderSizeThreeQuantityController = TextEditingController();
   TextEditingController orderSizeFourQuantityController = TextEditingController();
@@ -81,7 +82,7 @@ class CreateOrderController extends GetxController {
   TextEditingController orderSizeEightQuantityController = TextEditingController();
   TextEditingController orderSizeTenQuantityController = TextEditingController();
   TextEditingController orderSizeTwelveQuantityController = TextEditingController();
-  TextEditingController orderSizeCustomQuantityController = TextEditingController();
+  RxList<TextEditingController> orderSizeCustomQuantityControllerList = RxList();
 
   TextEditingController orderSizeThreeWeightController = TextEditingController();
   TextEditingController orderSizeFourWeightController = TextEditingController();
@@ -89,7 +90,7 @@ class CreateOrderController extends GetxController {
   TextEditingController orderSizeEightWeightController = TextEditingController();
   TextEditingController orderSizeTenWeightController = TextEditingController();
   TextEditingController orderSizeTwelveWeightController = TextEditingController();
-  TextEditingController orderSizeCustomWeightController = TextEditingController();
+  RxList<TextEditingController> orderSizeCustomWeightControllerList = RxList();
 
   @override
   void onInit() async {
@@ -182,47 +183,62 @@ class CreateOrderController extends GetxController {
           for (int i = 0; i < selectedSizeList.length; i++) {
             switch (selectedSizeList[i]) {
               case '3':
-                orderData.add({
-                  ApiKeys.size: '3',
-                  ApiKeys.weight: orderSizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeThreeQuantityController.text.trim(),
-                });
+                if (sizeThreeCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '3',
+                    ApiKeys.weight: orderSizeThreeWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeThreeQuantityController.text.trim(),
+                  });
+                }
               case '4':
-                orderData.add({
-                  ApiKeys.size: '4',
-                  ApiKeys.weight: orderSizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeFourQuantityController.text.trim(),
-                });
+                if (sizeFourCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '4',
+                    ApiKeys.weight: orderSizeFourWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeFourQuantityController.text.trim(),
+                  });
+                }
               case '6':
-                orderData.add({
-                  ApiKeys.size: '6',
-                  ApiKeys.weight: orderSizeSixWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeSixQuantityController.text.trim(),
-                });
+                if (sizeSixCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '6',
+                    ApiKeys.weight: orderSizeSixWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeSixQuantityController.text.trim(),
+                  });
+                }
               case '8':
-                orderData.add({
-                  ApiKeys.size: '8',
-                  ApiKeys.weight: orderSizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeEightQuantityController.text.trim(),
-                });
+                if (sizeEightCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '8',
+                    ApiKeys.weight: orderSizeEightWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeEightQuantityController.text.trim(),
+                  });
+                }
               case '10':
-                orderData.add({
-                  ApiKeys.size: '10',
-                  ApiKeys.weight: orderSizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeTenQuantityController.text.trim(),
-                });
+                if (sizeTenCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '10',
+                    ApiKeys.weight: orderSizeTenWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeTenQuantityController.text.trim(),
+                  });
+                }
               case '12':
-                orderData.add({
-                  ApiKeys.size: '12',
-                  ApiKeys.weight: orderSizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeTwelveQuantityController.text.trim(),
-                });
+                if (sizeTwelveCheckbox.isTrue) {
+                  orderData.add({
+                    ApiKeys.size: '12',
+                    ApiKeys.weight: orderSizeTwelveWeightController.text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeTwelveQuantityController.text.trim(),
+                  });
+                }
               default:
-                orderData.add({
-                  ApiKeys.size: selectedSizeList[i].trim(),
-                  ApiKeys.weight: orderSizeCustomWeightController.text.trim().notContainsAndAddSubstring(' kg'),
-                  ApiKeys.piece: orderSizeCustomQuantityController.text.trim(),
-                });
+                final tempCustomItemIndex = customSizeList.indexOf(selectedSizeList[i]);
+                if (sizeCustomCheckboxList[tempCustomItemIndex].isTrue) {
+                  orderData.add({
+                    ApiKeys.size: selectedSizeList[i].trim(),
+                    ApiKeys.weight: orderSizeCustomWeightControllerList[tempCustomItemIndex].text.trim().notContainsAndAddSubstring(' kg'),
+                    ApiKeys.piece: orderSizeCustomQuantityControllerList[tempCustomItemIndex].text.trim(),
+                  });
+                }
             }
           }
 
@@ -245,7 +261,7 @@ class CreateOrderController extends GetxController {
   }
 
   bool isChecked() {
-    return sizeThreeCheckbox.isTrue || sizeFourCheckbox.isTrue || sizeSixCheckbox.isTrue || sizeEightCheckbox.isTrue || sizeTenCheckbox.isTrue || sizeTwelveCheckbox.isTrue || sizeCustomCheckbox.isTrue;
+    return sizeThreeCheckbox.isTrue || sizeFourCheckbox.isTrue || sizeSixCheckbox.isTrue || sizeEightCheckbox.isTrue || sizeTenCheckbox.isTrue || sizeTwelveCheckbox.isTrue || sizeCustomCheckboxList.any((element) => element.value);
   }
 
   void resetSizeControllers() {
@@ -291,11 +307,20 @@ class CreateOrderController extends GetxController {
     orderSizeTwelveQuantityController.clear();
     orderSizeTwelveWeightController.clear();
 
-    sizeCustomWeightOfPieceController.clear();
-    sizeCustomQuantityController.clear();
-    sizeCustomWeightController.clear();
-    sizeCustomCheckbox(false);
-    orderSizeCustomQuantityController.clear();
-    orderSizeCustomWeightController.clear();
+    sizeCustomWeightOfPieceControllerList.clear();
+    sizeCustomQuantityControllerList.clear();
+    sizeCustomWeightControllerList.clear();
+    sizeCustomCheckboxList.clear();
+    orderSizeCustomQuantityControllerList.clear();
+    orderSizeCustomWeightControllerList.clear();
+  }
+
+  void initCustomControllers() {
+    sizeCustomCheckboxList.add(false.obs);
+    sizeCustomWeightOfPieceControllerList.add(TextEditingController());
+    sizeCustomQuantityControllerList.add(TextEditingController());
+    sizeCustomWeightControllerList.add(TextEditingController());
+    orderSizeCustomQuantityControllerList.add(TextEditingController());
+    orderSizeCustomWeightControllerList.add(TextEditingController());
   }
 }

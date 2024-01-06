@@ -7,6 +7,7 @@ import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart'
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class AddStockController extends GetxController {
   RxBool isGetStockLoading = false.obs;
@@ -27,9 +28,19 @@ class AddStockController extends GetxController {
 
   RxList<get_stock.Data> productDataList = RxList<get_stock.Data>();
 
-  List<String> productList = [];
+  RxList<String> productList = RxList();
   RxInt selectedProduct = (-1).obs;
 
+  RxList<String> defaultList = RxList(
+    [
+      AppStrings.three,
+      AppStrings.four,
+      AppStrings.six,
+      AppStrings.eight,
+      AppStrings.ten,
+      AppStrings.twelve,
+    ],
+  );
   List<String> sizeList = [
     AppStrings.three,
     AppStrings.four,
@@ -41,6 +52,7 @@ class AddStockController extends GetxController {
   RxList<String> selectedSizeList = RxList();
 
   RxBool isAddedCustomSize = false.obs;
+  TextfieldTagsController customProductSizeTagsController = TextfieldTagsController();
   TextEditingController customProductSizeController = TextEditingController();
 
   List<String> weightUnitList = [
@@ -53,7 +65,7 @@ class AddStockController extends GetxController {
   RxInt selectedSizeEightUnitOfWeight = (-1).obs;
   RxInt selectedSizeTenUnitOfWeight = (-1).obs;
   RxInt selectedSizeTwelveUnitOfWeight = (-1).obs;
-  RxInt selectedSizeCustomUnitOfWeight = (-1).obs;
+  RxList<RxInt> selectedSizeCustomUnitOfWeightList = RxList();
 
   TextEditingController sizeThreeWeightOfPieceController = TextEditingController();
   TextEditingController sizeFourWeightOfPieceController = TextEditingController();
@@ -61,7 +73,7 @@ class AddStockController extends GetxController {
   TextEditingController sizeEightWeightOfPieceController = TextEditingController();
   TextEditingController sizeTenWeightOfPieceController = TextEditingController();
   TextEditingController sizeTwelveWeightOfPieceController = TextEditingController();
-  TextEditingController sizeCustomWeightOfPieceController = TextEditingController();
+  RxList<TextEditingController> sizeCustomWeightOfPieceControllerList = RxList();
 
   TextEditingController stockedSizeThreeQuantityController = TextEditingController();
   TextEditingController stockedSizeFourQuantityController = TextEditingController();
@@ -69,7 +81,7 @@ class AddStockController extends GetxController {
   TextEditingController stockedSizeEightQuantityController = TextEditingController();
   TextEditingController stockedSizeTenQuantityController = TextEditingController();
   TextEditingController stockedSizeTwelveQuantityController = TextEditingController();
-  TextEditingController stockedSizeCustomQuantityController = TextEditingController();
+  RxList<TextEditingController> stockedSizeCustomQuantityControllerList = RxList();
 
   TextEditingController stockedSizeThreeWeightController = TextEditingController();
   TextEditingController stockedSizeFourWeightController = TextEditingController();
@@ -77,7 +89,7 @@ class AddStockController extends GetxController {
   TextEditingController stockedSizeEightWeightController = TextEditingController();
   TextEditingController stockedSizeTenWeightController = TextEditingController();
   TextEditingController stockedSizeTwelveWeightController = TextEditingController();
-  TextEditingController stockedSizeCustomWeightController = TextEditingController();
+  RxList<TextEditingController> stockedSizeCustomWeightControllerList = RxList();
 
   TextEditingController sizeThreeQuantityController = TextEditingController();
   TextEditingController sizeFourQuantityController = TextEditingController();
@@ -85,7 +97,7 @@ class AddStockController extends GetxController {
   TextEditingController sizeEightQuantityController = TextEditingController();
   TextEditingController sizeTenQuantityController = TextEditingController();
   TextEditingController sizeTwelveQuantityController = TextEditingController();
-  TextEditingController sizeCustomQuantityController = TextEditingController();
+  RxList<TextEditingController> sizeCustomQuantityControllerList = RxList();
 
   TextEditingController sizeThreeWeightController = TextEditingController();
   TextEditingController sizeFourWeightController = TextEditingController();
@@ -93,7 +105,13 @@ class AddStockController extends GetxController {
   TextEditingController sizeEightWeightController = TextEditingController();
   TextEditingController sizeTenWeightController = TextEditingController();
   TextEditingController sizeTwelveWeightController = TextEditingController();
-  TextEditingController sizeCustomWeightController = TextEditingController();
+  RxList<TextEditingController> sizeCustomWeightControllerList = RxList();
+
+  @override
+  void onInit() {
+    super.onInit();
+    customProductSizeTagsController.init((tag) => null, null, null, null, null, null);
+  }
 
   String? validateCategory(int? value) {
     if (value == null) {
@@ -110,7 +128,7 @@ class AddStockController extends GetxController {
   }
 
   String? validateProductSize(List value) {
-    if (value.isEmpty && customProductSizeController.text.isEmpty) {
+    if (value.isEmpty && (customProductSizeTagsController.getTags?.length ?? 0) == 0) {
       return AppStrings.pleaseSelectProductSize.tr;
     }
     return null;
@@ -264,19 +282,23 @@ class AddStockController extends GetxController {
           }
         }
 
-        if (isAddedCustomSize.isTrue) {
-          sizeData.add({
-            ApiKeys.size: customProductSizeController.text.trim(),
-            ApiKeys.weightOfPiece: sizeCustomWeightOfPieceController.text.trim().notContainsAndAddSubstring(selectedSizeCustomUnitOfWeight.value == 0 ? ' gm' : ' kg'),
-            ApiKeys.weight: totalWeight(
-              stockedWeightController: stockedSizeCustomWeightController,
-              weightController: sizeCustomWeightController,
-            ),
-            ApiKeys.piece: totalQuantity(
-              stockedQuantityController: stockedSizeCustomQuantityController,
-              quantityController: sizeCustomQuantityController,
-            ),
-          });
+        if (isAddedCustomSize.isTrue && customProductSizeTagsController.hasTags) {
+          for (int i = 0; i < (customProductSizeTagsController.getTags?.length ?? 0); i++) {
+            if (customProductSizeTagsController.getTags?[i] != null) {
+              sizeData.add({
+                ApiKeys.size: customProductSizeTagsController.getTags?[i].trim() ?? '',
+                ApiKeys.weightOfPiece: sizeCustomWeightOfPieceControllerList[i].text.trim().notContainsAndAddSubstring(selectedSizeCustomUnitOfWeightList[i].value == 0 ? ' gm' : ' kg'),
+                ApiKeys.weight: totalWeight(
+                  stockedWeightController: stockedSizeCustomWeightControllerList[i],
+                  weightController: sizeCustomWeightControllerList[i],
+                ),
+                ApiKeys.piece: totalQuantity(
+                  stockedQuantityController: stockedSizeCustomQuantityControllerList[i],
+                  quantityController: sizeCustomQuantityControllerList[i],
+                ),
+              });
+            }
+          }
         }
 
         final response = await AddStockService().addStockService(
@@ -359,10 +381,33 @@ class AddStockController extends GetxController {
     selectedSizeTwelveUnitOfWeight(-1);
     sizeTwelveQuantityController.clear();
     sizeTwelveWeightController.clear();
+  }
 
-    sizeCustomWeightOfPieceController.clear();
-    selectedSizeCustomUnitOfWeight(-1);
-    sizeCustomQuantityController.clear();
-    sizeCustomWeightController.clear();
+  void resetCustomSizeControllers() {
+    sizeCustomWeightOfPieceControllerList.clear();
+    selectedSizeCustomUnitOfWeightList.clear();
+    sizeCustomQuantityControllerList.clear();
+    sizeCustomWeightControllerList.clear();
+  }
+
+  void initCustomControllers() {
+    selectedSizeCustomUnitOfWeightList.add((-1).obs);
+    sizeCustomWeightOfPieceControllerList.add(TextEditingController());
+    stockedSizeCustomQuantityControllerList.add(TextEditingController());
+    stockedSizeCustomWeightControllerList.add(TextEditingController());
+    sizeCustomQuantityControllerList.add(TextEditingController());
+    sizeCustomWeightControllerList.add(TextEditingController());
+  }
+
+  void deletingCustomControllers({required String tag}) {
+    if (customProductSizeTagsController.getTags?.isNotEmpty == true) {
+      final deletingIndex = customProductSizeTagsController.getTags!.indexOf(tag);
+      selectedSizeCustomUnitOfWeightList.removeAt(deletingIndex);
+      sizeCustomWeightOfPieceControllerList.removeAt(deletingIndex);
+      stockedSizeCustomQuantityControllerList.removeAt(deletingIndex);
+      stockedSizeCustomWeightControllerList.removeAt(deletingIndex);
+      sizeCustomQuantityControllerList.removeAt(deletingIndex);
+      sizeCustomWeightControllerList.removeAt(deletingIndex);
+    }
   }
 }

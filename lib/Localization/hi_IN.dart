@@ -53,7 +53,6 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.size8QuantityWeight: 'साईज़ ८ मात्रा और वजन',
   AppStrings.size10QuantityWeight: 'साईज़ १॰ मात्रा और वजन',
   AppStrings.size12QuantityWeight: 'साईज़ १२ मात्रा और वजन',
-  AppStrings.sizeCustomQuantityWeight: 'साईज़ कस्टम मात्रा और वजन',
   AppStrings.enterQuantity: 'मात्रा दर्ज करें (नंग)',
   AppStrings.enterWeight: 'वजन दर्ज करें (किग्रा)',
   AppStrings.enterWeightOfSinglePiece: 'एक नंग का वजन दर्ज करें',
@@ -94,4 +93,5 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.cancel: 'रद्द करना',
   AppStrings.orderDate: 'आर्डर की तारीख: ',
   AppStrings.orderTime: 'आर्डर की समय: ',
+  AppStrings.quantityAndWeight: 'मात्रा और वजन',
 };

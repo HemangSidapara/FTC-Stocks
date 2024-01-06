@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^1.0.4
   google_fonts: ^6.1.0
   dropdown_search: ^5.0.6
+  textfield_tags: ^2.0.2
 
 dev_dependencies:
   flutter_test:

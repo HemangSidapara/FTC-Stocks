@@ -11,13 +11,16 @@ class SettingsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (getString(AppConstance.languageCode) == 'gu' || getString(AppConstance.languageCode) == null) {
+    if (getString(AppConstance.languageCode) == 'gu') {
       isGujaratiLang.value = true;
       isHindiLang.value = false;
-    } else if (getString(AppConstance.languageCode) == 'hi' || getString(AppConstance.languageCode) == null) {
+    } else if (getString(AppConstance.languageCode) == 'hi') {
       isGujaratiLang.value = false;
       isHindiLang.value = true;
     } else if (getString(AppConstance.languageCode) == 'en') {
+      isGujaratiLang.value = false;
+      isHindiLang.value = false;
+    } else {
       isGujaratiLang.value = false;
       isHindiLang.value = false;
     }

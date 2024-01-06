@@ -38,7 +38,7 @@ class HomeController extends GetxController {
         Get.back(id: 2);
       }
       if (Get.isRegistered<OrdersHistoryController>()) {
-        await Get.find<OrdersHistoryController>().getOrdersApiCall(isLoading: false);
+        Get.find<OrdersHistoryController>().getOrdersApiCall(isLoading: false);
       }
     } else if (index == 3) {
       if (Get.keys[3]?.currentState?.canPop() == true) {

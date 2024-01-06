@@ -16,6 +16,11 @@ class TextFieldWidget extends StatelessWidget {
   final bool? isDisable;
   final void Function(String value)? onChanged;
   final void Function(String? value)? onSaved;
+  final FocusNode? focusNode;
+  final void Function()? onTap;
+  final BoxConstraints? prefixIconConstraints;
+  final Widget? prefixIcon;
+  final void Function(String value)? onFieldSubmitted;
 
   const TextFieldWidget({
     super.key,
@@ -32,6 +37,11 @@ class TextFieldWidget extends StatelessWidget {
     this.isDisable = false,
     this.onChanged,
     this.onSaved,
+    this.focusNode,
+    this.onTap,
+    this.prefixIconConstraints,
+    this.prefixIcon,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -56,6 +66,7 @@ class TextFieldWidget extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
           validator: validator,
+          focusNode: focusNode,
           style: TextStyle(
             color: AppColors.PRIMARY_COLOR,
             fontWeight: FontWeight.w600,
@@ -67,12 +78,16 @@ class TextFieldWidget extends StatelessWidget {
           maxLength: maxLength,
           cursorColor: AppColors.PRIMARY_COLOR,
           enabled: isDisable == false,
+          onTap: onTap,
           onChanged: onChanged,
           onSaved: onSaved,
+          onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
             counterStyle: TextStyle(color: AppColors.PRIMARY_COLOR),
             filled: true,
             enabled: true,
+            prefixIconConstraints: prefixIconConstraints,
+            prefixIcon: prefixIcon,
             fillColor: AppColors.WHITE_COLOR,
             hintText: hintText,
             suffixIcon: suffixIcon,

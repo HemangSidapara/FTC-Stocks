@@ -38,18 +38,34 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
               Padding(
                 padding: EdgeInsets.only(right: 2.w),
                 child: IconButton(
-                  onPressed: () async {
-                    await ordersHistoryController.getOrdersApiCall(isLoading: false);
-                  },
+                  onPressed: ordersHistoryController.isRefreshing.value
+                      ? () {}
+                      : () async {
+                          await ordersHistoryController.getOrdersApiCall(isLoading: false);
+                        },
                   style: IconButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     padding: EdgeInsets.zero,
                   ),
-                  icon: Icon(
-                    Icons.refresh_rounded,
-                    color: AppColors.SECONDARY_COLOR,
-                    size: 6.w,
-                  ),
+                  icon: Obx(() {
+                    return TweenAnimationBuilder(
+                      duration: Duration(seconds: ordersHistoryController.isRefreshing.value ? 30 : 1),
+                      tween: Tween(begin: 0.0, end: ordersHistoryController.isRefreshing.value ? 30.0 : 0.0),
+                      onEnd: () {
+                        ordersHistoryController.isRefreshing.value = false;
+                      },
+                      builder: (context, value, child) {
+                        return Transform.rotate(
+                          angle: value * 2 * 3.141592653589793,
+                          child: Icon(
+                            Icons.refresh_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ),
             ],

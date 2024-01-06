@@ -53,7 +53,6 @@ Map<String, String> guIN = <String, String>{
   AppStrings.size8QuantityWeight: 'સાઈઝ ૮ જથ્થો અને વજન',
   AppStrings.size10QuantityWeight: 'સાઈઝ ૧૦ જથ્થો અને વજન',
   AppStrings.size12QuantityWeight: 'સાઈઝ ૧૨ જથ્થો અને વજન',
-  AppStrings.sizeCustomQuantityWeight: 'સાઈઝ કસ્ટમ જથ્થો અને વજન',
   AppStrings.enterQuantity: 'જથ્થો દાખલ કરો (નંગ)',
   AppStrings.enterWeight: 'વજન દાખલ કરો (કિગ્રા)',
   AppStrings.enterWeightOfSinglePiece: 'એક પીસનું વજન દાખલ કરો',
@@ -94,4 +93,5 @@ Map<String, String> guIN = <String, String>{
   AppStrings.cancel: 'રદ કરો',
   AppStrings.orderDate: 'ઓર્ડર તારીખ: ',
   AppStrings.orderTime: 'ઓર્ડર સમય: ',
+  AppStrings.quantityAndWeight: 'જથ્થો અને વજન',
 };

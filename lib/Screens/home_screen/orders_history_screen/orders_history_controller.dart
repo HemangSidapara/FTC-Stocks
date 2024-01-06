@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class OrdersHistoryController extends GetxController {
   RxBool isGetOrdersLoading = true.obs;
+  RxBool isRefreshing = false.obs;
 
   RxList<get_orders.Data> ordersDataList = RxList<get_orders.Data>();
   RxList<String> orderList = RxList();
@@ -17,6 +18,7 @@ class OrdersHistoryController extends GetxController {
 
   Future<void> getOrdersApiCall({bool isLoading = true}) async {
     try {
+      isRefreshing(!isLoading);
       isGetOrdersLoading(isLoading);
       final response = await CreateOrderService().getOrdersService(isPending: false);
 
@@ -28,6 +30,7 @@ class OrdersHistoryController extends GetxController {
         orderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
     } finally {
+      isRefreshing(false);
       isGetOrdersLoading(false);
     }
   }

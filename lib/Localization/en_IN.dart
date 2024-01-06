@@ -53,7 +53,6 @@ Map<String, String> enIN = <String, String>{
   AppStrings.size8QuantityWeight: 'Size 8 Quantity & Weight',
   AppStrings.size10QuantityWeight: 'Size 10 Quantity & Weight',
   AppStrings.size12QuantityWeight: 'Size 12 Quantity & Weight',
-  AppStrings.sizeCustomQuantityWeight: 'Size Custom Quantity & Weight',
   AppStrings.enterQuantity: 'Enter Quantity (Piece)',
   AppStrings.enterWeight: 'Enter Weight (Kg)',
   AppStrings.enterWeightOfSinglePiece: 'Enter Weight Of Single Piece',
@@ -94,4 +93,5 @@ Map<String, String> enIN = <String, String>{
   AppStrings.cancel: 'Cancel',
   AppStrings.orderDate: 'Order Date: ',
   AppStrings.orderTime: 'Order Time: ',
+  AppStrings.quantityAndWeight: 'Quantity & Weight',
 };

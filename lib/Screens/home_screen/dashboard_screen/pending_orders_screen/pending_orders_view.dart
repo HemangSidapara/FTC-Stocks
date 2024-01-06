@@ -41,18 +41,34 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
               Padding(
                 padding: EdgeInsets.only(right: 2.w),
                 child: IconButton(
-                  onPressed: () async {
-                    await pendingOrdersController.getOrdersApiCall(isLoading: false);
-                  },
+                  onPressed: pendingOrdersController.isRefreshing.value
+                      ? () {}
+                      : () async {
+                          await pendingOrdersController.getOrdersApiCall(isLoading: false);
+                        },
                   style: IconButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     padding: EdgeInsets.zero,
                   ),
-                  icon: Icon(
-                    Icons.refresh_rounded,
-                    color: AppColors.SECONDARY_COLOR,
-                    size: 6.w,
-                  ),
+                  icon: Obx(() {
+                    return TweenAnimationBuilder(
+                      duration: Duration(seconds: pendingOrdersController.isRefreshing.value ? 30 : 1),
+                      tween: Tween(begin: 0.0, end: pendingOrdersController.isRefreshing.value ? 30.0 : 0.0),
+                      onEnd: () {
+                        pendingOrdersController.isRefreshing.value = false;
+                      },
+                      builder: (context, value, child) {
+                        return Transform.rotate(
+                          angle: value * 2 * 3.141592653589793,
+                          child: Icon(
+                            Icons.refresh_rounded,
+                            color: AppColors.SECONDARY_COLOR,
+                            size: 6.w,
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ),
             ],
@@ -118,75 +134,69 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                             return Row(
                               children: [
                                 ///Cancel
-                                SizedBox(
-                                  width: 15.w,
-                                  child: TextButton(
-                                    onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
-                                        ? null
-                                        : () async {
-                                            pendingOrdersController.cancelId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
-                                            await pendingOrdersController.cancelOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
-                                            pendingOrdersController.cancelId.value = '';
-                                          },
-                                    style: TextButton.styleFrom(
-                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    child: pendingOrdersController.cancelId.value == pendingOrdersController.ordersDataList[index].orderId
-                                        ? Center(
-                                            child: SizedBox(
-                                              height: 4.w,
-                                              width: 4.w,
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                strokeWidth: 2,
-                                              ),
-                                            ),
-                                          )
-                                        : Text(
-                                            AppStrings.cancel.tr,
-                                            style: TextStyle(
-                                              color: AppColors.ERROR_COLOR,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10.sp,
+                                TextButton(
+                                  onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
+                                      ? null
+                                      : () async {
+                                          pendingOrdersController.cancelId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
+                                          await pendingOrdersController.cancelOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
+                                          pendingOrdersController.cancelId.value = '';
+                                        },
+                                  style: TextButton.styleFrom(
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: pendingOrdersController.cancelId.value == pendingOrdersController.ordersDataList[index].orderId
+                                      ? Center(
+                                          child: SizedBox(
+                                            height: 4.w,
+                                            width: 4.w,
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              strokeWidth: 2,
                                             ),
                                           ),
-                                  ),
+                                        )
+                                      : Text(
+                                          AppStrings.cancel.tr,
+                                          style: TextStyle(
+                                            color: AppColors.ERROR_COLOR,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 10.sp,
+                                          ),
+                                        ),
                                 ),
 
                                 ///Done
-                                SizedBox(
-                                  width: 13.w,
-                                  child: TextButton(
-                                    onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
-                                        ? null
-                                        : () async {
-                                            pendingOrdersController.doneId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
-                                            await pendingOrdersController.completeOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
-                                            pendingOrdersController.doneId.value = '';
-                                          },
-                                    style: TextButton.styleFrom(
-                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    child: pendingOrdersController.doneId.value == pendingOrdersController.ordersDataList[index].orderId
-                                        ? Center(
-                                            child: SizedBox(
-                                              height: 4.w,
-                                              width: 4.w,
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.PRIMARY_COLOR,
-                                                strokeWidth: 2,
-                                              ),
-                                            ),
-                                          )
-                                        : Text(
-                                            AppStrings.done.tr,
-                                            style: TextStyle(
-                                              color: AppColors.LIGHT_BLUE_COLOR,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 10.sp,
+                                TextButton(
+                                  onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
+                                      ? null
+                                      : () async {
+                                          pendingOrdersController.doneId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
+                                          await pendingOrdersController.completeOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
+                                          pendingOrdersController.doneId.value = '';
+                                        },
+                                  style: TextButton.styleFrom(
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: pendingOrdersController.doneId.value == pendingOrdersController.ordersDataList[index].orderId
+                                      ? Center(
+                                          child: SizedBox(
+                                            height: 4.w,
+                                            width: 4.w,
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              strokeWidth: 2,
                                             ),
                                           ),
-                                  ),
+                                        )
+                                      : Text(
+                                          AppStrings.done.tr,
+                                          style: TextStyle(
+                                            color: AppColors.LIGHT_BLUE_COLOR,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 10.sp,
+                                          ),
+                                        ),
                                 ),
                               ],
                             );
