@@ -107,17 +107,41 @@ class _AddStockViewState extends State<AddStockView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ///Product
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Text(
-                                  AppStrings.product.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 2.w),
+                                    child: Text(
+                                      AppStrings.product.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  TextButton(
+                                    onPressed: () {
+                                      addStockController.selectedProduct(-1);
+                                      addStockController.selectedCategory(-1);
+                                      addStockController.selectedSizeList.clear();
+                                      addStockController.resetSizeControllers();
+                                      addStockController.customProductSizeTagsController.clearTags();
+                                      addStockController.resetCustomSizeControllers();
+                                    },
+                                    child: Text(
+                                      AppStrings.reset.tr,
+                                      style: TextStyle(
+                                        color: AppColors.LIGHT_BLUE_COLOR,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
+                              SizedBox(height: 0.5.h),
                               DropdownSearch<String>(
                                 key: addStockController.dropdownKey,
                                 asyncItems: (text) {

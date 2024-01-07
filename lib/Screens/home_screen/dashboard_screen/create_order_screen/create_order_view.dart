@@ -124,6 +124,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 ),
                               ],
                             ),
+                            SizedBox(height: 0.5.h),
                             DropdownSearch<String>(
                               asyncItems: (text) {
                                 return createOrderController.getStockApiCall(isLoading: false);
