@@ -49,12 +49,15 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                   ),
                   icon: Obx(() {
                     return TweenAnimationBuilder(
-                      duration: Duration(seconds: ordersHistoryController.isRefreshing.value ? 30 : 1),
-                      tween: Tween(begin: 0.0, end: ordersHistoryController.isRefreshing.value ? 30.0 : 0.0),
+                      duration: Duration(seconds: ordersHistoryController.isRefreshing.value ? 45 : 1),
+                      tween: Tween(begin: 0.0, end: ordersHistoryController.isRefreshing.value ? 45.0 : ordersHistoryController.ceilValueForRefresh.value),
                       onEnd: () {
                         ordersHistoryController.isRefreshing.value = false;
                       },
                       builder: (context, value, child) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ordersHistoryController.ceilValueForRefresh(value.toDouble().ceilToDouble());
+                        });
                         return Transform.rotate(
                           angle: value * 2 * 3.141592653589793,
                           child: Icon(

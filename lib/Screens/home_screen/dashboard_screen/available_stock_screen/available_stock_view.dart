@@ -53,12 +53,15 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                   ),
                   icon: Obx(() {
                     return TweenAnimationBuilder(
-                      duration: Duration(seconds: availableStockController.isRefreshing.value ? 30 : 1),
-                      tween: Tween(begin: 0.0, end: availableStockController.isRefreshing.value ? 30.0 : 0.0),
+                      duration: Duration(seconds: availableStockController.isRefreshing.value ? 45 : 1),
+                      tween: Tween(begin: 0.0, end: availableStockController.isRefreshing.value ? 45.0 : availableStockController.ceilValueForRefresh.value),
                       onEnd: () {
                         availableStockController.isRefreshing.value = false;
                       },
                       builder: (context, value, child) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          availableStockController.ceilValueForRefresh(value.toDouble().ceilToDouble());
+                        });
                         return Transform.rotate(
                           angle: value * 2 * 3.141592653589793,
                           child: Icon(

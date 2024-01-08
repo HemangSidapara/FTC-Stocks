@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class PendingOrdersController extends GetxController {
   RxBool isGetOrdersLoading = true.obs;
   RxBool isRefreshing = false.obs;
+  RxDouble ceilValueForRefresh = 0.0.obs;
 
   RxList<get_orders.Data> ordersDataList = RxList<get_orders.Data>();
   RxList<String> orderList = RxList();

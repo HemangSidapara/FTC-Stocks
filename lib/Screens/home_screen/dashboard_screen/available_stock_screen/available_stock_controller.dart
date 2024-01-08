@@ -8,6 +8,7 @@ class AvailableStockController extends GetxController {
   RxBool isGetStockLoading = true.obs;
   RxString deletingId = ''.obs;
   RxBool isRefreshing = false.obs;
+  RxDouble ceilValueForRefresh = 0.0.obs;
 
   RxList<get_available_stock.Data> productDataList = RxList<get_available_stock.Data>();
   RxList<String> productList = RxList();
