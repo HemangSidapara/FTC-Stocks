@@ -94,4 +94,9 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.orderDate: 'आर्डर की तारीख: ',
   AppStrings.orderTime: 'आर्डर की समय: ',
   AppStrings.quantityAndWeight: 'मात्रा और वजन',
+  AppStrings.partyName: 'पार्टी का नाम',
+  AppStrings.enterPartyName: 'पार्टी का नाम दर्ज करें',
+  AppStrings.pleaseEnterPartyName: 'कृपया पार्टी का नाम दर्ज करें।',
+  AppStrings.productName: 'प्रोडक्ट का नाम: ',
+  AppStrings.stockNotAvailable: 'स्टॉक उपलब्ध नहीं है।',
 };

@@ -93,4 +93,9 @@ class AppStrings {
   static const String orderDate = 'Order Date: ';
   static const String orderTime = 'Order Time: ';
   static const String quantityAndWeight = 'Quantity & Weight';
+  static const String partyName = 'Party Name';
+  static const String enterPartyName = 'Enter party name';
+  static const String pleaseEnterPartyName = 'Please enter party name.';
+  static const String productName = 'Product Name: ';
+  static const String stockNotAvailable = 'Stock Not Available';
 }

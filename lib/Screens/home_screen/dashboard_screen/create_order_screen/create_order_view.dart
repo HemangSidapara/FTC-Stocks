@@ -91,6 +91,17 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            ///Party Name
+                            TextFieldWidget(
+                              controller: createOrderController.partyNameController,
+                              title: AppStrings.partyName,
+                              hintText: AppStrings.enterPartyName,
+                              validator: createOrderController.validatePartyName,
+                              textInputAction: TextInputAction.next,
+                              maxLength: 30,
+                            ),
+                            SizedBox(height: 1.h),
+
                             ///Product
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,6 +365,11 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w600,
+                                  ),
+                                  errorStyle: TextStyle(
+                                    color: AppColors.ERROR_COLOR,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -1028,8 +1044,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               child: TextFieldWidget(
                 controller: orderQuantityController,
                 hintText: AppStrings.enterQuantity.tr,
-                keyboardType: TextInputType.number,
+                keyboardType: const TextInputType.numberWithOptions(),
                 validator: (value) => createOrderController.validateQuantity(value, orderQuantityController),
+                textInputAction: TextInputAction.next,
                 onChanged: (value) {
                   createOrderController.calculateWeightByQuantity(
                     value,
@@ -1048,6 +1065,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                 hintText: AppStrings.enterWeight,
                 keyboardType: TextInputType.number,
                 validator: (value) => createOrderController.validateWeight(value),
+                textInputAction: TextInputAction.next,
                 onChanged: (value) {
                   createOrderController.calculateQuantityByWeight(
                     value,

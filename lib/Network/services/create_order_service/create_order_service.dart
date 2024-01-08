@@ -32,10 +32,12 @@ class CreateOrderService {
 
   ///Create Order Service
   Future<ResponseModel> createOrdersService({
+    required String partyName,
     required String modelId,
     required List<Map<String, String>> orderData,
   }) async {
     final params = {
+      ApiKeys.partyName: partyName,
       ApiKeys.modelID: modelId,
       ApiKeys.meta: orderData,
     };

@@ -169,7 +169,7 @@ class AddStockController extends GetxController {
 
   void calculateQuantityByWeight(String value, TextEditingController quantityController, TextEditingController weightController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
     if (value.isNotEmpty) {
-      quantityController.text = ((weightController.text.toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.toDouble()).toString();
+      quantityController.text = ((weightController.text.toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.toDouble()).roundToDouble().toString();
     } else {
       quantityController.clear();
     }

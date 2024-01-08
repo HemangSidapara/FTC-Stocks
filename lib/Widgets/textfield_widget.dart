@@ -83,6 +83,7 @@ class TextFieldWidget extends StatelessWidget {
           onSaved: onSaved,
           onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
+            counter: const SizedBox(),
             counterStyle: TextStyle(color: AppColors.PRIMARY_COLOR),
             filled: true,
             enabled: true,

@@ -94,4 +94,9 @@ Map<String, String> guIN = <String, String>{
   AppStrings.orderDate: 'ઓર્ડર તારીખ: ',
   AppStrings.orderTime: 'ઓર્ડર સમય: ',
   AppStrings.quantityAndWeight: 'જથ્થો અને વજન',
+  AppStrings.partyName: 'પાર્ટીનું નામ',
+  AppStrings.enterPartyName: 'પાર્ટીનું નામ દાખલ કરો',
+  AppStrings.pleaseEnterPartyName: 'કૃપા કરીને પાર્ટીનું નામ દાખલ કરો.',
+  AppStrings.productName: 'ઉત્પાદન નામ: ',
+  AppStrings.stockNotAvailable: 'સ્ટોક ઉપલબ્ધ નથી',
 };

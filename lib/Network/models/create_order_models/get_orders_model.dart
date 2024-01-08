@@ -69,12 +69,14 @@ class Data {
     String? orderId,
     String? name,
     String? category,
+    String? partyName,
     String? datetime,
     List<ModelMeta>? modelMeta,
   }) {
     _orderId = orderId;
     _name = name;
     _category = category;
+    _partyName = partyName;
     _datetime = datetime;
     _modelMeta = modelMeta;
   }
@@ -83,6 +85,7 @@ class Data {
     _orderId = json['order_id'];
     _name = json['name'];
     _category = json['category'];
+    _partyName = json['party_name'];
     _datetime = json['datetime'];
     if (json['model_meta'] != null) {
       _modelMeta = [];
@@ -94,12 +97,14 @@ class Data {
   String? _orderId;
   String? _name;
   String? _category;
+  String? _partyName;
   String? _datetime;
   List<ModelMeta>? _modelMeta;
   Data copyWith({
     String? orderId,
     String? name,
     String? category,
+    String? partyName,
     String? datetime,
     List<ModelMeta>? modelMeta,
   }) =>
@@ -107,12 +112,14 @@ class Data {
         orderId: orderId ?? _orderId,
         name: name ?? _name,
         category: category ?? _category,
+        partyName: partyName ?? _partyName,
         datetime: datetime ?? _datetime,
         modelMeta: modelMeta ?? _modelMeta,
       );
   String? get orderId => _orderId;
   String? get name => _name;
   String? get category => _category;
+  String? get partyName => _partyName;
   String? get datetime => _datetime;
   List<ModelMeta>? get modelMeta => _modelMeta;
 
@@ -121,6 +128,7 @@ class Data {
     map['order_id'] = _orderId;
     map['name'] = _name;
     map['category'] = _category;
+    map['party_name'] = _partyName;
     map['datetime'] = _datetime;
     if (_modelMeta != null) {
       map['model_meta'] = _modelMeta?.map((v) => v.toJson()).toList();

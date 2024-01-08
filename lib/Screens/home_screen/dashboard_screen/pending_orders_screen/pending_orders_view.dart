@@ -108,24 +108,12 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
                               ),
-                              Text.rich(
-                                TextSpan(
-                                  text: pendingOrdersController.orderList[index],
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: ' ( ${pendingOrdersController.ordersDataList[index].category?.tr} )',
-                                      style: TextStyle(
-                                        color: AppColors.ORANGE_COLOR,
-                                        fontSize: 10.5.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
+                              Text(
+                                pendingOrdersController.ordersDataList[index].partyName ?? '',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.PRIMARY_COLOR,
                                 ),
                               ),
                             ],
@@ -213,6 +201,46 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                       ),
                       childrenPadding: EdgeInsets.only(bottom: 2.h),
                       children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w),
+                          child: Divider(
+                            color: AppColors.PRIMARY_COLOR,
+                            thickness: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text.rich(
+                              TextSpan(
+                                  text: AppStrings.productName.tr,
+                                  style: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: pendingOrdersController.orderList[index],
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' ( ${pendingOrdersController.ordersDataList[index].category?.tr} )',
+                                      style: TextStyle(
+                                        color: AppColors.ORANGE_COLOR,
+                                        fontSize: 10.5.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 3.w),
                           child: Divider(

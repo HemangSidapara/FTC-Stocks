@@ -94,4 +94,9 @@ Map<String, String> enIN = <String, String>{
   AppStrings.orderDate: 'Order Date: ',
   AppStrings.orderTime: 'Order Time: ',
   AppStrings.quantityAndWeight: 'Quantity & Weight',
+  AppStrings.partyName: 'Party Name',
+  AppStrings.enterPartyName: 'Enter party name',
+  AppStrings.pleaseEnterPartyName: 'Please enter party name.',
+  AppStrings.productName: 'Product Name: ',
+  AppStrings.stockNotAvailable: 'Stock Not Available',
 };

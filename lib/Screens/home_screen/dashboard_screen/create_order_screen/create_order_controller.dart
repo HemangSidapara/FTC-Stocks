@@ -14,6 +14,7 @@ class CreateOrderController extends GetxController {
 
   GlobalKey<FormState> createOrderFormKey = GlobalKey<FormState>();
 
+  TextEditingController partyNameController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
 
   RxList<get_stock.Data> productDataList = RxList<get_stock.Data>();
@@ -98,6 +99,13 @@ class CreateOrderController extends GetxController {
     await getStockApiCall();
   }
 
+  String? validatePartyName(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.pleaseEnterPartyName.tr;
+    }
+    return null;
+  }
+
   String? validateProduct(String? value) {
     if (value == null || value.isEmpty) {
       return AppStrings.pleaseSelectProduct.tr;
@@ -145,7 +153,7 @@ class CreateOrderController extends GetxController {
   void calculateQuantityByWeight(String value, TextEditingController quantityController, TextEditingController weightController, TextEditingController weightOfPieceController, RxInt unitOfWeight) {
     if (weightOfPieceController.text.trim().isNotEmpty) {
       if (value.isNotEmpty) {
-        quantityController.text = ((weightController.text.trim().toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.trim().toDouble()).toString();
+        quantityController.text = ((weightController.text.trim().toDouble() * (unitOfWeight.value == 0 ? 1000 : 1)) / weightOfPieceController.text.trim().toDouble()).roundToDouble().toString();
       } else {
         quantityController.clear();
       }
@@ -243,6 +251,7 @@ class CreateOrderController extends GetxController {
           }
 
           final response = await CreateOrderService().createOrdersService(
+            partyName: partyNameController.text.trim(),
             modelId: productDataList[selectedProduct.value].modelId ?? '',
             orderData: orderData,
           );
