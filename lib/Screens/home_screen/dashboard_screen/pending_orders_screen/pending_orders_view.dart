@@ -34,7 +34,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                 titleIcon: AppAssets.pendingOrderIcon,
                 onBackPressed: () {
                   if (Get.keys[0]?.currentState?.canPop() == true) {
-                    Get.back(id: 0);
+                    Get.back(id: 0, closeOverlays: true);
                   }
                 },
               ),

@@ -35,7 +35,7 @@ class _AvailableStockViewState extends State<AvailableStockView> {
                 titleIcon: AppAssets.totalStockIcon,
                 onBackPressed: () {
                   if (Get.keys[0]?.currentState?.canPop() == true) {
-                    Get.back(id: 0);
+                    Get.back(id: 0, closeOverlays: true);
                   }
                 },
               ),

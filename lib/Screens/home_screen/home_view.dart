@@ -5,6 +5,7 @@ import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:ftc_stocks/Widgets/exit_app_dialog_widget.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
@@ -44,10 +45,10 @@ class _HomeViewState extends State<HomeView> {
               Get.find<AddNewProductController>().selectedCategory.value = -1;
             });
           }
-          if (controller.bottomIndex.value == 0) {
-            SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-          } else {
+          if (controller.bottomIndex.value != 0) {
             controller.onBottomItemChange(index: 0);
+          } else if (Get.keys[0]?.currentState?.canPop() != true) {
+            showExitAppDialog(context: context);
           }
         }
       },

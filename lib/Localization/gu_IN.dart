@@ -99,4 +99,10 @@ Map<String, String> guIN = <String, String>{
   AppStrings.pleaseEnterPartyName: 'કૃપા કરીને પાર્ટીનું નામ દાખલ કરો.',
   AppStrings.productName: 'ઉત્પાદન નામ: ',
   AppStrings.stockNotAvailable: 'સ્ટોક ઉપલબ્ધ નથી',
+  AppStrings.requiredStock: 'જરૂરી સ્ટોક',
+  AppStrings.totalStockInHouse: 'ઘરમાં કુલ સ્ટોક',
+  AppStrings.inProgressStock: 'પ્રોગ્રેસ સ્ટોકમાં',
+  AppStrings.areYouSureYouWantToExitTheApp: "શું તમે ખરેખર એપ્લિકેશનમાંથી બહાર નીકળવા માંગો છો?",
+  AppStrings.no: "ના",
+  AppStrings.yesExit: "હા, બહાર નીકળો",
 };

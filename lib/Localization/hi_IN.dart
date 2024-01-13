@@ -99,4 +99,10 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.pleaseEnterPartyName: 'कृपया पार्टी का नाम दर्ज करें।',
   AppStrings.productName: 'प्रोडक्ट का नाम: ',
   AppStrings.stockNotAvailable: 'स्टॉक उपलब्ध नहीं है।',
+  AppStrings.requiredStock: 'आवश्यक स्टॉक',
+  AppStrings.totalStockInHouse: 'घर में कुल स्टॉक',
+  AppStrings.inProgressStock: 'प्रगति स्टॉक में',
+  AppStrings.areYouSureYouWantToExitTheApp: "क्या आप वाकई ऐप से बाहर निकलना चाहते हैं?",
+  AppStrings.no: "नहीं",
+  AppStrings.yesExit: "हाँ, बाहर निकलें",
 };

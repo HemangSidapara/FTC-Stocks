@@ -9,6 +9,7 @@ class ButtonWidget extends StatelessWidget {
   final Size? fixedSize;
   final OutlinedBorder? shape;
   final bool isLoading;
+  final Color? buttonColor;
 
   const ButtonWidget({
     super.key,
@@ -18,6 +19,7 @@ class ButtonWidget extends StatelessWidget {
     this.fixedSize,
     this.shape,
     this.isLoading = false,
+    this.buttonColor,
   });
 
   @override
@@ -25,7 +27,7 @@ class ButtonWidget extends StatelessWidget {
     return ElevatedButton(
       onPressed: isLoading ? () {} : onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.PRIMARY_COLOR,
+        backgroundColor: buttonColor ?? AppColors.PRIMARY_COLOR,
         surfaceTintColor: isLoading ? AppColors.PRIMARY_COLOR : null,
         elevation: 4,
         shadowColor: AppColors.WHITE_COLOR.withOpacity(0.7),

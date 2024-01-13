@@ -99,4 +99,10 @@ Map<String, String> enIN = <String, String>{
   AppStrings.pleaseEnterPartyName: 'Please enter party name.',
   AppStrings.productName: 'Product Name: ',
   AppStrings.stockNotAvailable: 'Stock Not Available',
+  AppStrings.requiredStock: 'Required Stock',
+  AppStrings.totalStockInHouse: 'Total Stock in House',
+  AppStrings.inProgressStock: 'In Progress Stock',
+  AppStrings.areYouSureYouWantToExitTheApp: "Are you sure you want to exit the app?",
+  AppStrings.no: "No",
+  AppStrings.yesExit: "Yes, exit",
 };

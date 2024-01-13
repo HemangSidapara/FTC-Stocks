@@ -10,8 +10,14 @@ import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_scr
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/in_progress_stock_screen/in_progress_stock_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/in_progress_stock_screen/in_progress_stock_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/required_stock_screen/required_stock_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/required_stock_screen/required_stock_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/total_stock_in_house_screen/total_stock_in_house_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/total_stock_in_house_screen/total_stock_in_house_view.dart';
 import 'package:get/get.dart';
 
 class DashboardNavigator extends StatelessWidget {
@@ -76,6 +82,42 @@ class DashboardNavigator extends StatelessWidget {
               routeName: Routes.challanScreen,
               page: () => const ChallanView(),
               binding: ChallanBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.requiredStockScreen:
+            return GetPageRoute(
+              routeName: Routes.requiredStockScreen,
+              page: () => const RequiredStockView(),
+              binding: RequiredStockBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.totalStockInHouseScreen:
+            return GetPageRoute(
+              routeName: Routes.totalStockInHouseScreen,
+              page: () => const TotalStockInHouseView(),
+              binding: TotalStockInHouseBinding(),
+              transition: Transition.rightToLeftWithFade,
+              transitionDuration: transitionDuration,
+              settings: RouteSettings(
+                arguments: settings.arguments,
+              ),
+            );
+
+          case Routes.inProgressStockScreen:
+            return GetPageRoute(
+              routeName: Routes.inProgressStockScreen,
+              page: () => const InProgressStockView(),
+              binding: InProgressStockBinding(),
               transition: Transition.rightToLeftWithFade,
               transitionDuration: transitionDuration,
               settings: RouteSettings(

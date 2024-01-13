@@ -71,7 +71,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               titleIcon: AppAssets.createOrderImage,
               onBackPressed: () {
                 if (Get.keys[0]?.currentState?.canPop() == true) {
-                  Get.back(id: 0);
+                  Get.back(id: 0, closeOverlays: true);
                 }
               },
             ),

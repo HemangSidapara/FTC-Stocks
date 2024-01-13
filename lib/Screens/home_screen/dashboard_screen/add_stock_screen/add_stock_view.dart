@@ -86,7 +86,7 @@ class _AddStockViewState extends State<AddStockView> {
                 titleIcon: AppAssets.addStockIcon,
                 onBackPressed: () {
                   if (Get.keys[0]?.currentState?.canPop() == true) {
-                    Get.back(id: 0);
+                    Get.back(id: 0, closeOverlays: true);
                   }
                 },
               ),

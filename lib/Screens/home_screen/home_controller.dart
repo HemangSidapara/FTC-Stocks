@@ -45,10 +45,8 @@ class HomeController extends GetxController {
         Get.back(id: 3);
       }
     }
-    pageController.animateToPage(
+    pageController.jumpToPage(
       bottomIndex.value,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
     );
   }
 }

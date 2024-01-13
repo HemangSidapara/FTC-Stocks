@@ -26,7 +26,7 @@ class _ChallanViewState extends State<ChallanView> {
             titleIcon: AppAssets.challanIcon,
             onBackPressed: () {
               if (Get.keys[0]?.currentState?.canPop() == true) {
-                Get.back(id: 0);
+                Get.back(id: 0, closeOverlays: true);
               }
             },
           ),

@@ -21,7 +21,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w).copyWith(bottom: 3.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,123 +36,179 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
           SizedBox(height: 5.h),
 
           ///Create Order
-          ElevatedButton(
-            onPressed: () async {
-              Get.toNamed(Routes.createOrderScreen, id: 0);
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.zero,
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.LIGHT_SECONDARY_COLOR,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 65.w,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          AppAssets.createOrderImage,
-                          width: 20.w,
-                        ),
-                        SizedBox(width: 3.w),
-                        Text(
-                          AppStrings.createOrder.tr,
-                          style: TextStyle(
-                            color: AppColors.PRIMARY_COLOR,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Get.toNamed(Routes.createOrderScreen, id: 0);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.LIGHT_SECONDARY_COLOR,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 65.w,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  AppAssets.createOrderImage,
+                                  width: 20.w,
+                                ),
+                                SizedBox(width: 3.w),
+                                Text(
+                                  AppStrings.createOrder.tr,
+                                  style: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Image.asset(
+                            AppAssets.frontIcon,
+                            width: 9.w,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Image.asset(
-                    AppAssets.frontIcon,
-                    width: 9.w,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 2.h),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(height: 2.h),
+                ),
 
-          ///Add stocks, Total stocks, Minimum stocks and Challan
-          Flexible(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 2.h,
-                childAspectRatio: 1.5,
-                crossAxisSpacing: 2.h,
-              ),
-              physics: const ClampingScrollPhysics(),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                  onPressed: () {
-                    if (index == 0) {
-                      Get.toNamed(Routes.addStockScreen, id: 0);
-                    } else if (index == 1) {
-                      Get.toNamed(Routes.availableStockScreen, id: 0);
-                    } else if (index == 2) {
-                      Get.toNamed(Routes.pendingOrdersScreen, id: 0);
-                    } else if (index == 3) {
-                      Get.toNamed(Routes.challanScreen, id: 0);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                ///Add stocks, Total stocks, Minimum stocks and Challan
+                SliverPadding(
+                  padding: EdgeInsets.only(bottom: 2.h),
+                  sliver: SliverGrid.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 2.h,
+                      childAspectRatio: 1.5,
+                      crossAxisSpacing: 2.h,
                     ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.LIGHT_SECONDARY_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h).copyWith(bottom: 0.5.h, right: 2.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              dashboardController.contentList[index].tr,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                color: AppColors.PRIMARY_COLOR,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.sp,
+                    itemCount: dashboardController.contentList.length,
+                    itemBuilder: (context, index) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(dashboardController.contentRouteList[index], id: 0);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.LIGHT_SECONDARY_COLOR,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h).copyWith(bottom: 0.5.h, right: 2.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    dashboardController.contentList[index].tr,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Image.asset(
+                                    dashboardController.contentIconList[index],
+                                    width: 14.w,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Image.asset(
-                              dashboardController.contentIconList[index],
-                              width: 14.w,
+                      );
+                    },
+                  ),
+                ),
+
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Get.toNamed(Routes.inProgressStockScreen, id: 0);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.LIGHT_SECONDARY_COLOR,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 65.w,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  AppAssets.inProgressStockIcon,
+                                  width: 15.w,
+                                ),
+                                SizedBox(width: 3.w),
+                                Text(
+                                  AppStrings.inProgressStock.tr,
+                                  style: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          Image.asset(
+                            AppAssets.frontIcon,
+                            width: 9.w,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                );
-              },
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(height: 2.h),
+                ),
+              ],
             ),
           ),
         ],

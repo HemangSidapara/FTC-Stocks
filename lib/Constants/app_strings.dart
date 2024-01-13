@@ -98,4 +98,10 @@ class AppStrings {
   static const String pleaseEnterPartyName = 'Please enter party name.';
   static const String productName = 'Product Name: ';
   static const String stockNotAvailable = 'Stock Not Available';
+  static const String requiredStock = 'Required Stock';
+  static const String totalStockInHouse = 'Total Stock in House';
+  static const String inProgressStock = 'In Progress Stock';
+  static const String areYouSureYouWantToExitTheApp = 'Are you sure you want to exit the app?';
+  static const String no = 'No';
+  static const String yesExit = 'Yes, exit';
 }
