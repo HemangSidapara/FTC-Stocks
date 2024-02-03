@@ -12,7 +12,7 @@ class CreateOrderService {
       '${ApiUrls.getOrdersApi}&status=${isPending ? 0 : 1}',
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -23,7 +23,7 @@ class CreateOrderService {
           if (kDebugMode) {
             print("getOrdersApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );
@@ -47,7 +47,7 @@ class CreateOrderService {
       showProgress: false,
       params: params,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -58,7 +58,7 @@ class CreateOrderService {
           if (kDebugMode) {
             print("createOrderApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );
@@ -76,7 +76,7 @@ class CreateOrderService {
       showProgress: false,
       params: params,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -87,7 +87,7 @@ class CreateOrderService {
           if (kDebugMode) {
             print("cancelOrderApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );
@@ -105,7 +105,7 @@ class CreateOrderService {
       showProgress: false,
       params: params,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -116,7 +116,7 @@ class CreateOrderService {
           if (kDebugMode) {
             print("completeOrderApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );

@@ -1102,7 +1102,7 @@ class _AddStockViewState extends State<AddStockView> {
           GestureDetector(
             onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
                 ? () {
-                    Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                    Utils.handleMessage(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
                   }
                 : null,
             child: Row(
@@ -1374,7 +1374,7 @@ class _AddStockViewState extends State<AddStockView> {
           GestureDetector(
             onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
                 ? () {
-                    Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                    Utils.handleMessage(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
                   }
                 : null,
             child: Row(

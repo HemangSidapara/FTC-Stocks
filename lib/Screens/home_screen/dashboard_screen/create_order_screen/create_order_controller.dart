@@ -258,13 +258,13 @@ class CreateOrderController extends GetxController {
 
           if (response.isSuccess) {
             Get.back(id: 0);
-            Utils.validationCheck(message: response.message);
+            Utils.handleMessage(message: response.message);
           }
         } finally {
           isAddOrderLoading(false);
         }
       } else {
-        Utils.validationCheck(message: AppStrings.pleaseSelectAnySizeForTheOrder.tr, isError: true);
+        Utils.handleMessage(message: AppStrings.pleaseSelectAnySizeForTheOrder.tr, isError: true);
       }
     }
   }

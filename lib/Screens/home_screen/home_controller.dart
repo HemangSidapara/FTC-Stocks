@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ftc_stocks/Constants/app_constance.dart';
+import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/add_new_product_navigator.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/dashboard_navigator.dart';
 import 'package:ftc_stocks/Routes/nasted_navigator/orders_history_navigator.dart';
@@ -13,8 +15,8 @@ class HomeController extends GetxController {
 
   List<Widget> bottomItemWidgetList = [
     const DashboardNavigator(),
-    const AddNewProductNavigator(),
-    const OrdersHistoryNavigator(),
+    if (getData(AppConstance.role) == 'Admin') const AddNewProductNavigator(),
+    if (getData(AppConstance.role) == 'Admin') const OrdersHistoryNavigator(),
     const SettingsNavigator(),
   ];
 

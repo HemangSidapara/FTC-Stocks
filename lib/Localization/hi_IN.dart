@@ -105,4 +105,6 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.areYouSureYouWantToExitTheApp: "क्या आप वाकई ऐप से बाहर निकलना चाहते हैं?",
   AppStrings.no: "नहीं",
   AppStrings.yesExit: "हाँ, बाहर निकलें",
+  AppStrings.somethingWentWrong: "कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें।",
+  AppStrings.searchPendingOrders: "कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें।",
 };

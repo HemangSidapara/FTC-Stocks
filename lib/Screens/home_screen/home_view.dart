@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_constance.dart';
+import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
@@ -65,8 +67,8 @@ class _HomeViewState extends State<HomeView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AssetImages(index: 0, iconName: AppAssets.homeIcon),
-                AssetImages(index: 1, iconName: AppAssets.addNewProductIcon),
-                AssetImages(index: 2, iconName: AppAssets.ordersHistoryIcon),
+                if (getData(AppConstance.role) == 'Admin') AssetImages(index: 1, iconName: AppAssets.addNewProductIcon),
+                if (getData(AppConstance.role) == 'Admin') AssetImages(index: 2, iconName: AppAssets.ordersHistoryIcon),
                 AssetImages(index: 3, iconName: AppAssets.settingsIcon),
               ],
             ),

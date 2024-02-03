@@ -12,7 +12,7 @@ class AddStockService {
       ApiUrls.getStockApi,
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -23,7 +23,7 @@ class AddStockService {
           if (kDebugMode) {
             print("getStockApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );
@@ -45,7 +45,7 @@ class AddStockService {
       ApiUrls.addStockApi,
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -56,7 +56,7 @@ class AddStockService {
           if (kDebugMode) {
             print("addStockApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
       params: params,
@@ -75,7 +75,7 @@ class AddStockService {
       ApiUrls.deleteStockApi,
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -86,7 +86,7 @@ class AddStockService {
           if (kDebugMode) {
             print("deleteStockApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
       params: params,

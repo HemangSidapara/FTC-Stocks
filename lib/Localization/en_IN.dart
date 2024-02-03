@@ -105,4 +105,6 @@ Map<String, String> enIN = <String, String>{
   AppStrings.areYouSureYouWantToExitTheApp: "Are you sure you want to exit the app?",
   AppStrings.no: "No",
   AppStrings.yesExit: "Yes, exit",
+  AppStrings.somethingWentWrong: "Something went wrong, Please try again later.",
+  AppStrings.searchPendingOrders: "Search pending orders",
 };

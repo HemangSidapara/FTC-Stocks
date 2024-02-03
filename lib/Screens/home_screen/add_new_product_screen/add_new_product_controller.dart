@@ -216,7 +216,7 @@ class AddNewProductController extends GetxController {
           resetSizeControllers();
           customProductSizeTagsController.clearTags();
           isAddedCustomSize(false);
-          Utils.validationCheck(message: response.message);
+          Utils.handleMessage(message: response.message);
         }
       } finally {
         isAddProductLoading(false);

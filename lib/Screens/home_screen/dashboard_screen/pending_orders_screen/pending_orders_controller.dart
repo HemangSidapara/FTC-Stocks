@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/create_order_models/get_orders_model.dart' as get_orders;
 import 'package:ftc_stocks/Network/services/create_order_service/create_order_service.dart';
@@ -8,8 +9,11 @@ class PendingOrdersController extends GetxController {
   RxBool isRefreshing = false.obs;
   RxDouble ceilValueForRefresh = 0.0.obs;
 
+  TextEditingController searchPendingOrdersController = TextEditingController();
   RxList<get_orders.Data> ordersDataList = RxList<get_orders.Data>();
+  RxList<get_orders.Data> searchedOrdersDataList = RxList<get_orders.Data>();
   RxList<String> orderList = RxList();
+  RxList<String> searchedOrderList = RxList();
   RxString doneId = ''.obs;
   RxString cancelId = ''.obs;
 
@@ -27,9 +31,13 @@ class PendingOrdersController extends GetxController {
       if (response.isSuccess) {
         get_orders.GetOrdersModel getOrdersModel = get_orders.getOrdersModelFromJson(response.response.toString());
         ordersDataList.clear();
+        searchedOrdersDataList.clear();
         orderList.clear();
+        searchedOrderList.clear();
         ordersDataList.addAll(getOrdersModel.data?.toList() ?? []);
+        searchedOrdersDataList.addAll(getOrdersModel.data?.toList() ?? []);
         orderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
+        searchedOrderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
     } finally {
       isRefreshing(false);
@@ -42,7 +50,7 @@ class PendingOrdersController extends GetxController {
 
     if (response.isSuccess) {
       await getOrdersApiCall(isLoading: false);
-      Utils.validationCheck(message: response.message);
+      Utils.handleMessage(message: response.message);
     }
   }
 
@@ -51,7 +59,7 @@ class PendingOrdersController extends GetxController {
 
     if (response.isSuccess) {
       await getOrdersApiCall(isLoading: false);
-      Utils.validationCheck(message: response.message);
+      Utils.handleMessage(message: response.message);
     }
   }
 }

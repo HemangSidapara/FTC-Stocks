@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_controller.dart';
 import 'package:ftc_stocks/Utils/app_sizer.dart';
@@ -35,63 +37,66 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
           ),
           SizedBox(height: 5.h),
 
-          ///Create Order
+          ///Features
           Expanded(
             child: CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      Get.toNamed(Routes.createOrderScreen, id: 0);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                ///Create Order
+                if (getData(AppConstance.role) == 'Admin') ...[
+                  SliverToBoxAdapter(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        Get.toNamed(Routes.createOrderScreen, id: 0);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.LIGHT_SECONDARY_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 65.w,
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  AppAssets.createOrderImage,
-                                  width: 20.w,
-                                ),
-                                SizedBox(width: 3.w),
-                                Text(
-                                  AppStrings.createOrder.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.LIGHT_SECONDARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 65.w,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    AppAssets.createOrderImage,
+                                    width: 20.w,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 3.w),
+                                  Text(
+                                    AppStrings.createOrder.tr,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Image.asset(
-                            AppAssets.frontIcon,
-                            width: 9.w,
-                          ),
-                        ],
+                            Image.asset(
+                              AppAssets.frontIcon,
+                              width: 9.w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(height: 2.h),
-                ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 2.h),
+                  ),
+                ],
 
                 ///Add stocks, Total stocks, Minimum stocks and Challan
                 SliverPadding(
@@ -155,56 +160,58 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                   ),
                 ),
 
-                SliverToBoxAdapter(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      Get.toNamed(Routes.inProgressStockScreen, id: 0);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                ///InProgress Stock
+                if (getData(AppConstance.role) == 'Admin')
+                  SliverToBoxAdapter(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        Get.toNamed(Routes.inProgressStockScreen, id: 0);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.LIGHT_SECONDARY_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 65.w,
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  AppAssets.inProgressStockIcon,
-                                  width: 15.w,
-                                ),
-                                SizedBox(width: 3.w),
-                                Text(
-                                  AppStrings.inProgressStock.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.LIGHT_SECONDARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 65.w,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    AppAssets.inProgressStockIcon,
+                                    width: 15.w,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 3.w),
+                                  Text(
+                                    AppStrings.inProgressStock.tr,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Image.asset(
-                            AppAssets.frontIcon,
-                            width: 9.w,
-                          ),
-                        ],
+                            Image.asset(
+                              AppAssets.frontIcon,
+                              width: 9.w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
                 SliverToBoxAdapter(
                   child: SizedBox(height: 2.h),
                 ),

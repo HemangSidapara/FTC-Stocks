@@ -25,21 +25,26 @@ class AuthService {
       ApiUrls.loginApi,
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
-        final loginModel = loginModelFromJson(jsonEncode(data.response!.data));
-        if (data.isSuccess && loginModel.code!.toInt() >= 200 && loginModel.code!.toInt() <= 299) {
-          setData(AppConstance.authorizationToken, loginModel.token);
-          if (kDebugMode) {
-            print("login success message :::: ${loginModel.msg}");
+        try {
+          final loginModel = loginModelFromJson(jsonEncode(data.response!.data));
+          if (data.isSuccess && loginModel.code!.toInt() >= 200 && loginModel.code!.toInt() <= 299) {
+            setData(AppConstance.authorizationToken, loginModel.token);
+            setData(AppConstance.role, loginModel.role);
+            if (kDebugMode) {
+              print("login success message :::: ${loginModel.msg}");
+            }
+            Utils.handleMessage(message: loginModel.msg?.tr);
+          } else {
+            if (kDebugMode) {
+              print("login error message :::: ${loginModel.msg}");
+            }
+            Utils.handleMessage(message: loginModel.msg?.tr, isError: true);
           }
-          Utils.validationCheck(message: loginModel.msg?.tr);
-        } else {
-          if (kDebugMode) {
-            print("login error message :::: ${loginModel.msg}");
-          }
-          Utils.validationCheck(message: loginModel.msg?.tr, isError: true);
+        } catch (e) {
+          Utils.handleMessage(message: 'Something went wrong, Please try again later.', isError: true);
         }
       },
       params: param,

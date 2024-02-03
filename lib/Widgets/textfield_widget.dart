@@ -21,6 +21,7 @@ class TextFieldWidget extends StatelessWidget {
   final BoxConstraints? prefixIconConstraints;
   final Widget? prefixIcon;
   final void Function(String value)? onFieldSubmitted;
+  final BoxConstraints? suffixIconConstraints;
 
   const TextFieldWidget({
     super.key,
@@ -42,6 +43,7 @@ class TextFieldWidget extends StatelessWidget {
     this.prefixIconConstraints,
     this.prefixIcon,
     this.onFieldSubmitted,
+    this.suffixIconConstraints,
   });
 
   @override
@@ -91,6 +93,7 @@ class TextFieldWidget extends StatelessWidget {
             prefixIcon: prefixIcon,
             fillColor: AppColors.WHITE_COLOR,
             hintText: hintText,
+            suffixIconConstraints: suffixIconConstraints,
             suffixIcon: suffixIcon,
             hintStyle: TextStyle(
               color: AppColors.PRIMARY_COLOR.withOpacity(0.5),

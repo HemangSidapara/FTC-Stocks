@@ -13,11 +13,13 @@ class LoginModel {
     String? code,
     String? msg,
     String? token,
+    String? role,
     List<Data>? data,
   }) {
     _code = code;
     _msg = msg;
     _token = token;
+    _role = role;
     _data = data;
   }
 
@@ -25,6 +27,7 @@ class LoginModel {
     _code = json['code'];
     _msg = json['msg'];
     _token = json['token'];
+    _role = json['role'];
     if (json['Data'] != null) {
       _data = [];
       json['Data'].forEach((v) {
@@ -35,22 +38,26 @@ class LoginModel {
   String? _code;
   String? _msg;
   String? _token;
+  String? _role;
   List<Data>? _data;
   LoginModel copyWith({
     String? code,
     String? msg,
     String? token,
+    String? role,
     List<Data>? data,
   }) =>
       LoginModel(
         code: code ?? _code,
         msg: msg ?? _msg,
         token: token ?? _token,
+        role: role ?? _role,
         data: data ?? _data,
       );
   String? get code => _code;
   String? get msg => _msg;
   String? get token => _token;
+  String? get role => _role;
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -58,6 +65,7 @@ class LoginModel {
     map['code'] = _code;
     map['msg'] = _msg;
     map['token'] = _token;
+    map['role'] = _role;
     if (_data != null) {
       map['Data'] = _data?.map((v) => v.toJson()).toList();
     }

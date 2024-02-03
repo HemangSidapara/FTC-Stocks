@@ -309,7 +309,7 @@ class AddStockController extends GetxController {
 
         if (response.isSuccess) {
           Get.back(id: 0);
-          Utils.validationCheck(message: response.message);
+          Utils.handleMessage(message: response.message);
         }
       } finally {
         isAddStockLoading(false);
@@ -324,7 +324,7 @@ class AddStockController extends GetxController {
 
       if (response.isSuccess) {
         dropdownKey.currentState?.closeDropDownSearch();
-        Utils.validationCheck(message: response.message);
+        Utils.handleMessage(message: response.message);
         await Future.delayed(
           const Duration(milliseconds: 500),
           () {

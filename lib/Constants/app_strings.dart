@@ -104,4 +104,6 @@ class AppStrings {
   static const String areYouSureYouWantToExitTheApp = 'Are you sure you want to exit the app?';
   static const String no = 'No';
   static const String yesExit = 'Yes, exit';
+  static const String somethingWentWrong = 'Something went wrong, Please try again later.';
+  static const String searchPendingOrders = 'Search pending orders';
 }

@@ -11,7 +11,7 @@ class AvailableStockService {
       ApiUrls.availableStockApi,
       showProgress: false,
       onError: (error) {
-        Utils.validationCheck(message: error.message);
+        Utils.handleMessage(message: error.message);
       },
       onSuccess: (data) {
         if (data.statusCode! >= 200 && data.statusCode! <= 299) {
@@ -22,7 +22,7 @@ class AvailableStockService {
           if (kDebugMode) {
             print("availableStockApi error message :::: ${data.response?.data['msg']}");
           }
-          Utils.validationCheck(message: data.response?.data['msg'], isError: true);
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }
       },
     );

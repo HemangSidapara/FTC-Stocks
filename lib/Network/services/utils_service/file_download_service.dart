@@ -76,21 +76,21 @@ class FileDownloadService extends GetxService {
           if (Get.isOverlaysOpen) {
             Get.back();
           }
-          Utils.validationCheck(message: AppStrings.fileIsSavedToDownloadFolder.tr);
+          Utils.handleMessage(message: AppStrings.fileIsSavedToDownloadFolder.tr);
         }
         return ResponseModel(response: response, statusCode: response.statusCode);
       } else {
         if (Get.isOverlaysOpen) {
           Get.back();
         }
-        Utils.validationCheck(message: 'Permission denied.', isError: true);
+        Utils.handleMessage(message: 'Permission denied.', isError: true);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (kDebugMode) {
         print('Error :: ${e.message}');
       }
       Get.back();
-      Utils.validationCheck(message: 'Something went wrong.', isError: true);
+      Utils.handleMessage(message: 'Something went wrong.', isError: true);
     }
     return null;
   }

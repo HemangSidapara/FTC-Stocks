@@ -105,4 +105,6 @@ Map<String, String> guIN = <String, String>{
   AppStrings.areYouSureYouWantToExitTheApp: "શું તમે ખરેખર એપ્લિકેશનમાંથી બહાર નીકળવા માંગો છો?",
   AppStrings.no: "ના",
   AppStrings.yesExit: "હા, બહાર નીકળો",
+  AppStrings.somethingWentWrong: "કંઈક ખોટું થયું. પછીથી ફરી પ્રયત્ન કરો.",
+  AppStrings.searchPendingOrders: "કંઈક ખોટું થયું. પછીથી ફરી પ્રયત્ન કરો.",
 };

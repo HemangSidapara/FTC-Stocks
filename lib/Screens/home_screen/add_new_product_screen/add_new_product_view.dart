@@ -689,7 +689,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
         GestureDetector(
           onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
               ? () {
-                  Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                  Utils.handleMessage(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
                 }
               : null,
           child: Row(
@@ -854,7 +854,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
         GestureDetector(
           onTap: weightOfPieceController.text.isEmpty || selectedUnitOfWeight.value == -1
               ? () {
-                  Utils.validationCheck(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
+                  Utils.handleMessage(message: AppStrings.firstEnterWeightOfSinglePieceAndUnitOfWeight.tr, isWarning: true);
                 }
               : null,
           child: Row(

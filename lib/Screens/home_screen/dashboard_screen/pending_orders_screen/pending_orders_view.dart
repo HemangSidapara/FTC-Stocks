@@ -7,6 +7,7 @@ import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
+import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 
 class PendingOrdersView extends StatefulWidget {
@@ -18,6 +19,14 @@ class PendingOrdersView extends StatefulWidget {
 
 class _PendingOrdersViewState extends State<PendingOrdersView> {
   PendingOrdersController pendingOrdersController = Get.find<PendingOrdersController>();
+
+  @override
+  void initState() {
+    super.initState();
+    pendingOrdersController.searchPendingOrdersController.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +87,43 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
           ),
           SizedBox(height: 2.h),
 
+          ///Search bar
+          TextFieldWidget(
+            controller: pendingOrdersController.searchPendingOrdersController,
+            hintText: AppStrings.searchPendingOrders.tr,
+            suffixIcon: pendingOrdersController.searchPendingOrdersController.text.isNotEmpty
+                ? InkWell(
+                    onTap: () async {
+                      pendingOrdersController.searchPendingOrdersController.clear();
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      await getSearchedOrderList(searchedValue: pendingOrdersController.searchPendingOrdersController.text);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: AppColors.SECONDARY_COLOR,
+                      size: context.isPortrait ? 4.w : 4.h,
+                    ),
+                  )
+                : null,
+            suffixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              color: AppColors.SECONDARY_COLOR,
+              size: context.isPortrait ? 4.w : 4.h,
+            ),
+            prefixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
+            onChanged: (value) async {
+              await getSearchedOrderList(searchedValue: value);
+            },
+          ),
+          SizedBox(height: 1.h),
+
+          ///Data
           Expanded(
             child: Obx(() {
               if (pendingOrdersController.isGetOrdersLoading.value) {
                 return const LoadingWidget();
-              } else if (pendingOrdersController.orderList.isEmpty) {
+              } else if (pendingOrdersController.searchedOrderList.isEmpty) {
                 return Center(
                   child: Text(
                     AppStrings.noDataFound.tr,
@@ -95,12 +136,13 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                 );
               } else {
                 return ListView.separated(
-                  itemCount: pendingOrdersController.orderList.length,
+                  itemCount: pendingOrdersController.searchedOrderList.length,
                   itemBuilder: (context, index) {
                     return ExpansionTile(
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          ///Party Name
                           Row(
                             children: [
                               Text(
@@ -112,7 +154,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                 ),
                               ),
                               Text(
-                                pendingOrdersController.ordersDataList[index].partyName ?? '',
+                                pendingOrdersController.searchedOrdersDataList[index].partyName ?? '',
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w700,
@@ -121,75 +163,39 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                               ),
                             ],
                           ),
-                          Obx(() {
-                            return Row(
-                              children: [
-                                ///Cancel
-                                TextButton(
-                                  onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
-                                      ? null
-                                      : () async {
-                                          pendingOrdersController.cancelId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
-                                          await pendingOrdersController.cancelOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
-                                          pendingOrdersController.cancelId.value = '';
-                                        },
-                                  style: TextButton.styleFrom(
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: pendingOrdersController.cancelId.value == pendingOrdersController.ordersDataList[index].orderId
-                                      ? Center(
-                                          child: SizedBox(
-                                            height: 4.w,
-                                            width: 4.w,
-                                            child: CircularProgressIndicator(
-                                              color: AppColors.PRIMARY_COLOR,
-                                              strokeWidth: 2,
-                                            ),
-                                          ),
-                                        )
-                                      : Text(
-                                          AppStrings.cancel.tr,
-                                          style: TextStyle(
-                                            color: AppColors.ERROR_COLOR,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 10.sp,
-                                          ),
-                                        ),
-                                ),
 
-                                ///Done
-                                TextButton(
-                                  onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
-                                      ? null
-                                      : () async {
-                                          pendingOrdersController.doneId.value = pendingOrdersController.ordersDataList[index].orderId ?? '';
-                                          await pendingOrdersController.completeOrderApiCall(orderId: pendingOrdersController.ordersDataList[index].orderId ?? '');
-                                          pendingOrdersController.doneId.value = '';
-                                        },
-                                  style: TextButton.styleFrom(
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: pendingOrdersController.doneId.value == pendingOrdersController.ordersDataList[index].orderId
-                                      ? Center(
-                                          child: SizedBox(
-                                            height: 4.w,
-                                            width: 4.w,
-                                            child: CircularProgressIndicator(
-                                              color: AppColors.PRIMARY_COLOR,
-                                              strokeWidth: 2,
-                                            ),
-                                          ),
-                                        )
-                                      : Text(
-                                          AppStrings.done.tr,
-                                          style: TextStyle(
-                                            color: AppColors.LIGHT_BLUE_COLOR,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 10.sp,
-                                          ),
+                          ///Cancel
+                          Obx(() {
+                            return TextButton(
+                              onPressed: pendingOrdersController.cancelId.value != '' || pendingOrdersController.doneId.value != ''
+                                  ? null
+                                  : () async {
+                                      pendingOrdersController.cancelId.value = pendingOrdersController.searchedOrdersDataList[index].orderId ?? '';
+                                      await pendingOrdersController.cancelOrderApiCall(orderId: pendingOrdersController.searchedOrdersDataList[index].orderId ?? '');
+                                      pendingOrdersController.cancelId.value = '';
+                                    },
+                              style: TextButton.styleFrom(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: pendingOrdersController.cancelId.value == pendingOrdersController.searchedOrdersDataList[index].orderId
+                                  ? Center(
+                                      child: SizedBox(
+                                        height: 4.w,
+                                        width: 4.w,
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.PRIMARY_COLOR,
+                                          strokeWidth: 2,
                                         ),
-                                ),
-                              ],
+                                      ),
+                                    )
+                                  : Text(
+                                      AppStrings.cancel.tr,
+                                      style: TextStyle(
+                                        color: AppColors.ERROR_COLOR,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
                             );
                           }),
                         ],
@@ -225,7 +231,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: pendingOrdersController.orderList[index],
+                                      text: pendingOrdersController.searchedOrderList[index],
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
                                         fontSize: 12.sp,
@@ -233,7 +239,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: ' ( ${pendingOrdersController.ordersDataList[index].category?.tr} )',
+                                      text: ' ( ${pendingOrdersController.searchedOrdersDataList[index].category?.tr} )',
                                       style: TextStyle(
                                         color: AppColors.ORANGE_COLOR,
                                         fontSize: 10.5.sp,
@@ -254,7 +260,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                         SizedBox(
                           height: 10.h,
                           child: ListView.separated(
-                            itemCount: pendingOrdersController.ordersDataList[index].modelMeta?.length ?? 0,
+                            itemCount: pendingOrdersController.searchedOrdersDataList[index].modelMeta?.length ?? 0,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, innerIndex) {
                               return Padding(
@@ -262,7 +268,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      '${AppStrings.size.tr} ${pendingOrdersController.ordersDataList[index].modelMeta?[innerIndex].size?.tr}',
+                                      '${AppStrings.size.tr} ${pendingOrdersController.searchedOrdersDataList[index].modelMeta?[innerIndex].size?.tr}',
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
                                         fontWeight: FontWeight.w500,
@@ -288,7 +294,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                         ),
                                         children: [
                                           TextSpan(
-                                            text: pendingOrdersController.ordersDataList[index].modelMeta?[innerIndex].piece ?? '0',
+                                            text: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[innerIndex].piece ?? '0',
                                             style: TextStyle(
                                               color: AppColors.DARK_GREEN_COLOR,
                                               fontWeight: FontWeight.w600,
@@ -304,7 +310,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                             ),
                                             children: [
                                               TextSpan(
-                                                text: pendingOrdersController.ordersDataList[index].modelMeta?[innerIndex].weight ?? '0 kg',
+                                                text: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[innerIndex].weight ?? '0 kg',
                                                 style: TextStyle(
                                                   color: AppColors.DARK_GREEN_COLOR,
                                                   fontWeight: FontWeight.w600,
@@ -341,5 +347,21 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
         ],
       ),
     );
+  }
+
+  Future<void> getSearchedOrderList({required String searchedValue}) async {
+    pendingOrdersController.searchedOrdersDataList.clear();
+    pendingOrdersController.searchedOrderList.clear();
+    if (searchedValue != "") {
+      pendingOrdersController.searchedOrdersDataList.addAll(pendingOrdersController.ordersDataList.where(
+        (e) {
+          return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
+        },
+      ).toList());
+      pendingOrdersController.searchedOrderList.addAll(pendingOrdersController.searchedOrdersDataList.map((e) => e.name ?? '').toList());
+    } else {
+      pendingOrdersController.searchedOrdersDataList.addAll(pendingOrdersController.ordersDataList);
+      pendingOrdersController.searchedOrderList.addAll(pendingOrdersController.orderList);
+    }
   }
 }

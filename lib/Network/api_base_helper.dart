@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ftc_stocks/Constants/api_urls.dart';
@@ -12,13 +11,14 @@ import 'ResponseModel.dart';
 class ApiBaseHelper {
   static const String baseUrl = ApiUrls.baseUrl;
   static bool showProgressDialog = true;
+  Stopwatch stopWatch = Stopwatch();
 
   static BaseOptions opts = BaseOptions(
     baseUrl: baseUrl,
     responseType: ResponseType.json,
-    connectTimeout: 45000,
-    receiveTimeout: 45000,
-    sendTimeout: 45000,
+    connectTimeout: const Duration(seconds: 45),
+    receiveTimeout: const Duration(seconds: 45),
+    sendTimeout: const Duration(seconds: 45),
   );
 
   static Dio createDio() {
@@ -56,10 +56,9 @@ class ApiBaseHelper {
               Logger.printLog(tag: 'SUCCESS CODE ${response.statusCode} : ', printLog: response.data.toString(), logIcon: Logger.success);
             }
 
-            /// change after upgrade
             return handler.next(response);
           },
-          onError: (DioError e, handler) async {
+          onError: (DioException e, handler) async {
             ProgressDialog.showProgressDialog(false);
             showProgressDialog = true;
 
@@ -92,13 +91,16 @@ class ApiBaseHelper {
   }) async {
     try {
       showProgressDialog = showProgress;
+      stopWatch.start();
       Response response = await baseAPI.post(
         url,
         data: params,
         onSendProgress: onSendProgress,
       );
+      stopWatch.stop();
+      Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       return handleResponse(response, onError!, onSuccess!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -112,12 +114,15 @@ class ApiBaseHelper {
   }) async {
     try {
       showProgressDialog = showProgress;
+      stopWatch.start();
       Response response = await baseAPI.delete(
         url,
         data: params,
       );
+      stopWatch.stop();
+      Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       return handleResponse(response, onError!, onSuccess!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -131,10 +136,12 @@ class ApiBaseHelper {
   }) async {
     try {
       showProgressDialog = showProgress;
+      stopWatch.start();
       Response response = await baseAPI.get(url, queryParameters: params);
-
+      stopWatch.stop();
+      Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       return handleResponse(response, onError!, onSuccess!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -148,9 +155,12 @@ class ApiBaseHelper {
   }) async {
     try {
       showProgressDialog = showProgress;
+      stopWatch.start();
       Response response = await baseAPI.put(url, data: data);
+      stopWatch.stop();
+      Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       return handleResponse(response, onError!, onSuccess!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -165,13 +175,16 @@ class ApiBaseHelper {
   }) async {
     try {
       showProgressDialog = showProgress;
+      stopWatch.start();
       Response response = await baseAPI.patch(
         url,
         data: params,
         onSendProgress: onSendProgress,
       );
+      stopWatch.stop();
+      Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
       return handleResponse(response, onError!, onSuccess!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -187,12 +200,12 @@ class ApiBaseHelper {
   }
 
   static handleError(
-    DioError e,
+    DioException e,
     Function(DioExceptions dioExceptions) onError,
     Function(ResponseModel res) onSuccess,
   ) {
     switch (e.type) {
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         var errorModel = ResponseModel(statusCode: e.response!.statusCode, response: e.response);
         onSuccess(errorModel);
         return ResponseModel(statusCode: e.response!.statusCode, response: e.response);
@@ -282,24 +295,24 @@ class ApiBaseHelper {
 class DioExceptions implements Exception {
   String? message;
 
-  DioExceptions.fromDioError(DioError? dioError) {
+  DioExceptions.fromDioError(DioException? dioError) {
     switch (dioError!.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         message = "Request to API server was cancelled";
         break;
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         message = "Connection timeout with API server";
         break;
-      case DioErrorType.other:
+      case DioExceptionType.unknown:
         message = "No internet connection";
         break;
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         message = "Receive timeout in connection with API server";
         break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         message = _handleResponseError(dioError.response!.statusCode!, dioError.response!.data);
         break;
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         message = "Send timeout in connection with API server";
         break;
       default:

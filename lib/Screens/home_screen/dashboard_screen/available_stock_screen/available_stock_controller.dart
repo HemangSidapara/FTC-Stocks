@@ -42,7 +42,7 @@ class AvailableStockController extends GetxController {
 
     if (response.isSuccess) {
       await getAvailableApiCall(isLoading: false);
-      Utils.validationCheck(message: response.message);
+      Utils.handleMessage(message: response.message);
     }
   }
 }

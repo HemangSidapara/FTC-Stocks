@@ -4,35 +4,8 @@ import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
 
 class Utils {
-  static void warningMessage(String message) {
-    if (!Get.isSnackbarOpen) {
-      Get.snackbar(
-        "Warning!",
-        message, /* backgroundColor: ThemeColors.colorWarningMessage, colorText: Colors.black*/
-      );
-    }
-  }
-
-  static void warningMessageWithTitle({String? title, String? message}) {
-    if (!Get.isSnackbarOpen) {
-      Get.snackbar(
-        title ?? "Warning!",
-        message!,
-      );
-    }
-  }
-
-  static void handleNetworkError(message) {
-    if (!Get.isSnackbarOpen) {
-      Get.snackbar(
-        "Error",
-        message,
-      );
-    }
-  }
-
   ///showSnackBar
-  static void validationCheck({
+  static void handleMessage({
     String? message,
     bool isError = false,
     bool isWarning = false,

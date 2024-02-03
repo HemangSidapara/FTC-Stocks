@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 /// NOTES : Refer utils class and extension functions for common resource uses
 
 class Logger {
@@ -7,16 +9,20 @@ class Logger {
   static var info = '💡️';
   static var warning = '🃏️  ';
   static var error = '💔️  ';
+  static var timer = '⏲️';
 
   static var logIcon = '✏️';
 
-  static void printLog({var tag = 'PayrollEzy', var printLog = '', var logIcon = 'ℹ️'}) {
-    if (true) {
+  static void printLog({var tag = 'PayrollEzy', var printLog = '', var logIcon = 'ℹ️', bool isTimer = false}) {
+    if (isTimer) {
+      Logger.logIcon = timer;
+      log('|------------------------------>${Logger.logIcon} Response Time: $printLog seconds ${Logger.logIcon}<------------------------------|');
+    } else if (true) {
       Logger.logIcon = logIcon;
       Logger.tag = tag;
-      print('|---------->${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data Start' : 'Response Data Start'} ${Logger.logIcon}<----------|');
-      print(tag + '\t : ' + printLog.toString());
-      print('|------------------------------>${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data End' : 'Response Data End'} ${Logger.logIcon}<------------------------------|');
+      log('|---------->${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data Start' : 'Response Data Start'} ${Logger.logIcon}<----------|');
+      log(tag + '\t : ' + printLog.toString());
+      log('|------------------------------>${Logger.logIcon} ${tag.contains('JSON METHOD') ? 'Request Data End' : 'Response Data End'} ${Logger.logIcon}<------------------------------|');
     }
   }
 }
