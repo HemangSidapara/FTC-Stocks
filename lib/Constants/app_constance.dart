@@ -6,4 +6,5 @@ class AppConstance {
   static const String languageCode = "languageCode";
   static const String languageCountryCode = "languageCountryCode";
   static const String role = "role";
+  static const String appVersion = 'v1.0.0';
 }

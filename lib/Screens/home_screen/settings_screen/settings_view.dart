@@ -5,11 +5,13 @@ import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
+import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Screens/home_screen/settings_screen/settings_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:ftc_stocks/Utils/in_app_update_dialog_widget.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -25,16 +27,62 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ///Header
-          CustomHeaderWidget(
-            title: AppStrings.settings.tr,
-            titleIcon: AppAssets.settingsAnim,
-            titleIconSize: 7.w,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomHeaderWidget(
+                title: AppStrings.settings.tr,
+                titleIcon: AppAssets.settingsAnim,
+                titleIconSize: 7.w,
+              ),
+              Obx(() {
+                return Row(
+                  children: [
+                    if (Get.find<HomeController>().isLatestVersionAvailable.isTrue) ...[
+                      IconButton(
+                        onPressed: () async {
+                          await showUpdateDialog(
+                            isUpdateLoading: settingsController.isUpdateLoading,
+                            downloadedProgress: settingsController.downloadedProgress,
+                            onUpdate: () async {
+                              await settingsController.downloadAndInstallService();
+                            },
+                          );
+                        },
+                        style: IconButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: EdgeInsets.zero,
+                          maximumSize: Size(6.w, 6.w),
+                          minimumSize: Size(6.w, 6.w),
+                        ),
+                        icon: Icon(
+                          Icons.arrow_circle_up_rounded,
+                          color: AppColors.DARK_GREEN_COLOR,
+                          size: 6.w,
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                    ],
+                    Obx(() {
+                      return Text(
+                        AppConstance.appVersion.replaceAll('1.0.0', settingsController.appVersion.value),
+                        style: TextStyle(
+                          color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                          fontWeight: FontWeight.w700,
+                          fontSize: context.isPortrait ? 16.sp : 12.sp,
+                        ),
+                      );
+                    }),
+                  ],
+                );
+              }),
+            ],
           ),
           SizedBox(height: 5.h),
 
@@ -46,7 +94,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
                 fontWeight: FontWeight.w600,
-                fontSize: 12.sp,
+                fontSize: 16.sp,
               ),
             ),
             collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR,
@@ -101,7 +149,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                               Text(
                                 AppStrings.gujarati.tr,
                                 style: TextStyle(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
@@ -139,7 +187,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                               Text(
                                 AppStrings.english.tr,
                                 style: TextStyle(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
@@ -177,7 +225,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                               Text(
                                 AppStrings.hindi.tr,
                                 style: TextStyle(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
@@ -202,6 +250,18 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
             },
             buttonTitle: AppStrings.logOut.tr,
             fixedSize: Size(double.maxFinite, 5.h),
+          ),
+          SizedBox(height: 2.h),
+
+          Center(
+            child: Text(
+              AppStrings.copyrightContext.replaceAll('2024', DateTime.now().year.toString()),
+              style: TextStyle(
+                color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                fontWeight: FontWeight.w700,
+                fontSize: context.isPortrait ? 14.sp : 10.sp,
+              ),
+            ),
           ),
         ],
       ),

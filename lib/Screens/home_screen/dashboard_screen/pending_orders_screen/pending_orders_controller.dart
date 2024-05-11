@@ -36,8 +36,8 @@ class PendingOrdersController extends GetxController {
         searchedOrderList.clear();
         ordersDataList.addAll(getOrdersModel.data?.toList() ?? []);
         searchedOrdersDataList.addAll(getOrdersModel.data?.toList() ?? []);
-        orderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
-        searchedOrderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
+        orderList.addAll(getOrdersModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
+        searchedOrderList.addAll(getOrdersModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
       }
     } finally {
       isRefreshing(false);

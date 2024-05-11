@@ -2,6 +2,7 @@ class AppAssets {
   ///Animation
   static const String loginAnim = "assets/animations/login_animation.gif";
   static const String settingsAnim = "assets/animations/settings.gif";
+  static const String updateAnim = "assets/animations/update_animation.gif";
 
   ///Images
   static const String loginImage = "assets/images/login_image.png";

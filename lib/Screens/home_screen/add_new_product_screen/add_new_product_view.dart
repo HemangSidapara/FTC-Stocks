@@ -5,7 +5,6 @@ import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -13,6 +12,7 @@ import 'package:ftc_stocks/Widgets/dropdown_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class AddNewProductView extends StatefulWidget {
@@ -27,8 +27,8 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
 
   @override
   Widget build(BuildContext context) {
-    final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
     super.build(context);
+    final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
     return Obx(() {
       return CustomScaffoldWidget(
         isPadded: true,
@@ -54,7 +54,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                 AppStrings.add.tr,
                 style: TextStyle(
                   color: AppColors.WHITE_COLOR,
-                  fontSize: 12.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -64,7 +64,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
         child: GestureDetector(
           onTap: () {
             if (addNewProductController.customProductSizeController.text.trim() != '') {
-              addNewProductController.customProductSizeTagsController.addTag = addNewProductController.customProductSizeController.text;
+              addNewProductController.customProductSizeTagsController.addTag(addNewProductController.customProductSizeController.text);
               addNewProductController.customProductSizeController.clear();
               addNewProductController.initCustomControllers();
             }
@@ -116,7 +116,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                         addNewProductController.categoryList[i].tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -131,7 +131,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ),
@@ -150,7 +150,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                   AppStrings.size.tr,
                                   style: TextStyle(
                                     color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -178,12 +178,12 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                     hintText: AppStrings.selectSize.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     errorStyle: TextStyle(
                                       color: AppColors.ERROR_COLOR,
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     border: OutlineInputBorder(
@@ -254,7 +254,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                         item.toString().tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 12.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -267,7 +267,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                       hintText: AppStrings.searchSize.tr,
                                       hintStyle: TextStyle(
                                         color: AppColors.HINT_GREY_COLOR,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
                                       enabledBorder: UnderlineInputBorder(
@@ -318,7 +318,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                         AppStrings.selectSize.tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -365,7 +365,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                                             style: TextStyle(
                                                               color: AppColors.WHITE_COLOR,
                                                               fontWeight: FontWeight.w600,
-                                                              fontSize: 10.sp,
+                                                              fontSize: 14.sp,
                                                             ),
                                                           ),
                                                         ),
@@ -408,105 +408,103 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                               TextFieldTags(
                                 textfieldTagsController: addNewProductController.customProductSizeTagsController,
                                 textEditingController: addNewProductController.customProductSizeController,
-                                inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) {
-                                  return (context, sc, tags, onDeleteTag) {
-                                    return TextFieldWidget(
-                                        controller: tec,
-                                        focusNode: fn,
-                                        hintText: addNewProductController.customProductSizeTagsController.hasTags ? '' : AppStrings.enterProductSize.tr,
-                                        onTap: () {
-                                          addNewProductController.customProductSizeController.clear();
-                                        },
-                                        prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
-                                        prefixIcon: tags.isNotEmpty
-                                            ? Padding(
-                                                padding: EdgeInsets.only(left: 3.w),
-                                                child: SingleChildScrollView(
-                                                  controller: sc,
-                                                  scrollDirection: Axis.vertical,
-                                                  child: Wrap(
-                                                    children: tags.map(
-                                                      (tag) {
-                                                        return Row(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                addNewProductController.deletingCustomControllers(tag: tag);
-                                                                onDeleteTag(tag);
-                                                                if (tags.length <= 1) {
-                                                                  addNewProductController.isAddedCustomSize(false);
-                                                                }
-                                                              },
-                                                              child: Stack(
-                                                                alignment: Alignment.centerLeft,
-                                                                children: [
-                                                                  Align(
-                                                                    alignment: Alignment.center,
-                                                                    child: Container(
-                                                                      padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(5),
-                                                                        color: AppColors.PRIMARY_COLOR,
-                                                                      ),
-                                                                      margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
-                                                                      child: Text(
-                                                                        tag,
-                                                                        textAlign: TextAlign.end,
-                                                                        style: TextStyle(
-                                                                          color: AppColors.WHITE_COLOR,
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 10.sp,
-                                                                        ),
+                                inputFieldBuilder: (context, textFieldTagValues) {
+                                  return TextFieldWidget(
+                                      controller: addNewProductController.customProductSizeTagsController.getTextEditingController,
+                                      focusNode: addNewProductController.customProductSizeTagsController.getFocusNode,
+                                      hintText: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true ? '' : AppStrings.enterProductSize.tr,
+                                      onTap: () {
+                                        addNewProductController.customProductSizeController.clear();
+                                      },
+                                      prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
+                                      prefixIcon: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true
+                                          ? Padding(
+                                              padding: EdgeInsets.only(left: 3.w),
+                                              child: SingleChildScrollView(
+                                                controller: addNewProductController.customProductSizeTagsController.getScrollController,
+                                                scrollDirection: Axis.vertical,
+                                                child: Wrap(
+                                                  children: addNewProductController.customProductSizeTagsController.getTags!.map(
+                                                    (tag) {
+                                                      return Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              addNewProductController.deletingCustomControllers(tag: tag);
+                                                              addNewProductController.customProductSizeTagsController.onTagRemoved(tag);
+                                                              if (addNewProductController.customProductSizeTagsController.getTags!.length <= 1) {
+                                                                addNewProductController.isAddedCustomSize(false);
+                                                              }
+                                                            },
+                                                            child: Stack(
+                                                              alignment: Alignment.centerLeft,
+                                                              children: [
+                                                                Align(
+                                                                  alignment: Alignment.center,
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(5),
+                                                                      color: AppColors.PRIMARY_COLOR,
+                                                                    ),
+                                                                    margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
+                                                                    child: Text(
+                                                                      tag,
+                                                                      textAlign: TextAlign.end,
+                                                                      style: TextStyle(
+                                                                        color: AppColors.WHITE_COLOR,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontSize: 14.sp,
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  Positioned(
-                                                                    top: 2.5,
-                                                                    right: 1.5.w,
+                                                                ),
+                                                                Positioned(
+                                                                  top: 2.5,
+                                                                  right: 1.5.w,
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      color: AppColors.WHITE_COLOR,
+                                                                      shape: BoxShape.circle,
+                                                                    ),
                                                                     child: Container(
                                                                       decoration: BoxDecoration(
-                                                                        color: AppColors.WHITE_COLOR,
+                                                                        color: AppColors.ERROR_COLOR.withOpacity(0.8),
                                                                         shape: BoxShape.circle,
                                                                       ),
-                                                                      child: Container(
-                                                                        decoration: BoxDecoration(
-                                                                          color: AppColors.ERROR_COLOR.withOpacity(0.8),
-                                                                          shape: BoxShape.circle,
-                                                                        ),
-                                                                        padding: const EdgeInsets.all(2),
-                                                                        child: Icon(
-                                                                          size: 2.w,
-                                                                          Icons.close,
-                                                                          color: AppColors.WHITE_COLOR,
-                                                                        ),
+                                                                      padding: const EdgeInsets.all(2),
+                                                                      child: Icon(
+                                                                        size: 2.w,
+                                                                        Icons.close,
+                                                                        color: AppColors.WHITE_COLOR,
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    ).toList(),
-                                                  ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ).toList(),
                                                 ),
-                                              )
-                                            : null,
-                                        onChanged: (value) {
-                                          if (value.isNotEmpty || (addNewProductController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
-                                            addNewProductController.isAddedCustomSize(true);
-                                          } else {
-                                            addNewProductController.isAddedCustomSize(false);
-                                          }
-                                        },
-                                        onFieldSubmitted: (value) {
-                                          addNewProductController.initCustomControllers();
-                                          onSubmitted?.call(value);
-                                        });
-                                  };
+                                              ),
+                                            )
+                                          : null,
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty || (addNewProductController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
+                                          addNewProductController.isAddedCustomSize(true);
+                                        } else {
+                                          addNewProductController.isAddedCustomSize(false);
+                                        }
+                                      },
+                                      onFieldSubmitted: (value) {
+                                        addNewProductController.initCustomControllers();
+                                        addNewProductController.customProductSizeTagsController.onTagSubmitted(value);
+                                      });
                                 },
                               ),
                               SizedBox(height: 2.h),
@@ -572,7 +570,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                 ),
 
                               ///Custom Size
-                              if (addNewProductController.isAddedCustomSize.isTrue && addNewProductController.customProductSizeTagsController.hasTags)
+                              if (addNewProductController.isAddedCustomSize.isTrue && addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true)
                                 for (int i = 0; i < (addNewProductController.customProductSizeTagsController.getTags?.length ?? 0); i++) ...[
                                   CustomSizeOfTheStock(
                                     title: addNewProductController.customProductSizeTagsController.getTags?[i] ?? '',
@@ -615,7 +613,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
             title.tr,
             style: TextStyle(
               color: AppColors.PRIMARY_COLOR,
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -653,7 +651,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.PRIMARY_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -669,7 +667,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                         style: TextStyle(
                           color: AppColors.PRIMARY_COLOR,
                           fontWeight: FontWeight.w500,
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),
@@ -761,7 +759,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
               text: '${AppStrings.size.tr} ',
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
               children: [
@@ -769,7 +767,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                   text: title.tr,
                   style: TextStyle(
                     color: AppColors.DARK_RED_COLOR,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -777,7 +775,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                   text: ' ${AppStrings.quantityAndWeight.tr}',
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -818,7 +816,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.PRIMARY_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -834,7 +832,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                         style: TextStyle(
                           color: AppColors.PRIMARY_COLOR,
                           fontWeight: FontWeight.w500,
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),

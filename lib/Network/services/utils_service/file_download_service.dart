@@ -8,10 +8,10 @@ import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/ResponseModel.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class FileDownloadService extends GetxService {
   final RxInt _downloadedPercentage = 0.obs;

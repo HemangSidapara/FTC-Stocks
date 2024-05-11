@@ -8,7 +8,6 @@ import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_controller.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -16,6 +15,7 @@ import 'package:ftc_stocks/Widgets/dropdown_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class AddStockView extends StatefulWidget {
@@ -60,7 +60,7 @@ class _AddStockViewState extends State<AddStockView> {
                       AppStrings.add.tr,
                       style: TextStyle(
                         color: AppColors.WHITE_COLOR,
-                        fontSize: 12.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -70,7 +70,7 @@ class _AddStockViewState extends State<AddStockView> {
         child: GestureDetector(
           onTap: () {
             if (addStockController.customProductSizeController.text.trim() != '') {
-              addStockController.customProductSizeTagsController.addTag = addStockController.customProductSizeController.text;
+              addStockController.customProductSizeTagsController.addTag(addStockController.customProductSizeController.text);
               addStockController.customProductSizeController.clear();
               addStockController.initCustomControllers();
             }
@@ -116,7 +116,7 @@ class _AddStockViewState extends State<AddStockView> {
                                       AppStrings.product.tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -130,18 +130,20 @@ class _AddStockViewState extends State<AddStockView> {
                                       addStockController.customProductSizeTagsController.clearTags();
                                       addStockController.resetCustomSizeControllers();
                                     },
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                    ),
                                     child: Text(
                                       AppStrings.reset.tr,
                                       style: TextStyle(
                                         color: AppColors.LIGHT_BLUE_COLOR,
                                         fontWeight: FontWeight.w900,
-                                        fontSize: 12.sp,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 0.5.h),
                               DropdownSearch<String>(
                                 key: addStockController.dropdownKey,
                                 asyncItems: (text) {
@@ -161,7 +163,7 @@ class _AddStockViewState extends State<AddStockView> {
                                   baseStyle: TextStyle(
                                     color: AppColors.PRIMARY_COLOR,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                   ),
                                   dropdownSearchDecoration: InputDecoration(
                                     filled: true,
@@ -170,12 +172,12 @@ class _AddStockViewState extends State<AddStockView> {
                                     hintText: AppStrings.selectProduct.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     errorStyle: TextStyle(
                                       color: AppColors.ERROR_COLOR,
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     border: OutlineInputBorder(
@@ -231,7 +233,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         AppStrings.noDataFound.tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -298,7 +300,7 @@ class _AddStockViewState extends State<AddStockView> {
                                               List<get_stock.ModelMeta?>? tempSizeData = addStockController.productDataList[addStockController.selectedProduct.value].modelMeta?.where((e) => !addStockController.sizeList.contains(e.size)).toList();
                                               if (tempSizeData?.isNotEmpty == true) {
                                                 tempSizeData?.forEach((element) {
-                                                  addStockController.customProductSizeTagsController.addTag = element?.size ?? '';
+                                                  addStockController.customProductSizeTagsController.addTag(element?.size ?? '');
                                                   addStockController.sizeCustomWeightOfPieceControllerList.add(TextEditingController(text: element?.weightOfPiece?.replaceAll(' gm', '').replaceAll(' kg', '').trim() ?? ''));
                                                   addStockController.selectedSizeCustomUnitOfWeightList.add(element?.weightOfPiece?.contains('gm') == true ? 0.obs : 1.obs);
                                                   addStockController.stockedSizeCustomQuantityControllerList.add(TextEditingController(text: element?.piece?.trim() ?? ''));
@@ -320,7 +322,7 @@ class _AddStockViewState extends State<AddStockView> {
                                               item.tr,
                                               style: TextStyle(
                                                 color: AppColors.PRIMARY_COLOR,
-                                                fontSize: 12.sp,
+                                                fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -376,7 +378,7 @@ class _AddStockViewState extends State<AddStockView> {
                                       hintText: AppStrings.searchProduct.tr,
                                       hintStyle: TextStyle(
                                         color: AppColors.HINT_GREY_COLOR,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
                                       enabledBorder: UnderlineInputBorder(
@@ -410,7 +412,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         addStockController.categoryList[i].tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -425,7 +427,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ),
@@ -444,12 +446,12 @@ class _AddStockViewState extends State<AddStockView> {
                                   AppStrings.size.tr,
                                   style: TextStyle(
                                     color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 0.6.h),
+                              SizedBox(height: 0.5.h),
                               DropdownSearch.multiSelection(
                                 dropdownButtonProps: DropdownButtonProps(
                                   constraints: BoxConstraints.loose(
@@ -472,12 +474,12 @@ class _AddStockViewState extends State<AddStockView> {
                                     hintText: AppStrings.selectSize.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     errorStyle: TextStyle(
                                       color: AppColors.ERROR_COLOR,
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     border: OutlineInputBorder(
@@ -548,7 +550,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         item.toString().tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 12.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -561,7 +563,7 @@ class _AddStockViewState extends State<AddStockView> {
                                       hintText: AppStrings.searchSize.tr,
                                       hintStyle: TextStyle(
                                         color: AppColors.HINT_GREY_COLOR,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
                                       enabledBorder: UnderlineInputBorder(
@@ -612,7 +614,7 @@ class _AddStockViewState extends State<AddStockView> {
                                         AppStrings.selectSize.tr,
                                         style: TextStyle(
                                           color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -659,7 +661,7 @@ class _AddStockViewState extends State<AddStockView> {
                                                             style: TextStyle(
                                                               color: AppColors.WHITE_COLOR,
                                                               fontWeight: FontWeight.w600,
-                                                              fontSize: 10.sp,
+                                                              fontSize: 14.sp,
                                                             ),
                                                           ),
                                                         ),
@@ -702,105 +704,103 @@ class _AddStockViewState extends State<AddStockView> {
                               TextFieldTags(
                                 textfieldTagsController: addStockController.customProductSizeTagsController,
                                 textEditingController: addStockController.customProductSizeController,
-                                inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) {
-                                  return (context, sc, tags, onDeleteTag) {
-                                    return TextFieldWidget(
-                                        controller: tec,
-                                        focusNode: fn,
-                                        hintText: addStockController.customProductSizeTagsController.hasTags ? '' : AppStrings.enterProductSize.tr,
-                                        onTap: () {
-                                          addStockController.customProductSizeController.clear();
-                                        },
-                                        prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
-                                        prefixIcon: tags.isNotEmpty
-                                            ? Padding(
-                                                padding: EdgeInsets.only(left: 3.w),
-                                                child: SingleChildScrollView(
-                                                  controller: sc,
-                                                  scrollDirection: Axis.vertical,
-                                                  child: Wrap(
-                                                    children: tags.map(
-                                                      (tag) {
-                                                        return Row(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                addStockController.deletingCustomControllers(tag: tag);
-                                                                onDeleteTag(tag);
-                                                                if (tags.length <= 1) {
-                                                                  addStockController.isAddedCustomSize(false);
-                                                                }
-                                                              },
-                                                              child: Stack(
-                                                                alignment: Alignment.centerLeft,
-                                                                children: [
-                                                                  Align(
-                                                                    alignment: Alignment.center,
-                                                                    child: Container(
-                                                                      padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(5),
-                                                                        color: AppColors.PRIMARY_COLOR,
-                                                                      ),
-                                                                      margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
-                                                                      child: Text(
-                                                                        tag,
-                                                                        textAlign: TextAlign.end,
-                                                                        style: TextStyle(
-                                                                          color: AppColors.WHITE_COLOR,
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 10.sp,
-                                                                        ),
+                                inputFieldBuilder: (context, textFieldTagValues) {
+                                  return TextFieldWidget(
+                                      controller: addStockController.customProductSizeTagsController.getTextEditingController,
+                                      focusNode: addStockController.customProductSizeTagsController.getFocusNode,
+                                      hintText: addStockController.customProductSizeTagsController.getTags?.isNotEmpty == true ? '' : AppStrings.enterProductSize.tr,
+                                      onTap: () {
+                                        addStockController.customProductSizeController.clear();
+                                      },
+                                      prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
+                                      prefixIcon: addStockController.customProductSizeTagsController.getTags?.isNotEmpty == true
+                                          ? Padding(
+                                              padding: EdgeInsets.only(left: 3.w),
+                                              child: SingleChildScrollView(
+                                                controller: addStockController.customProductSizeTagsController.getScrollController,
+                                                scrollDirection: Axis.vertical,
+                                                child: Wrap(
+                                                  children: addStockController.customProductSizeTagsController.getTags!.map(
+                                                    (tag) {
+                                                      return Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              addStockController.deletingCustomControllers(tag: tag);
+                                                              addStockController.customProductSizeTagsController.onTagRemoved(tag);
+                                                              if (addStockController.customProductSizeTagsController.getTags!.length <= 1) {
+                                                                addStockController.isAddedCustomSize(false);
+                                                              }
+                                                            },
+                                                            child: Stack(
+                                                              alignment: Alignment.centerLeft,
+                                                              children: [
+                                                                Align(
+                                                                  alignment: Alignment.center,
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(5),
+                                                                      color: AppColors.PRIMARY_COLOR,
+                                                                    ),
+                                                                    margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
+                                                                    child: Text(
+                                                                      tag,
+                                                                      textAlign: TextAlign.end,
+                                                                      style: TextStyle(
+                                                                        color: AppColors.WHITE_COLOR,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontSize: 14.sp,
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  Positioned(
-                                                                    top: 2.5,
-                                                                    right: 1.5.w,
+                                                                ),
+                                                                Positioned(
+                                                                  top: 2.5,
+                                                                  right: 1.5.w,
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      color: AppColors.WHITE_COLOR,
+                                                                      shape: BoxShape.circle,
+                                                                    ),
                                                                     child: Container(
                                                                       decoration: BoxDecoration(
-                                                                        color: AppColors.WHITE_COLOR,
+                                                                        color: AppColors.ERROR_COLOR.withOpacity(0.8),
                                                                         shape: BoxShape.circle,
                                                                       ),
-                                                                      child: Container(
-                                                                        decoration: BoxDecoration(
-                                                                          color: AppColors.ERROR_COLOR.withOpacity(0.8),
-                                                                          shape: BoxShape.circle,
-                                                                        ),
-                                                                        padding: const EdgeInsets.all(2),
-                                                                        child: Icon(
-                                                                          size: 2.w,
-                                                                          Icons.close,
-                                                                          color: AppColors.WHITE_COLOR,
-                                                                        ),
+                                                                      padding: const EdgeInsets.all(2),
+                                                                      child: Icon(
+                                                                        size: 2.w,
+                                                                        Icons.close,
+                                                                        color: AppColors.WHITE_COLOR,
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    ).toList(),
-                                                  ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ).toList(),
                                                 ),
-                                              )
-                                            : null,
-                                        onChanged: (value) {
-                                          if (value.isNotEmpty || (addStockController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
-                                            addStockController.isAddedCustomSize(true);
-                                          } else {
-                                            addStockController.isAddedCustomSize(false);
-                                          }
-                                        },
-                                        onFieldSubmitted: (value) {
-                                          addStockController.initCustomControllers();
-                                          onSubmitted?.call(value);
-                                        });
-                                  };
+                                              ),
+                                            )
+                                          : null,
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty || (addStockController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
+                                          addStockController.isAddedCustomSize(true);
+                                        } else {
+                                          addStockController.isAddedCustomSize(false);
+                                        }
+                                      },
+                                      onFieldSubmitted: (value) {
+                                        addStockController.initCustomControllers();
+                                        addStockController.customProductSizeTagsController.onTagSubmitted(value);
+                                      });
                                 },
                               ),
                               SizedBox(height: 2.h),
@@ -878,7 +878,7 @@ class _AddStockViewState extends State<AddStockView> {
                                 ),
 
                               ///Custom Size
-                              if (addStockController.isAddedCustomSize.isTrue && addStockController.customProductSizeTagsController.hasTags)
+                              if (addStockController.isAddedCustomSize.isTrue && addStockController.customProductSizeTagsController.getTags?.isNotEmpty == true)
                                 for (int i = 0; i < (addStockController.customProductSizeTagsController.getTags?.length ?? 0); i++) ...[
                                   CustomSizeOfTheStock(
                                     title: addStockController.customProductSizeTagsController.getTags?[i] ?? '',
@@ -943,7 +943,7 @@ class _AddStockViewState extends State<AddStockView> {
               title.tr,
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -956,7 +956,7 @@ class _AddStockViewState extends State<AddStockView> {
               text: AppStrings.totalQuantity.tr,
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
-                fontSize: 10.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.7,
               ),
@@ -966,7 +966,7 @@ class _AddStockViewState extends State<AddStockView> {
                   text: stockedQuantityController.text.trim(),
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 10.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   children: [
@@ -974,7 +974,7 @@ class _AddStockViewState extends State<AddStockView> {
                       text: ' + ${tempQuantity.value.trim().isEmpty ? 0 : tempQuantity.value.trim()}',
                       style: TextStyle(
                         color: AppColors.WARNING_COLOR,
-                        fontSize: 10.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       children: [
@@ -982,7 +982,7 @@ class _AddStockViewState extends State<AddStockView> {
                           text: ' = ${(stockedQuantityController.text.trim().toDouble() + (tempQuantity.value.trim().isEmpty ? 0 : tempQuantity.value.trim().toDouble())).toStringAsFixed(0)}',
                           style: TextStyle(
                             color: AppColors.SUCCESS_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -996,7 +996,7 @@ class _AddStockViewState extends State<AddStockView> {
                   text: '\n${AppStrings.totalWeight.tr}',
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 10.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     height: 1.6,
                   ),
@@ -1005,7 +1005,7 @@ class _AddStockViewState extends State<AddStockView> {
                       text: stockedWeightController.text.trim(),
                       style: TextStyle(
                         color: AppColors.PRIMARY_COLOR,
-                        fontSize: 10.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       children: [
@@ -1013,7 +1013,7 @@ class _AddStockViewState extends State<AddStockView> {
                           text: ' + ${tempWeight.trim().isEmpty ? 0 : tempWeight.trim()}',
                           style: TextStyle(
                             color: AppColors.WARNING_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
                           children: [
@@ -1021,7 +1021,7 @@ class _AddStockViewState extends State<AddStockView> {
                               text: ' = ${(stockedWeightController.text.trim().toDouble() + (tempWeight.trim().isEmpty ? 0 : tempWeight.trim().toDouble())).toStringAsFixed(2)}',
                               style: TextStyle(
                                 color: AppColors.SUCCESS_COLOR,
-                                fontSize: 10.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -1066,7 +1066,7 @@ class _AddStockViewState extends State<AddStockView> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: AppColors.PRIMARY_COLOR,
-                              fontSize: 10.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -1082,7 +1082,7 @@ class _AddStockViewState extends State<AddStockView> {
                           style: TextStyle(
                             color: AppColors.PRIMARY_COLOR,
                             fontWeight: FontWeight.w500,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),
@@ -1196,7 +1196,7 @@ class _AddStockViewState extends State<AddStockView> {
                 text: '${AppStrings.size.tr} ',
                 style: TextStyle(
                   color: AppColors.PRIMARY_COLOR,
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
                 children: [
@@ -1204,7 +1204,7 @@ class _AddStockViewState extends State<AddStockView> {
                     text: title.tr,
                     style: TextStyle(
                       color: AppColors.DARK_RED_COLOR,
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1212,7 +1212,7 @@ class _AddStockViewState extends State<AddStockView> {
                     text: ' ${AppStrings.quantityAndWeight.tr}',
                     style: TextStyle(
                       color: AppColors.PRIMARY_COLOR,
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1228,7 +1228,7 @@ class _AddStockViewState extends State<AddStockView> {
               text: AppStrings.totalQuantity.tr,
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
-                fontSize: 10.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.7,
               ),
@@ -1238,7 +1238,7 @@ class _AddStockViewState extends State<AddStockView> {
                   text: stockedQuantityController.text.trim(),
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 10.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   children: [
@@ -1246,7 +1246,7 @@ class _AddStockViewState extends State<AddStockView> {
                       text: ' + ${tempQuantity.trim().isEmpty ? 0 : tempQuantity.trim()}',
                       style: TextStyle(
                         color: AppColors.WARNING_COLOR,
-                        fontSize: 10.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       children: [
@@ -1254,7 +1254,7 @@ class _AddStockViewState extends State<AddStockView> {
                           text: ' = ${(stockedQuantityController.text.trim().toDouble() + (tempQuantity.trim().isEmpty ? 0 : tempQuantity.trim().toDouble())).toStringAsFixed(0)}',
                           style: TextStyle(
                             color: AppColors.SUCCESS_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -1268,7 +1268,7 @@ class _AddStockViewState extends State<AddStockView> {
                   text: '\n${AppStrings.totalWeight.tr}',
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 10.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     height: 1.6,
                   ),
@@ -1277,7 +1277,7 @@ class _AddStockViewState extends State<AddStockView> {
                       text: stockedWeightController.text.trim(),
                       style: TextStyle(
                         color: AppColors.PRIMARY_COLOR,
-                        fontSize: 10.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       children: [
@@ -1285,7 +1285,7 @@ class _AddStockViewState extends State<AddStockView> {
                           text: ' + ${tempWeight.trim().isEmpty ? 0 : tempWeight.trim()}',
                           style: TextStyle(
                             color: AppColors.WARNING_COLOR,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
                           children: [
@@ -1293,7 +1293,7 @@ class _AddStockViewState extends State<AddStockView> {
                               text: ' = ${(stockedWeightController.text.trim().toDouble() + (tempWeight.trim().isEmpty ? 0 : tempWeight.trim().toDouble())).toStringAsFixed(2)}',
                               style: TextStyle(
                                 color: AppColors.SUCCESS_COLOR,
-                                fontSize: 10.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -1338,7 +1338,7 @@ class _AddStockViewState extends State<AddStockView> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: AppColors.PRIMARY_COLOR,
-                              fontSize: 10.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -1354,7 +1354,7 @@ class _AddStockViewState extends State<AddStockView> {
                           style: TextStyle(
                             color: AppColors.PRIMARY_COLOR,
                             fontWeight: FontWeight.w500,
-                            fontSize: 10.sp,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),

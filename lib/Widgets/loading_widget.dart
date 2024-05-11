@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});

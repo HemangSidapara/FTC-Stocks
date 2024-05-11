@@ -11,7 +11,7 @@ class AppStrings {
   static const String temporaryServiceIsNotAvailable = 'Temporary service is not available.';
   static const String fileIsSavedToDownloadFolder = 'File is saved to download folder.';
   static const String next = 'Next';
-  static const String hello = 'Hello 👋,';
+  static const String hello = 'Hello ';
   static const String createOrder = 'Create Order';
   static const String settings = 'Settings';
   static const String changeLanguage = 'Change Language';
@@ -106,4 +106,12 @@ class AppStrings {
   static const String yesExit = 'Yes, exit';
   static const String somethingWentWrong = 'Something went wrong, Please try again later.';
   static const String searchPendingOrders = 'Search pending orders';
+  static const String selectParty = 'Select Party';
+  static const String pleaseSelectParty = 'Please select party.';
+  static const String searchParty = 'Search Party';
+  static const String update = 'Update';
+  static const String newVersionAvailable = 'A new version is available. Please upgrade to it.';
+  static const String copyrightContext = "©2024 Mindwave Infoway";
+  static const String poweredByMindwaveInfoway = "powered by Mindwave Infoway";
+  static const String searchRequiredStock = "Search required stock";
 }

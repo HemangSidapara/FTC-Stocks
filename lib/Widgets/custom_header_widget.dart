@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomHeaderWidget extends StatelessWidget {
   final String title;
@@ -45,7 +45,7 @@ class CustomHeaderWidget extends StatelessWidget {
           title,
           style: TextStyle(
             color: AppColors.PRIMARY_COLOR,
-            fontSize: 16.sp,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w900,
           ),
         ),

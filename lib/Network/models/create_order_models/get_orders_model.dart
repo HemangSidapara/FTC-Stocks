@@ -2,7 +2,7 @@ import 'dart:convert';
 
 /// code : "200"
 /// msg : "Get Order Successfully"
-/// Data : [{"order_id":"1","name":"Handle 1.0","category":"Test","model_meta":[{"meta_id":"1","size":"4","piece":"12","weight":"8 kg"}]},{"order_id":"2","name":"Handle 1.0","category":"Test","model_meta":[{"meta_id":"2","size":"4","piece":"12","weight":"8 kg"}]},{"order_id":"3","name":"Handle 1.0","category":"Test","model_meta":[{"meta_id":"3","size":"4","piece":"12","weight":"8 kg"}]}]
+/// Data : [{"order_id":"1","party_name":"Varun Bhai","phone":"8140258309","datetime":"2024-05-11T05:46:06Z","model_meta":[{"model_id":"1","name":"handle ","category":"Handle","order_meta":[{"meta_id":"1","size":"4","piece":"12","weight":"8 kg"},{"meta_id":"2","size":"4","piece":"12","weight":"8 kg"}]},{"model_id":"2","name":"ball","category":"Main Door","order_meta":[{"meta_id":"4","size":"6","piece":"800","weight":"480.0 kg"}]}]},{"order_id":"2","party_name":"Jojo","phone":"9626266066","datetime":"2024-05-11T08:26:43Z","model_meta":[{"model_id":"2","name":"ball","category":"Main Door","order_meta":[{"meta_id":"3","size":"3","piece":"200","weight":"100.0 kg"}]}]}]
 
 GetOrdersModel getOrdersModelFromJson(String str) => GetOrdersModel.fromJson(json.decode(str));
 String getOrdersModelToJson(GetOrdersModel data) => json.encode(data.toJson());
@@ -57,9 +57,10 @@ class GetOrdersModel {
 }
 
 /// order_id : "1"
-/// name : "Handle 1.0"
-/// category : "Test"
-/// model_meta : [{"meta_id":"1","size":"4","piece":"12","weight":"8 kg"}]
+/// party_name : "Varun Bhai"
+/// phone : "8140258309"
+/// datetime : "2024-05-11T05:46:06Z"
+/// model_meta : [{"model_id":"1","name":"handle ","category":"Handle","order_meta":[{"meta_id":"1","size":"4","piece":"12","weight":"8 kg"},{"meta_id":"2","size":"4","piece":"12","weight":"8 kg"}]},{"model_id":"2","name":"ball","category":"Main Door","order_meta":[{"meta_id":"4","size":"6","piece":"800","weight":"480.0 kg"}]}]
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
 String dataToJson(Data data) => json.encode(data.toJson());
@@ -67,25 +68,22 @@ String dataToJson(Data data) => json.encode(data.toJson());
 class Data {
   Data({
     String? orderId,
-    String? name,
-    String? category,
     String? partyName,
+    String? phone,
     String? datetime,
     List<ModelMeta>? modelMeta,
   }) {
     _orderId = orderId;
-    _name = name;
-    _category = category;
     _partyName = partyName;
+    _phone = phone;
     _datetime = datetime;
     _modelMeta = modelMeta;
   }
 
   Data.fromJson(dynamic json) {
     _orderId = json['order_id'];
-    _name = json['name'];
-    _category = json['category'];
     _partyName = json['party_name'];
+    _phone = json['phone'];
     _datetime = json['datetime'];
     if (json['model_meta'] != null) {
       _modelMeta = [];
@@ -95,43 +93,103 @@ class Data {
     }
   }
   String? _orderId;
-  String? _name;
-  String? _category;
   String? _partyName;
+  String? _phone;
   String? _datetime;
   List<ModelMeta>? _modelMeta;
   Data copyWith({
     String? orderId,
-    String? name,
-    String? category,
     String? partyName,
+    String? phone,
     String? datetime,
     List<ModelMeta>? modelMeta,
   }) =>
       Data(
         orderId: orderId ?? _orderId,
-        name: name ?? _name,
-        category: category ?? _category,
         partyName: partyName ?? _partyName,
+        phone: phone ?? _phone,
         datetime: datetime ?? _datetime,
         modelMeta: modelMeta ?? _modelMeta,
       );
   String? get orderId => _orderId;
-  String? get name => _name;
-  String? get category => _category;
   String? get partyName => _partyName;
+  String? get phone => _phone;
   String? get datetime => _datetime;
   List<ModelMeta>? get modelMeta => _modelMeta;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['order_id'] = _orderId;
-    map['name'] = _name;
-    map['category'] = _category;
     map['party_name'] = _partyName;
+    map['phone'] = _phone;
     map['datetime'] = _datetime;
     if (_modelMeta != null) {
       map['model_meta'] = _modelMeta?.map((v) => v.toJson()).toList();
+    }
+    return map;
+  }
+}
+
+/// model_id : "1"
+/// name : "handle "
+/// category : "Handle"
+/// order_meta : [{"meta_id":"1","size":"4","piece":"12","weight":"8 kg"},{"meta_id":"2","size":"4","piece":"12","weight":"8 kg"}]
+
+ModelMeta modelMetaFromJson(String str) => ModelMeta.fromJson(json.decode(str));
+String modelMetaToJson(ModelMeta data) => json.encode(data.toJson());
+
+class ModelMeta {
+  ModelMeta({
+    String? modelId,
+    String? name,
+    String? category,
+    List<OrderMeta>? orderMeta,
+  }) {
+    _modelId = modelId;
+    _name = name;
+    _category = category;
+    _orderMeta = orderMeta;
+  }
+
+  ModelMeta.fromJson(dynamic json) {
+    _modelId = json['model_id'];
+    _name = json['name'];
+    _category = json['category'];
+    if (json['order_meta'] != null) {
+      _orderMeta = [];
+      json['order_meta'].forEach((v) {
+        _orderMeta?.add(OrderMeta.fromJson(v));
+      });
+    }
+  }
+  String? _modelId;
+  String? _name;
+  String? _category;
+  List<OrderMeta>? _orderMeta;
+  ModelMeta copyWith({
+    String? modelId,
+    String? name,
+    String? category,
+    List<OrderMeta>? orderMeta,
+  }) =>
+      ModelMeta(
+        modelId: modelId ?? _modelId,
+        name: name ?? _name,
+        category: category ?? _category,
+        orderMeta: orderMeta ?? _orderMeta,
+      );
+  String? get modelId => _modelId;
+  String? get name => _name;
+  String? get category => _category;
+  List<OrderMeta>? get orderMeta => _orderMeta;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['model_id'] = _modelId;
+    map['name'] = _name;
+    map['category'] = _category;
+    if (_orderMeta != null) {
+      map['order_meta'] = _orderMeta?.map((v) => v.toJson()).toList();
     }
     return map;
   }
@@ -142,11 +200,11 @@ class Data {
 /// piece : "12"
 /// weight : "8 kg"
 
-ModelMeta modelMetaFromJson(String str) => ModelMeta.fromJson(json.decode(str));
-String modelMetaToJson(ModelMeta data) => json.encode(data.toJson());
+OrderMeta orderMetaFromJson(String str) => OrderMeta.fromJson(json.decode(str));
+String orderMetaToJson(OrderMeta data) => json.encode(data.toJson());
 
-class ModelMeta {
-  ModelMeta({
+class OrderMeta {
+  OrderMeta({
     String? metaId,
     String? size,
     String? piece,
@@ -158,7 +216,7 @@ class ModelMeta {
     _weight = weight;
   }
 
-  ModelMeta.fromJson(dynamic json) {
+  OrderMeta.fromJson(dynamic json) {
     _metaId = json['meta_id'];
     _size = json['size'];
     _piece = json['piece'];
@@ -168,13 +226,13 @@ class ModelMeta {
   String? _size;
   String? _piece;
   String? _weight;
-  ModelMeta copyWith({
+  OrderMeta copyWith({
     String? metaId,
     String? size,
     String? piece,
     String? weight,
   }) =>
-      ModelMeta(
+      OrderMeta(
         metaId: metaId ?? _metaId,
         size: size ?? _size,
         piece: piece ?? _piece,

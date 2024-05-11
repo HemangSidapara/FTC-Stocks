@@ -6,13 +6,13 @@ import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CreateOrderView extends StatefulWidget {
   const CreateOrderView({super.key});
@@ -56,7 +56,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       AppStrings.add.tr,
                       style: TextStyle(
                         color: AppColors.WHITE_COLOR,
-                        fontSize: 12.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -92,15 +92,208 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ///Party Name
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2.w),
+                                  child: Text(
+                                    AppStrings.partyName.tr,
+                                    style: TextStyle(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    createOrderController.createOrderFormKey.currentState?.reset();
+                                    createOrderController.selectedParty(-1);
+                                    createOrderController.partyNameController.clear();
+                                    createOrderController.phoneNumberController.clear();
+                                  },
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                  child: Text(
+                                    AppStrings.reset.tr,
+                                    style: TextStyle(
+                                      color: AppColors.LIGHT_BLUE_COLOR,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 16.sp,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            DropdownSearch<String>(
+                              asyncItems: (text) {
+                                return createOrderController.getPartiesApiCall(isLoading: false);
+                              },
+                              selectedItem: createOrderController.selectedParty.value == -1 ? null : createOrderController.partyNameList[createOrderController.selectedParty.value],
+                              dropdownButtonProps: DropdownButtonProps(
+                                constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppColors.SECONDARY_COLOR,
+                                  size: 5.w,
+                                ),
+                              ),
+                              validator: createOrderController.validateParty,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                baseStyle: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                ),
+                                dropdownSearchDecoration: InputDecoration(
+                                  filled: true,
+                                  enabled: true,
+                                  fillColor: AppColors.WHITE_COLOR,
+                                  hintText: AppStrings.selectParty.tr,
+                                  hintStyle: TextStyle(
+                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  errorStyle: TextStyle(
+                                    color: AppColors.ERROR_COLOR,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.ERROR_COLOR,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
+                                ),
+                              ),
+                              popupProps: PopupProps.menu(
+                                menuProps: MenuProps(
+                                  backgroundColor: AppColors.WHITE_COLOR,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                loadingBuilder: (context, searchEntry) {
+                                  return const Center(child: LoadingWidget());
+                                },
+                                emptyBuilder: (context, searchEntry) {
+                                  return Center(
+                                    child: Text(
+                                      AppStrings.noDataFound.tr,
+                                      style: TextStyle(
+                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (context, item, isSelected) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            createOrderController.selectedParty.value = createOrderController.partyNameList.indexOf(item);
+                                            createOrderController.partyNameController.text = item;
+                                            createOrderController.phoneNumberController.text = createOrderController.partyDataList[createOrderController.selectedParty.value].phone ?? '';
+                                          },
+                                          style: TextButton.styleFrom(
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                                          ),
+                                          child: Text(
+                                            item.tr,
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                interceptCallBacks: true,
+                                showSearchBox: true,
+                                searchFieldProps: TextFieldProps(
+                                  cursorColor: AppColors.PRIMARY_COLOR,
+                                  decoration: InputDecoration(
+                                    hintText: AppStrings.searchParty.tr,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.HINT_GREY_COLOR,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
+                                  ),
+                                ),
+                              ),
+                            ),
                             TextFieldWidget(
                               controller: createOrderController.partyNameController,
-                              title: AppStrings.partyName,
                               hintText: AppStrings.enterPartyName,
-                              validator: createOrderController.validatePartyName,
+                              validator: createOrderController.validateProductName,
                               textInputAction: TextInputAction.next,
                               maxLength: 30,
                             ),
                             SizedBox(height: 1.h),
+
+                            ///Phone number
+                            TextFieldWidget(
+                              controller: createOrderController.phoneNumberController,
+                              title: AppStrings.phoneNumber.tr,
+                              hintText: AppStrings.enterPhoneNumber.tr,
+                              validator: createOrderController.validatePhoneNumber,
+                              textInputAction: TextInputAction.next,
+                              maxLength: 10,
+                              keyboardType: TextInputType.number,
+                            ),
 
                             ///Product
                             Row(
@@ -112,7 +305,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     AppStrings.product.tr,
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -129,13 +322,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     style: TextStyle(
                                       color: AppColors.LIGHT_BLUE_COLOR,
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 0.5.h),
                             DropdownSearch<String>(
                               asyncItems: (text) {
                                 return createOrderController.getStockApiCall(isLoading: false);
@@ -205,7 +397,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 baseStyle: TextStyle(
                                   color: AppColors.PRIMARY_COLOR,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 10.sp,
+                                  fontSize: 14.sp,
                                 ),
                                 dropdownSearchDecoration: InputDecoration(
                                   filled: true,
@@ -214,12 +406,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   hintText: AppStrings.selectProduct.tr,
                                   hintStyle: TextStyle(
                                     color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   errorStyle: TextStyle(
                                     color: AppColors.ERROR_COLOR,
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                   border: OutlineInputBorder(
@@ -275,7 +467,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                       AppStrings.noDataFound.tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                        fontSize: 10.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -288,7 +480,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                       item.tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -301,7 +493,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     hintText: AppStrings.searchProduct.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.HINT_GREY_COLOR,
-                                      fontSize: 12.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
                                     enabledBorder: UnderlineInputBorder(
@@ -334,7 +526,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 AppStrings.size.tr,
                                 style: TextStyle(
                                   color: AppColors.PRIMARY_COLOR,
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -363,12 +555,12 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   hintText: AppStrings.selectSize.tr,
                                   hintStyle: TextStyle(
                                     color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   errorStyle: TextStyle(
                                     color: AppColors.ERROR_COLOR,
-                                    fontSize: 10.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                   border: OutlineInputBorder(
@@ -448,7 +640,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                             item.toString().tr,
                                             style: TextStyle(
                                               color: AppColors.PRIMARY_COLOR,
-                                              fontSize: 12.sp,
+                                              fontSize: 16.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -460,7 +652,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                               AppStrings.thisSizeOfProductNotRegistered.tr,
                                               style: TextStyle(
                                                 color: AppColors.ERROR_COLOR,
-                                                fontSize: 7.5.sp,
+                                                fontSize: 12.5.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -476,7 +668,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     hintText: AppStrings.searchSize.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.HINT_GREY_COLOR,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
                                     enabledBorder: UnderlineInputBorder(
@@ -527,7 +719,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                       AppStrings.selectSize.tr,
                                       style: TextStyle(
                                         color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-                                        fontSize: 10.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -575,7 +767,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                           style: TextStyle(
                                                             color: AppColors.WHITE_COLOR,
                                                             fontWeight: FontWeight.w600,
-                                                            fontSize: 10.sp,
+                                                            fontSize: 14.sp,
                                                           ),
                                                         ),
                                                       ),
@@ -812,7 +1004,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     title.tr,
                     style: TextStyle(
                       color: AppColors.PRIMARY_COLOR,
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -848,14 +1040,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     text: AppStrings.weightOfPiece.tr,
                     style: TextStyle(
                       color: AppColors.PRIMARY_COLOR,
-                      fontSize: 10.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
                     children: [
                       TextSpan(
                         text: weightOfPieceController.text.isNotEmpty ? weightOfPieceController.text : '-',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.DARK_GREEN_COLOR,
                         ),
@@ -863,7 +1055,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       TextSpan(
                         text: '\n${AppStrings.availableStockQuantityWeight.tr}',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.PRIMARY_COLOR,
                         ),
@@ -871,7 +1063,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       TextSpan(
                         text: '${quantityController.text.isNotEmpty ? quantityController.text : '0'}${AppStrings.pieces.tr}/${weightController.text.isNotEmpty ? weightController.text : '0 kg'}',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.DARK_GREEN_COLOR,
                         ),
@@ -918,7 +1110,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       text: '${AppStrings.size.tr} ',
                       style: TextStyle(
                         color: AppColors.PRIMARY_COLOR,
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       children: [
@@ -926,7 +1118,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           text: title.tr,
                           style: TextStyle(
                             color: AppColors.DARK_RED_COLOR,
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -934,7 +1126,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                           text: ' ${AppStrings.quantityAndWeight.tr}',
                           style: TextStyle(
                             color: AppColors.PRIMARY_COLOR,
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -973,14 +1165,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                     text: AppStrings.weightOfPiece.tr,
                     style: TextStyle(
                       color: AppColors.PRIMARY_COLOR,
-                      fontSize: 10.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
                     children: [
                       TextSpan(
                         text: weightOfPieceController.text.isNotEmpty ? weightOfPieceController.text : '-',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.DARK_GREEN_COLOR,
                         ),
@@ -988,7 +1180,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       TextSpan(
                         text: '\n${AppStrings.availableStockQuantityWeight.tr}',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.PRIMARY_COLOR,
                         ),
@@ -996,7 +1188,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                       TextSpan(
                         text: '${quantityController.text.isNotEmpty ? quantityController.text : '0'}${AppStrings.pieces.tr}/${weightController.text.isNotEmpty ? weightController.text : '0 kg'}',
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.DARK_GREEN_COLOR,
                         ),
@@ -1030,7 +1222,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
             title.tr,
             style: TextStyle(
               color: AppColors.PRIMARY_COLOR,
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -1101,7 +1293,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
               text: AppStrings.orderOfSizeCustom.tr.replaceAll('Custom', '').replaceAll('કસ્ટમ', '').replaceAll('कस्टम', ''),
               style: TextStyle(
                 color: AppColors.PRIMARY_COLOR,
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
               children: [
@@ -1109,7 +1301,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                   text: title.tr,
                   style: TextStyle(
                     color: AppColors.DARK_RED_COLOR,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

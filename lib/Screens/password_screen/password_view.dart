@@ -3,11 +3,11 @@ import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/password_screen/password_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PasswordView extends StatefulWidget {
   const PasswordView({super.key});

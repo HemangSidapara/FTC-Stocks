@@ -8,7 +8,7 @@ class ProgressDialog {
   static showProgressDialog(bool showDialog) {
     if (showDialog) {
       isOpen = true;
-      print('|--------------->🕙️ Loader start 🕑️<---------------|');
+      debugPrint('|--------------->🕙️ Loader start 🕑️<---------------|');
 
       Get.dialog(
         WillPopScope(
@@ -28,7 +28,7 @@ class ProgressDialog {
         barrierDismissible: false, /*useRootNavigator: false*/
       );
     } else if (Get.isDialogOpen!) {
-      print('|--------------->🕙️ Loader end 🕑️<---------------|');
+      debugPrint('|--------------->🕙️ Loader end 🕑️<---------------|');
       Get.back();
 
       isOpen = false;

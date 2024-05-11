@@ -33,11 +33,13 @@ class CreateOrderService {
   ///Create Order Service
   Future<ResponseModel> createOrdersService({
     required String partyName,
+    required String phone,
     required String modelId,
     required List<Map<String, String>> orderData,
   }) async {
     final params = {
       ApiKeys.partyName: partyName,
+      ApiKeys.phone: phone,
       ApiKeys.modelID: modelId,
       ApiKeys.meta: orderData,
     };
@@ -115,6 +117,30 @@ class CreateOrderService {
         } else {
           if (kDebugMode) {
             print("completeOrderApi error message :::: ${data.response?.data['msg']}");
+          }
+          Utils.handleMessage(message: data.response?.data['msg'], isError: true);
+        }
+      },
+    );
+    return response;
+  }
+
+  ///Get Parties Service
+  Future<ResponseModel> getPartiesService({bool isPending = true}) async {
+    final response = await ApiBaseHelper().getHTTP(
+      ApiUrls.getPartiesApi,
+      showProgress: false,
+      onError: (error) {
+        Utils.handleMessage(message: error.message);
+      },
+      onSuccess: (data) {
+        if (data.statusCode! >= 200 && data.statusCode! <= 299) {
+          if (kDebugMode) {
+            print("getPartiesApi success message :::: ${data.response?.data['msg']}");
+          }
+        } else {
+          if (kDebugMode) {
+            print("getPartiesApi error message :::: ${data.response?.data['msg']}");
           }
           Utils.handleMessage(message: data.response?.data['msg'], isError: true);
         }

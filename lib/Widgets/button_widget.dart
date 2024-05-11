@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ButtonWidget extends StatelessWidget {
   final void Function()? onPressed;
   final Widget? child;
   final String buttonTitle;
+  final Color? buttonTitleColor;
   final Size? fixedSize;
   final OutlinedBorder? shape;
   final bool isLoading;
   final Color? buttonColor;
+  final Widget? loaderWidget;
+  final Color? loaderColor;
 
   const ButtonWidget({
     super.key,
@@ -20,6 +23,9 @@ class ButtonWidget extends StatelessWidget {
     this.shape,
     this.isLoading = false,
     this.buttonColor,
+    this.buttonTitleColor,
+    this.loaderWidget,
+    this.loaderColor,
   });
 
   @override
@@ -38,20 +44,21 @@ class ButtonWidget extends StatelessWidget {
             ),
       ),
       child: isLoading
-          ? SizedBox(
-              height: 5.w,
-              width: 5.w,
-              child: CircularProgressIndicator(
-                color: AppColors.WHITE_COLOR,
-                strokeWidth: 1.6,
-              ),
-            )
+          ? loaderWidget ??
+              SizedBox(
+                height: 5.w,
+                width: 5.w,
+                child: CircularProgressIndicator(
+                  color: AppColors.WHITE_COLOR,
+                  strokeWidth: 1.6,
+                ),
+              )
           : child ??
               Text(
                 buttonTitle,
                 style: TextStyle(
-                  color: AppColors.WHITE_COLOR,
-                  fontSize: 12.sp,
+                  color: buttonTitleColor ?? AppColors.WHITE_COLOR,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),

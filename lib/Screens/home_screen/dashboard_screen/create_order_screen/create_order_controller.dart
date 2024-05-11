@@ -3,6 +3,7 @@ import 'package:ftc_stocks/Constants/api_keys.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/models/add_stock_models/get_stock_model.dart' as get_stock;
+import 'package:ftc_stocks/Network/models/create_order_models/get_parties_model.dart' as get_parties;
 import 'package:ftc_stocks/Network/services/add_stock_service/add_stock_service.dart';
 import 'package:ftc_stocks/Network/services/create_order_service/create_order_service.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
@@ -10,15 +11,20 @@ import 'package:get/get.dart';
 
 class CreateOrderController extends GetxController {
   RxBool isGetStockLoading = true.obs;
+  RxBool isGetPartiesLoading = true.obs;
   RxBool isAddOrderLoading = false.obs;
 
   GlobalKey<FormState> createOrderFormKey = GlobalKey<FormState>();
 
+  RxList<get_parties.Data> partyDataList = RxList<get_parties.Data>();
+  List<String> partyNameList = [];
+  RxInt selectedParty = (-1).obs;
   TextEditingController partyNameController = TextEditingController();
+
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
 
   RxList<get_stock.Data> productDataList = RxList<get_stock.Data>();
-
   List<String> productList = [];
   RxInt selectedProduct = (-1).obs;
 
@@ -99,9 +105,23 @@ class CreateOrderController extends GetxController {
     await getStockApiCall();
   }
 
-  String? validatePartyName(String? value) {
+  String? validateProductName(String? value) {
     if (value == null || value.isEmpty) {
       return AppStrings.pleaseEnterPartyName.tr;
+    }
+    return null;
+  }
+
+  String? validateParty(String? value) {
+    if ((value == null || value.isEmpty) && partyNameController.text.isEmpty) {
+      return AppStrings.pleaseSelectParty.tr;
+    }
+    return null;
+  }
+
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.pleaseEnterPhoneNumber.tr;
     }
     return null;
   }
@@ -180,6 +200,24 @@ class CreateOrderController extends GetxController {
     }
   }
 
+  Future<List<String>> getPartiesApiCall({bool isLoading = true}) async {
+    try {
+      isGetPartiesLoading(isLoading);
+      final response = await CreateOrderService().getPartiesService();
+
+      if (response.isSuccess) {
+        get_parties.GetPartiesModel getPartiesModel = get_parties.GetPartiesModel.fromJson(response.response?.data);
+        partyDataList.clear();
+        partyNameList.clear();
+        partyDataList.addAll(getPartiesModel.data?.toList() ?? []);
+        partyNameList.addAll(getPartiesModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
+      }
+      return partyNameList;
+    } finally {
+      isGetPartiesLoading(false);
+    }
+  }
+
   Future<void> checkAddOrder() async {
     final isValid = createOrderFormKey.currentState?.validate();
 
@@ -252,6 +290,7 @@ class CreateOrderController extends GetxController {
 
           final response = await CreateOrderService().createOrdersService(
             partyName: partyNameController.text.trim(),
+            phone: phoneNumberController.text.trim(),
             modelId: productDataList[selectedProduct.value].modelId ?? '',
             orderData: orderData,
           );

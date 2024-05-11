@@ -28,7 +28,7 @@ class OrdersHistoryController extends GetxController {
         ordersDataList.clear();
         orderList.clear();
         ordersDataList.addAll(getOrdersModel.data?.toList() ?? []);
-        orderList.addAll(getOrdersModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
+        orderList.addAll(getOrdersModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
       }
     } finally {
       isRefreshing(false);

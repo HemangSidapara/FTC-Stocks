@@ -12,10 +12,8 @@ class Routes {
   static const settingsScreen = '/settings';
   static const createOrderScreen = '/createOrder';
   static const addStockScreen = '/addStock';
-  static const availableStockScreen = '/availableStock';
   static const pendingOrdersScreen = '/pendingOrders';
   static const challanScreen = '/challan';
   static const requiredStockScreen = '/requiredStock';
-  static const inProgressStockScreen = '/inProgressStock';
   static const totalStockInHouseScreen = '/totalStockInHouse';
 }

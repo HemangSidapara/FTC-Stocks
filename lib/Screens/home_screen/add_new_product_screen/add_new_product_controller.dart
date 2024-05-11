@@ -72,12 +72,6 @@ class AddNewProductController extends GetxController {
   TextEditingController sizeTwelveWeightController = TextEditingController();
   RxList<TextEditingController> sizeCustomWeightControllerList = RxList();
 
-  @override
-  void onInit() {
-    super.onInit();
-    customProductSizeTagsController.init((tag) => null, null, null, null, null, null);
-  }
-
   String? validateCategory(int? value) {
     if (value == null) {
       return AppStrings.pleaseSelectCategory.tr;
@@ -193,7 +187,7 @@ class AddNewProductController extends GetxController {
           }
         }
 
-        if (isAddedCustomSize.isTrue && customProductSizeTagsController.hasTags) {
+        if (isAddedCustomSize.isTrue && customProductSizeTagsController.getTags?.isNotEmpty == true) {
           for (int i = 0; i < (customProductSizeTagsController.getTags?.length ?? 0); i++) {
             if (customProductSizeTagsController.getTags?[i] != null) {
               sizeData.add({
@@ -226,7 +220,6 @@ class AddNewProductController extends GetxController {
 
   void resetSizeControllers() {
     addProductFormKey.currentState?.reset();
-    isFormReset(false);
     sizeThreeWeightOfPieceController.clear();
     selectedSizeThreeUnitOfWeight(-1);
     sizeThreeQuantityController.clear();
@@ -270,7 +263,7 @@ class AddNewProductController extends GetxController {
     Future.delayed(
       const Duration(milliseconds: 300),
       () {
-        isFormReset(true);
+        addProductFormKey.currentState?.reset();
         update();
       },
     );

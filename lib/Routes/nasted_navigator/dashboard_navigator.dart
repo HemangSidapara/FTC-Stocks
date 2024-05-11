@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/add_stock_screen/add_stock_view.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/available_stock_screen/available_stock_binding.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/available_stock_screen/available_stock_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/challan_screen/challan_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/challan_screen/challan_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/create_order_screen/create_order_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_view.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/in_progress_stock_screen/in_progress_stock_binding.dart';
-import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/in_progress_stock_screen/in_progress_stock_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_view.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/required_stock_screen/required_stock_binding.dart';
@@ -65,18 +61,6 @@ class DashboardNavigator extends StatelessWidget {
               ),
             );
 
-          case Routes.availableStockScreen:
-            return GetPageRoute(
-              routeName: Routes.availableStockScreen,
-              page: () => const AvailableStockView(),
-              binding: AvailableStockBinding(),
-              transition: Transition.rightToLeftWithFade,
-              transitionDuration: transitionDuration,
-              settings: RouteSettings(
-                arguments: settings.arguments,
-              ),
-            );
-
           case Routes.challanScreen:
             return GetPageRoute(
               routeName: Routes.challanScreen,
@@ -106,18 +90,6 @@ class DashboardNavigator extends StatelessWidget {
               routeName: Routes.totalStockInHouseScreen,
               page: () => const TotalStockInHouseView(),
               binding: TotalStockInHouseBinding(),
-              transition: Transition.rightToLeftWithFade,
-              transitionDuration: transitionDuration,
-              settings: RouteSettings(
-                arguments: settings.arguments,
-              ),
-            );
-
-          case Routes.inProgressStockScreen:
-            return GetPageRoute(
-              routeName: Routes.inProgressStockScreen,
-              page: () => const InProgressStockView(),
-              binding: InProgressStockBinding(),
               transition: Transition.rightToLeftWithFade,
               transitionDuration: transitionDuration,
               settings: RouteSettings(

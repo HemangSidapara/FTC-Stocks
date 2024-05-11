@@ -3,10 +3,10 @@ import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/total_stock_in_house_screen/total_stock_in_house_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TotalStockInHouseView extends StatefulWidget {
   const TotalStockInHouseView({super.key});

@@ -3,11 +3,11 @@ import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Screens/home_screen/orders_history_screen/orders_history_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/loading_widget.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class OrdersHistoryView extends StatefulWidget {
   const OrdersHistoryView({super.key});
@@ -23,7 +23,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -86,7 +86,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                     style: TextStyle(
                       color: AppColors.PRIMARY_COLOR.withOpacity(0.7),
                       fontWeight: FontWeight.w700,
-                      fontSize: 12.sp,
+                      fontSize: 16.sp,
                     ),
                   ),
                 );
@@ -103,7 +103,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                               Text(
                                 '${index + 1}. ',
                                 style: TextStyle(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
@@ -111,7 +111,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                               Text(
                                 ordersHistoryController.ordersDataList[index].partyName ?? '',
                                 style: TextStyle(
-                                  fontSize: 12.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.PRIMARY_COLOR,
                                 ),
@@ -137,36 +137,31 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                             thickness: 1,
                           ),
                         ),
+
+                        ///Phone Number
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 3.w),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text.rich(
                               TextSpan(
-                                  text: AppStrings.productName.tr,
-                                  style: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
+                                text: "${AppStrings.phoneNumber.tr}: ",
+                                style: TextStyle(
+                                  color: AppColors.PRIMARY_COLOR,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: ordersHistoryController.ordersDataList[index].phone ?? '',
+                                    style: TextStyle(
+                                      color: AppColors.ORANGE_COLOR,
+                                      fontSize: 14.5.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                  children: [
-                                    TextSpan(
-                                      text: ordersHistoryController.orderList[index],
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: ' ( ${ordersHistoryController.ordersDataList[index].category?.tr} )',
-                                      style: TextStyle(
-                                        color: AppColors.ORANGE_COLOR,
-                                        fontSize: 10.5.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ]),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -177,6 +172,8 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                             thickness: 1,
                           ),
                         ),
+
+                        ///Date
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -186,7 +183,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                                 text: AppStrings.orderDate.tr,
                                 style: TextStyle(
                                   color: AppColors.PRIMARY_COLOR,
-                                  fontSize: 10.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   height: 1.8,
                                 ),
@@ -196,14 +193,14 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                                     style: TextStyle(
                                       color: AppColors.DARK_GREEN_COLOR,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                   TextSpan(
                                     text: '\n${AppStrings.orderTime.tr}',
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
-                                      fontSize: 10.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       height: 1.8,
                                     ),
@@ -213,7 +210,7 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                                         style: TextStyle(
                                           color: AppColors.DARK_GREEN_COLOR,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 10.sp,
+                                          fontSize: 14.sp,
                                         ),
                                       ),
                                     ],
@@ -230,73 +227,174 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
                             thickness: 1,
                           ),
                         ),
-                        SizedBox(
-                          height: 10.h,
+
+                        ///Orders
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxHeight: 50.h, minHeight: 0),
                           child: ListView.separated(
                             itemCount: ordersHistoryController.ordersDataList[index].modelMeta?.length ?? 0,
-                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
                             itemBuilder: (context, innerIndex) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 2.5.w),
-                                child: Column(
+                              return ExpansionTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      '${AppStrings.size.tr} ${ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].size?.tr}',
-                                      style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                    Container(
-                                      color: AppColors.PRIMARY_COLOR,
-                                      child: SizedBox(
-                                        height: 1.5,
-                                        width: 15.w,
-                                      ),
-                                    ),
-                                    SizedBox(height: 0.5.h),
-                                    Text.rich(
-                                      TextSpan(
-                                        text: AppStrings.quantity.tr,
-                                        style: TextStyle(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.8,
-                                        ),
+                                    ///Size
+                                    Flexible(
+                                      child: Row(
                                         children: [
-                                          TextSpan(
-                                            text: ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].piece ?? '0',
+                                          Text(
+                                            '❖ ',
                                             style: TextStyle(
-                                              color: AppColors.DARK_GREEN_COLOR,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10.sp,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: AppColors.PRIMARY_COLOR,
                                             ),
                                           ),
-                                          TextSpan(
-                                            text: '\n${AppStrings.weight.tr}',
-                                            style: TextStyle(
-                                              color: AppColors.PRIMARY_COLOR,
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].weight ?? '0 kg',
-                                                style: TextStyle(
-                                                  color: AppColors.DARK_GREEN_COLOR,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 10.sp,
-                                                ),
+                                          Flexible(
+                                            child: Text(
+                                              ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].name ?? '',
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.PRIMARY_COLOR,
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
+                                    SizedBox(width: 2.w),
                                   ],
                                 ),
+                                collapsedBackgroundColor: AppColors.SECONDARY_COLOR.withOpacity(0.13),
+                                backgroundColor: AppColors.SECONDARY_COLOR.withOpacity(0.13),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: AppColors.TRANSPARENT),
+                                ),
+                                childrenPadding: EdgeInsets.only(bottom: 2.h),
+                                children: [
+                                  ///Headings
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ///Size
+                                      SizedBox(
+                                        width: 45.w,
+                                        child: Center(
+                                          child: Text(
+                                            AppStrings.size.tr,
+                                            style: TextStyle(
+                                              color: AppColors.PRIMARY_COLOR,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      ///Quantity & Weight
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              AppStrings.quantity.tr.replaceAll(':', ''),
+                                              style: TextStyle(
+                                                color: AppColors.PRIMARY_COLOR,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            Text(
+                                              AppStrings.weight.tr.replaceAll(':', ''),
+                                              style: TextStyle(
+                                                color: AppColors.PRIMARY_COLOR,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                                    child: Divider(
+                                      color: AppColors.PRIMARY_COLOR,
+                                      thickness: 1,
+                                    ),
+                                  ),
+                                  if (ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].orderMeta?.isEmpty == true)
+                                    Center(
+                                      child: Text(
+                                        AppStrings.noDataFound.tr,
+                                        style: TextStyle(
+                                          color: AppColors.PRIMARY_COLOR,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                    )
+                                  else
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(minHeight: 0, maxHeight: 40.h),
+                                      child: ListView.separated(
+                                        itemCount: ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].orderMeta?.length ?? 0,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, sizeIndex) {
+                                          return Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ///Size
+                                              SizedBox(
+                                                width: 45.w,
+                                                child: Center(
+                                                  child: Text(
+                                                    ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].orderMeta?[sizeIndex].size ?? '',
+                                                    style: TextStyle(
+                                                      color: AppColors.PRIMARY_COLOR,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 14.sp,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+
+                                              ///Quantity & Weight
+                                              Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: [
+                                                    Text(
+                                                      ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].orderMeta?[sizeIndex].piece ?? '',
+                                                      style: TextStyle(
+                                                        color: AppColors.ORANGE_COLOR,
+                                                        fontSize: 14.sp,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ordersHistoryController.ordersDataList[index].modelMeta?[innerIndex].orderMeta?[sizeIndex].weight ?? '',
+                                                      style: TextStyle(
+                                                        color: AppColors.DARK_GREEN_COLOR,
+                                                        fontSize: 14.sp,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(height: 1.5.h);
+                                        },
+                                      ),
+                                    ),
+                                ],
                               );
                             },
                             separatorBuilder: (context, index) {

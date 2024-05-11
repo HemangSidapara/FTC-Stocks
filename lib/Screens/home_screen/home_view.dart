@@ -6,9 +6,9 @@ import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_controller.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:ftc_stocks/Widgets/exit_app_dialog_widget.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -102,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Image.asset(
                   iconName,
-                  width: 8.w,
+                  width: index == 1 ? 9.5.w : 8.w,
                   color: controller.bottomIndex.value == index ? AppColors.PRIMARY_COLOR : AppColors.LIGHT_BLACK_COLOR,
                 ),
               ],

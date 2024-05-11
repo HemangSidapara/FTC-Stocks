@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Utils {
   ///showSnackBar
@@ -41,7 +41,7 @@ class Utils {
               child: Text(
                 message ?? 'Empty message',
                 style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 16.sp,
                   color: textColor ?? AppColors.WHITE_COLOR,
                   fontWeight: FontWeight.w600,
                 ),

@@ -6,8 +6,9 @@ import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_controller.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/hand_shaken_animation.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -23,17 +24,32 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w).copyWith(bottom: 3.h),
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w).copyWith(bottom: 3.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppStrings.hello.tr,
-            style: TextStyle(
-              color: AppColors.PRIMARY_COLOR,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w900,
-            ),
+          ///Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.hello.tr,
+                      style: TextStyle(
+                        color: AppColors.PRIMARY_COLOR.withOpacity(0.8),
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const HandShakenAnimation(),
+                  ],
+                ),
+              ),
+              SizedBox(width: 2.w),
+            ],
           ),
           SizedBox(height: 5.h),
 
@@ -78,7 +94,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
                                     ),
                                   ),
                                 ],
@@ -98,7 +114,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                   ),
                 ],
 
-                ///Add stocks, Total stocks, Minimum stocks and Challan
+                ///Add stocks, Total stocks, Minimum stocks and Total Stock in house
                 SliverPadding(
                   padding: EdgeInsets.only(bottom: 2.h),
                   sliver: SliverGrid.builder(
@@ -138,7 +154,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
                                     ),
                                   ),
                                 ),
@@ -160,12 +176,12 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                   ),
                 ),
 
-                ///InProgress Stock
+                ///Challan
                 if (getData(AppConstance.role) == 'Admin')
                   SliverToBoxAdapter(
                     child: ElevatedButton(
                       onPressed: () async {
-                        Get.toNamed(Routes.inProgressStockScreen, id: 0);
+                        Get.toNamed(Routes.challanScreen, id: 0);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -188,16 +204,16 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
                               child: Row(
                                 children: [
                                   Image.asset(
-                                    AppAssets.inProgressStockIcon,
+                                    AppAssets.challanIcon,
                                     width: 15.w,
                                   ),
                                   SizedBox(width: 3.w),
                                   Text(
-                                    AppStrings.inProgressStock.tr,
+                                    AppStrings.challan.tr,
                                     style: TextStyle(
                                       color: AppColors.PRIMARY_COLOR,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
                                     ),
                                   ),
                                 ],

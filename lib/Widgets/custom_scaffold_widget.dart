@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomScaffoldWidget extends StatelessWidget {
   final Widget child;
@@ -32,7 +32,7 @@ class CustomScaffoldWidget extends StatelessWidget {
         ),
         body: isPadded
             ? Padding(
-                padding: scaffoldPadding ?? EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                padding: scaffoldPadding ?? EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
                 child: child,
               )
             : child,

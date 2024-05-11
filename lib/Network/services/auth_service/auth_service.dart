@@ -6,7 +6,9 @@ import 'package:ftc_stocks/Constants/api_urls.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
+import 'package:ftc_stocks/Network/ResponseModel.dart';
 import 'package:ftc_stocks/Network/api_base_helper.dart';
+import 'package:ftc_stocks/Network/models/auth_models/get_latest_version_model.dart';
 import 'package:ftc_stocks/Network/models/auth_models/login_model.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
@@ -50,5 +52,26 @@ class AuthService {
       params: param,
     );
     return response.isSuccess;
+  }
+
+  ///Get latest version
+  Future<ResponseModel> getLatestVersionService() async {
+    final response = await ApiBaseHelper().getHTTP(
+      ApiUrls.inAppUpdateApi,
+      showProgress: false,
+      onError: (dioExceptions) {
+        Utils.handleMessage(message: dioExceptions.message, isError: true);
+      },
+      onSuccess: (res) async {
+        if (res.isSuccess) {
+          GetLatestVersionModel latestVersionModel = GetLatestVersionModel.fromJson(res.response?.data);
+          debugPrint("inAppUpdateApi success :: ${latestVersionModel.msg}");
+        } else {
+          debugPrint("inAppUpdateApi error :: ${res.message}");
+        }
+      },
+    );
+
+    return response;
   }
 }

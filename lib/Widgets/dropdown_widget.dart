@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
-import 'package:ftc_stocks/Utils/app_sizer.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DropDownWidget extends StatelessWidget {
   final String? title;
@@ -44,7 +44,7 @@ class DropDownWidget extends StatelessWidget {
                   title!,
                   style: TextStyle(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -60,7 +60,7 @@ class DropDownWidget extends StatelessWidget {
           style: TextStyle(
             color: AppColors.PRIMARY_COLOR,
             fontWeight: FontWeight.w600,
-            fontSize: 10.sp,
+            fontSize: 14.sp,
           ),
           alignment: Alignment.topLeft,
           decoration: InputDecoration(
@@ -70,12 +70,12 @@ class DropDownWidget extends StatelessWidget {
             hintText: hintText,
             hintStyle: TextStyle(
               color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-              fontSize: 10.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
             errorStyle: TextStyle(
               color: AppColors.ERROR_COLOR,
-              fontSize: 10.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
             border: OutlineInputBorder(
@@ -128,7 +128,7 @@ class DropDownWidget extends StatelessWidget {
             AppStrings.noDataFound.tr,
             style: TextStyle(
               color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
-              fontSize: 10.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
