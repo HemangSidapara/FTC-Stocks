@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Utils {
+  ///Unfocus
+  static void unfocus() {
+    Utils.unfocus();
+  }
+
+  ///Current app is latest or not
+  static bool isUpdateAvailable(String currentVersion, String newAPKVersion) {
+    List<String> versionNumberList = currentVersion.split('.').toList();
+    List<String> storeVersionNumberList = newAPKVersion.split('.').toList();
+    for (int i = 0; i < versionNumberList.length; i++) {
+      if (versionNumberList[i].toInt() != storeVersionNumberList[i].toInt()) {
+        if (versionNumberList[i].toInt() < storeVersionNumberList[i].toInt()) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
   ///showSnackBar
   static void handleMessage({
     String? message,

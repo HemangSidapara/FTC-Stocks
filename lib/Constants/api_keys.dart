@@ -13,4 +13,5 @@ class ApiKeys {
   static const modelID = "model_id";
   static const orderID = "order_id";
   static const partyName = "party_name";
+  static const metaID = "meta_id";
 }

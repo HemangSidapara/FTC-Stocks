@@ -74,7 +74,7 @@ class _AddStockViewState extends State<AddStockView> {
               addStockController.customProductSizeController.clear();
               addStockController.initCustomControllers();
             }
-            FocusManager.instance.primaryFocus?.unfocus();
+            Utils.unfocus();
           },
           child: Column(
             mainAxisSize: MainAxisSize.max,

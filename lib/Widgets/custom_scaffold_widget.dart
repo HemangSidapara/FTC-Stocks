@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomScaffoldWidget extends StatelessWidget {
@@ -20,7 +21,7 @@ class CustomScaffoldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final keyboardPadding = MediaQuery.viewInsetsOf(context).bottom;
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => Utils.unfocus(),
       child: Scaffold(
         bottomSheet: Material(
           color: AppColors.WHITE_COLOR,

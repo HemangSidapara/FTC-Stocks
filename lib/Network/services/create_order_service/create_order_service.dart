@@ -68,9 +68,9 @@ class CreateOrderService {
   }
 
   ///Cancel Order Service
-  Future<ResponseModel> cancelOrdersService({required String orderId}) async {
+  Future<ResponseModel> cancelOrdersService({required String metaId}) async {
     final params = {
-      ApiKeys.orderID: orderId,
+      ApiKeys.metaID: metaId,
     };
 
     final response = await ApiBaseHelper().postHTTP(

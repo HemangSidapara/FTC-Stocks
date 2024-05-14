@@ -12,10 +12,6 @@ class PendingOrdersController extends GetxController {
   TextEditingController searchPendingOrdersController = TextEditingController();
   RxList<get_orders.Data> ordersDataList = RxList<get_orders.Data>();
   RxList<get_orders.Data> searchedOrdersDataList = RxList<get_orders.Data>();
-  RxList<String> orderList = RxList();
-  RxList<String> searchedOrderList = RxList();
-  RxString doneId = ''.obs;
-  RxString cancelId = ''.obs;
 
   @override
   void onReady() async {
@@ -32,12 +28,8 @@ class PendingOrdersController extends GetxController {
         get_orders.GetOrdersModel getOrdersModel = get_orders.getOrdersModelFromJson(response.response.toString());
         ordersDataList.clear();
         searchedOrdersDataList.clear();
-        orderList.clear();
-        searchedOrderList.clear();
         ordersDataList.addAll(getOrdersModel.data?.toList() ?? []);
         searchedOrdersDataList.addAll(getOrdersModel.data?.toList() ?? []);
-        orderList.addAll(getOrdersModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
-        searchedOrderList.addAll(getOrdersModel.data?.toList().map((e) => e.partyName ?? '').toList() ?? []);
       }
     } finally {
       isRefreshing(false);
@@ -45,8 +37,8 @@ class PendingOrdersController extends GetxController {
     }
   }
 
-  Future<void> cancelOrderApiCall({required String orderId}) async {
-    final response = await CreateOrderService().cancelOrdersService(orderId: orderId);
+  Future<void> cancelOrderApiCall({required String metaId}) async {
+    final response = await CreateOrderService().cancelOrdersService(metaId: metaId);
 
     if (response.isSuccess) {
       await getOrdersApiCall(isLoading: false);

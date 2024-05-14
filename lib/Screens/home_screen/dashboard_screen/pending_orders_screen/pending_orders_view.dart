@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/pending_orders_screen/pending_orders_controller.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -99,7 +100,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                   ? InkWell(
                       onTap: () async {
                         pendingOrdersController.searchPendingOrdersController.clear();
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        Utils.unfocus();
                         await getSearchedOrderList(searchedValue: pendingOrdersController.searchPendingOrdersController.text);
                       },
                       child: Icon(
@@ -127,7 +128,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
             child: Obx(() {
               if (pendingOrdersController.isGetOrdersLoading.value) {
                 return const LoadingWidget();
-              } else if (pendingOrdersController.searchedOrderList.isEmpty) {
+              } else if (pendingOrdersController.searchedOrdersDataList.isEmpty) {
                 return Center(
                   child: Text(
                     AppStrings.noDataFound.tr,
@@ -140,7 +141,8 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                 );
               } else {
                 return ListView.separated(
-                  itemCount: pendingOrdersController.searchedOrderList.length,
+                  itemCount: pendingOrdersController.searchedOrdersDataList.length,
+                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ExpansionTile(
                       title: Row(
@@ -245,7 +247,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                   title: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      ///Size
+                                      ///Item Name
                                       Flexible(
                                         child: Row(
                                           children: [
@@ -271,6 +273,28 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                         ),
                                       ),
                                       SizedBox(width: 2.w),
+
+                                      ///Cancel
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          await pendingOrdersController.cancelOrderApiCall(metaId: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].modelId ?? '');
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.DARK_RED_COLOR,
+                                          maximumSize: Size(8.5.w, 8.5.w),
+                                          minimumSize: Size(8.5.w, 8.5.w),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(99),
+                                          ),
+                                          elevation: 4,
+                                          padding: EdgeInsets.zero,
+                                        ),
+                                        child: Icon(
+                                          Icons.delete_forever_rounded,
+                                          color: AppColors.WHITE_COLOR,
+                                          size: 5.w,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
@@ -425,17 +449,14 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
 
   Future<void> getSearchedOrderList({required String searchedValue}) async {
     pendingOrdersController.searchedOrdersDataList.clear();
-    pendingOrdersController.searchedOrderList.clear();
     if (searchedValue != "") {
       pendingOrdersController.searchedOrdersDataList.addAll(pendingOrdersController.ordersDataList.where(
         (e) {
           return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
         },
       ).toList());
-      pendingOrdersController.searchedOrderList.addAll(pendingOrdersController.searchedOrdersDataList.map((e) => e.partyName ?? '').toList());
     } else {
       pendingOrdersController.searchedOrdersDataList.addAll(pendingOrdersController.ordersDataList);
-      pendingOrdersController.searchedOrderList.addAll(pendingOrdersController.orderList);
     }
   }
 }

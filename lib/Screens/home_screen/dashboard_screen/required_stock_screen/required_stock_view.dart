@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/required_stock_screen/required_stock_controller.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -31,92 +32,96 @@ class _RequiredStockViewState extends State<RequiredStockView> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldWidget(
-      isPadded: true,
+      isPadded: false,
       child: Column(
         children: [
           ///Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomHeaderWidget(
-                title: AppStrings.requiredStock.tr,
-                titleIcon: AppAssets.requiredStockIcon,
-                onBackPressed: () {
-                  if (Get.keys[0]?.currentState?.canPop() == true) {
-                    Get.back(id: 0, closeOverlays: true);
-                  }
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 2.w),
-                child: IconButton(
-                  onPressed: requiredStockController.isRefreshing.value
-                      ? () {}
-                      : () async {
-                          await requiredStockController.getRequiredStockApiCall(isLoading: false);
-                        },
-                  style: IconButton.styleFrom(
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    padding: EdgeInsets.zero,
-                  ),
-                  icon: Obx(() {
-                    return TweenAnimationBuilder(
-                      duration: Duration(seconds: requiredStockController.isRefreshing.value ? 45 : 1),
-                      tween: Tween(begin: 0.0, end: requiredStockController.isRefreshing.value ? 45.0 : requiredStockController.ceilValueForRefresh.value),
-                      onEnd: () {
-                        requiredStockController.isRefreshing.value = false;
-                      },
-                      builder: (context, value, child) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          requiredStockController.ceilValueForRefresh(value.toDouble().ceilToDouble());
-                        });
-                        return Transform.rotate(
-                          angle: value * 2 * 3.141592653589793,
-                          child: Icon(
-                            Icons.refresh_rounded,
-                            color: AppColors.SECONDARY_COLOR,
-                            size: 6.w,
-                          ),
-                        );
-                      },
-                    );
-                  }),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomHeaderWidget(
+                  title: AppStrings.requiredStock.tr,
+                  titleIcon: AppAssets.requiredStockIcon,
+                  onBackPressed: () {
+                    if (Get.keys[0]?.currentState?.canPop() == true) {
+                      Get.back(id: 0, closeOverlays: true);
+                    }
+                  },
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.only(right: 2.w),
+                  child: IconButton(
+                    onPressed: requiredStockController.isRefreshing.value
+                        ? () {}
+                        : () async {
+                            await requiredStockController.getRequiredStockApiCall(isLoading: false);
+                          },
+                    style: IconButton.styleFrom(
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: EdgeInsets.zero,
+                    ),
+                    icon: Obx(() {
+                      return TweenAnimationBuilder(
+                        duration: Duration(seconds: requiredStockController.isRefreshing.value ? 45 : 1),
+                        tween: Tween(begin: 0.0, end: requiredStockController.isRefreshing.value ? 45.0 : requiredStockController.ceilValueForRefresh.value),
+                        onEnd: () {
+                          requiredStockController.isRefreshing.value = false;
+                        },
+                        builder: (context, value, child) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            requiredStockController.ceilValueForRefresh(value.toDouble().ceilToDouble());
+                          });
+                          return Transform.rotate(
+                            angle: value * 2 * 3.141592653589793,
+                            child: Icon(
+                              Icons.refresh_rounded,
+                              color: AppColors.SECONDARY_COLOR,
+                              size: 6.w,
+                            ),
+                          );
+                        },
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 2.h),
 
           ///Search bar
-          TextFieldWidget(
-            controller: requiredStockController.searchRequiredStockController,
-            hintText: AppStrings.searchRequiredStock.tr,
-            suffixIcon: requiredStockController.searchRequiredStockController.text.isNotEmpty
-                ? InkWell(
-                    onTap: () async {
-                      requiredStockController.searchRequiredStockController.clear();
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      await getSearchedRequiredStockList(searchedValue: requiredStockController.searchRequiredStockController.text);
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: AppColors.SECONDARY_COLOR,
-                      size: context.isPortrait ? 4.w : 4.h,
-                    ),
-                  )
-                : null,
-            suffixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
-            prefixIcon: Icon(
-              Icons.search_rounded,
-              color: AppColors.SECONDARY_COLOR,
-              size: context.isPortrait ? 4.w : 4.h,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+            child: TextFieldWidget(
+              controller: requiredStockController.searchRequiredStockController,
+              hintText: AppStrings.searchRequiredStock.tr,
+              suffixIcon: requiredStockController.searchRequiredStockController.text.isNotEmpty
+                  ? InkWell(
+                      onTap: () async {
+                        requiredStockController.searchRequiredStockController.clear();
+                        Utils.unfocus();
+                        await getSearchedRequiredStockList(searchedValue: requiredStockController.searchRequiredStockController.text);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: AppColors.SECONDARY_COLOR,
+                        size: context.isPortrait ? 4.w : 4.h,
+                      ),
+                    )
+                  : null,
+              suffixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: AppColors.SECONDARY_COLOR,
+                size: context.isPortrait ? 4.w : 4.h,
+              ),
+              prefixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
+              onChanged: (value) async {
+                await getSearchedRequiredStockList(searchedValue: value);
+              },
             ),
-            prefixIconConstraints: BoxConstraints(minWidth: context.isPortrait ? 10.w : 10.h, maxWidth: context.isPortrait ? 10.w : 10.h),
-            onChanged: (value) async {
-              await getSearchedRequiredStockList(searchedValue: value);
-            },
           ),
-          SizedBox(height: 1.h),
 
           ///Data
           Expanded(
@@ -138,6 +143,7 @@ class _RequiredStockViewState extends State<RequiredStockView> {
                 return ListView.separated(
                   itemCount: requiredStockController.searchedRequiredStockList.length,
                   shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
                   itemBuilder: (context, index) {
                     return ExpansionTile(
                       title: Row(
@@ -319,6 +325,7 @@ class _RequiredStockViewState extends State<RequiredStockView> {
               }
             }),
           ),
+          SizedBox(height: 3.h),
         ],
       ),
     );

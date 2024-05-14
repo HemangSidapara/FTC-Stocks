@@ -68,7 +68,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
               addNewProductController.customProductSizeController.clear();
               addNewProductController.initCustomControllers();
             }
-            FocusManager.instance.primaryFocus?.unfocus();
+            Utils.unfocus();
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

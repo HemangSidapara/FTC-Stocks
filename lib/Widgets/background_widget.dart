@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class BackgroundWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class BackgroundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => Utils.unfocus(),
       child: Scaffold(
         body: Center(
           child: Stack(
