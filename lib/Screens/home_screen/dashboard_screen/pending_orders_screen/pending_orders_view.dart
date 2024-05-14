@@ -273,28 +273,6 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                         ),
                                       ),
                                       SizedBox(width: 2.w),
-
-                                      ///Cancel
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          await pendingOrdersController.cancelOrderApiCall(metaId: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].modelId ?? '');
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.DARK_RED_COLOR,
-                                          maximumSize: Size(8.5.w, 8.5.w),
-                                          minimumSize: Size(8.5.w, 8.5.w),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(99),
-                                          ),
-                                          elevation: 4,
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Icon(
-                                          Icons.delete_forever_rounded,
-                                          color: AppColors.WHITE_COLOR,
-                                          size: 5.w,
-                                        ),
-                                      ),
                                     ],
                                   ),
                                   collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
@@ -358,6 +336,29 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                     ),
                                                   ),
                                                   SizedBox(width: 2.w),
+
+                                                  ///Cancel
+                                                  ElevatedButton(
+                                                    onPressed: () async {
+                                                      await pendingOrdersController.cancelOrderApiCall(metaId: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].orderMeta?[sizeIndex].metaId ?? '');
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: AppColors.DARK_RED_COLOR,
+                                                      maximumSize: Size(7.5.w, 7.5.w),
+                                                      minimumSize: Size(7.5.w, 7.5.w),
+                                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(99),
+                                                      ),
+                                                      elevation: 4,
+                                                      padding: EdgeInsets.zero,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.delete_forever_rounded,
+                                                      color: AppColors.WHITE_COLOR,
+                                                      size: 4.5.w,
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                               collapsedBackgroundColor: AppColors.SECONDARY_COLOR.withOpacity(0.13),
