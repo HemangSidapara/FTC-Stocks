@@ -113,4 +113,5 @@ Map<String, String> enIN = <String, String>{
   AppStrings.update: 'Update',
   AppStrings.newVersionAvailable: 'A new version is available. Please upgrade to it.',
   AppStrings.searchRequiredStock: 'Search required stock',
+  AppStrings.viewChallan: "View Challan",
 };

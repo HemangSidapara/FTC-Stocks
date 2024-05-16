@@ -336,7 +336,13 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                     ),
                                                   ),
                                                   SizedBox(width: 2.w),
-
+                                                ],
+                                              ),
+                                              tilePadding: EdgeInsets.only(left: 5.w, right: 3.w),
+                                              trailing: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
                                                   ///Cancel
                                                   ElevatedButton(
                                                     onPressed: () async {
@@ -353,11 +359,51 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                       elevation: 4,
                                                       padding: EdgeInsets.zero,
                                                     ),
-                                                    child: Icon(
-                                                      Icons.delete_forever_rounded,
-                                                      color: AppColors.WHITE_COLOR,
-                                                      size: 4.5.w,
+                                                    child: pendingOrdersController.isCompleteOrderLoading.isFalse && pendingOrdersController.completeId.value == pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].orderMeta?[sizeIndex].metaId
+                                                        ? Padding(
+                                                            padding: EdgeInsets.all(2.w),
+                                                            child: CircularProgressIndicator(
+                                                              color: AppColors.WHITE_COLOR,
+                                                              strokeWidth: 1.5,
+                                                            ),
+                                                          )
+                                                        : Icon(
+                                                            Icons.delete_forever_rounded,
+                                                            color: AppColors.WHITE_COLOR,
+                                                            size: 4.5.w,
+                                                          ),
+                                                  ),
+                                                  SizedBox(width: 3.w),
+
+                                                  ///Complete
+                                                  ElevatedButton(
+                                                    onPressed: () async {
+                                                      await pendingOrdersController.completeOrderApiCall(metaId: pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].orderMeta?[sizeIndex].metaId ?? '');
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: AppColors.DARK_GREEN_COLOR,
+                                                      maximumSize: Size(7.5.w, 7.5.w),
+                                                      minimumSize: Size(7.5.w, 7.5.w),
+                                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(99),
+                                                      ),
+                                                      elevation: 4,
+                                                      padding: EdgeInsets.zero,
                                                     ),
+                                                    child: pendingOrdersController.isCompleteOrderLoading.isFalse && pendingOrdersController.cancelId.value == pendingOrdersController.searchedOrdersDataList[index].modelMeta?[productIndex].orderMeta?[sizeIndex].metaId
+                                                        ? Padding(
+                                                            padding: EdgeInsets.all(2.w),
+                                                            child: CircularProgressIndicator(
+                                                              color: AppColors.WHITE_COLOR,
+                                                              strokeWidth: 1.5,
+                                                            ),
+                                                          )
+                                                        : Icon(
+                                                            Icons.done_rounded,
+                                                            color: AppColors.WHITE_COLOR,
+                                                            size: 4.5.w,
+                                                          ),
                                                   ),
                                                 ],
                                               ),

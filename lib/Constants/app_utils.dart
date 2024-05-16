@@ -7,7 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class Utils {
   ///Unfocus
   static void unfocus() {
-    Utils.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   ///Current app is latest or not

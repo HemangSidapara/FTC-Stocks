@@ -92,7 +92,7 @@ class _RequiredStockViewState extends State<RequiredStockView> {
 
           ///Search bar
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+            padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w).copyWith(top: 0),
             child: TextFieldWidget(
               controller: requiredStockController.searchRequiredStockController,
               hintText: AppStrings.searchRequiredStock.tr,
@@ -128,7 +128,7 @@ class _RequiredStockViewState extends State<RequiredStockView> {
             child: Obx(() {
               if (requiredStockController.isGetStockLoading.value) {
                 return const LoadingWidget();
-              } else if (requiredStockController.searchedRequiredStockList.isEmpty) {
+              } else if (requiredStockController.searchedRequiredStockDataList.isEmpty) {
                 return Center(
                   child: Text(
                     AppStrings.noDataFound.tr,
@@ -141,7 +141,7 @@ class _RequiredStockViewState extends State<RequiredStockView> {
                 );
               } else {
                 return ListView.separated(
-                  itemCount: requiredStockController.searchedRequiredStockList.length,
+                  itemCount: requiredStockController.searchedRequiredStockDataList.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   itemBuilder: (context, index) {
@@ -333,17 +333,14 @@ class _RequiredStockViewState extends State<RequiredStockView> {
 
   Future<void> getSearchedRequiredStockList({required String searchedValue}) async {
     requiredStockController.searchedRequiredStockDataList.clear();
-    requiredStockController.searchedRequiredStockList.clear();
     if (searchedValue != "") {
       requiredStockController.searchedRequiredStockDataList.addAll(requiredStockController.requiredStockDataList.where(
         (e) {
           return e.name?.contains(searchedValue) == true || e.name?.toLowerCase().contains(searchedValue) == true;
         },
       ).toList());
-      requiredStockController.searchedRequiredStockList.addAll(requiredStockController.searchedRequiredStockDataList.map((e) => e.name ?? '').toList());
     } else {
       requiredStockController.searchedRequiredStockDataList.addAll(requiredStockController.requiredStockDataList);
-      requiredStockController.searchedRequiredStockList.addAll(requiredStockController.requiredStockList);
     }
   }
 }

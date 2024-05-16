@@ -11,8 +11,6 @@ class RequiredStockController extends GetxController {
   TextEditingController searchRequiredStockController = TextEditingController();
   RxList<get_stocks.Data> requiredStockDataList = RxList<get_stocks.Data>();
   RxList<get_stocks.Data> searchedRequiredStockDataList = RxList<get_stocks.Data>();
-  RxList<String> requiredStockList = RxList();
-  RxList<String> searchedRequiredStockList = RxList();
 
   @override
   void onReady() async {
@@ -29,12 +27,8 @@ class RequiredStockController extends GetxController {
         get_stocks.RequiredStockModel requiredStockModel = get_stocks.RequiredStockModel.fromJson(response.response?.data);
         requiredStockDataList.clear();
         searchedRequiredStockDataList.clear();
-        requiredStockList.clear();
-        searchedRequiredStockList.clear();
         requiredStockDataList.addAll(requiredStockModel.data?.toList() ?? []);
         searchedRequiredStockDataList.addAll(requiredStockModel.data?.toList() ?? []);
-        requiredStockList.addAll(requiredStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
-        searchedRequiredStockList.addAll(requiredStockModel.data?.toList().map((e) => e.name ?? '').toList() ?? []);
       }
     } finally {
       isRefreshing(false);

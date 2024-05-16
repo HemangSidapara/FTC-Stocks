@@ -14,4 +14,5 @@ class ApiUrls {
   static const String inAppUpdateApi = '${_apiPath}inAppUpdate';
   static const String getPartiesApi = '${_apiPath}getParties';
   static const String requiredStockApi = '${_apiPath}requiredStock';
+  static const String getCompletedOrderApi = '${_apiPath}getCompletedOrder';
 }

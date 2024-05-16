@@ -13,6 +13,11 @@ class PendingOrdersController extends GetxController {
   RxList<get_orders.Data> ordersDataList = RxList<get_orders.Data>();
   RxList<get_orders.Data> searchedOrdersDataList = RxList<get_orders.Data>();
 
+  RxString cancelId = ''.obs;
+  RxString completeId = ''.obs;
+  RxBool isCancelOrderLoading = false.obs;
+  RxBool isCompleteOrderLoading = false.obs;
+
   @override
   void onReady() async {
     await getOrdersApiCall();
@@ -38,20 +43,34 @@ class PendingOrdersController extends GetxController {
   }
 
   Future<void> cancelOrderApiCall({required String metaId}) async {
-    final response = await CreateOrderService().cancelOrdersService(metaId: metaId);
+    try {
+      isCancelOrderLoading(true);
+      cancelId(metaId);
+      final response = await CreateOrderService().cancelOrdersService(metaId: metaId);
 
-    if (response.isSuccess) {
-      await getOrdersApiCall(isLoading: false);
-      Utils.handleMessage(message: response.message);
+      if (response.isSuccess) {
+        cancelId('');
+        await getOrdersApiCall(isLoading: false);
+        Utils.handleMessage(message: response.message);
+      }
+    } finally {
+      isCancelOrderLoading(false);
     }
   }
 
-  Future<void> completeOrderApiCall({required String orderId}) async {
-    final response = await CreateOrderService().completeOrdersService(orderId: orderId);
+  Future<void> completeOrderApiCall({required String metaId}) async {
+    try {
+      isCompleteOrderLoading(true);
+      completeId(metaId);
+      final response = await CreateOrderService().completeOrdersService(metaId: metaId);
 
-    if (response.isSuccess) {
-      await getOrdersApiCall(isLoading: false);
-      Utils.handleMessage(message: response.message);
+      if (response.isSuccess) {
+        completeId('');
+        await getOrdersApiCall(isLoading: false);
+        Utils.handleMessage(message: response.message);
+      }
+    } finally {
+      isCompleteOrderLoading(false);
     }
   }
 }
