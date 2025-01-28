@@ -33,14 +33,16 @@ class _TotalStockInHouseViewState extends State<TotalStockInHouseView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomHeaderWidget(
-                  title: AppStrings.totalStockInHouse.tr,
-                  titleIcon: AppAssets.totalStockInHouseIcon,
-                  onBackPressed: () {
-                    if (Get.keys[0]?.currentState?.canPop() == true) {
-                      Get.back(id: 0, closeOverlays: true);
-                    }
-                  },
+                Flexible(
+                  child: CustomHeaderWidget(
+                    title: AppStrings.totalStockInHouse.tr,
+                    titleIcon: AppAssets.totalStockInHouseIcon,
+                    onBackPressed: () {
+                      if (Get.keys[0]?.currentState?.canPop() == true) {
+                        Get.back(id: 0, closeOverlays: true);
+                      }
+                    },
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: 2.w),
@@ -125,7 +127,7 @@ class _TotalStockInHouseViewState extends State<TotalStockInHouseView> {
                   child: Text(
                     AppStrings.noDataFound.tr,
                     style: TextStyle(
-                      color: AppColors.PRIMARY_COLOR.withOpacity(0.7),
+                      color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.7),
                       fontWeight: FontWeight.w700,
                       fontSize: 16.sp,
                     ),
@@ -160,8 +162,8 @@ class _TotalStockInHouseViewState extends State<TotalStockInHouseView> {
                           ),
                         ],
                       ),
-                      collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                      backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                      collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                      backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                       collapsedShape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

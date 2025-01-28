@@ -133,7 +133,7 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                   child: Text(
                     AppStrings.noDataFound.tr,
                     style: TextStyle(
-                      color: AppColors.PRIMARY_COLOR.withOpacity(0.7),
+                      color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.7),
                       fontWeight: FontWeight.w700,
                       fontSize: 16.sp,
                     ),
@@ -275,8 +275,8 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                       SizedBox(width: 2.w),
                                     ],
                                   ),
-                                  collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
-                                  backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withOpacity(0.7),
+                                  collapsedBackgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
+                                  backgroundColor: AppColors.LIGHT_SECONDARY_COLOR.withValues(alpha: 0.7),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -407,8 +407,8 @@ class _PendingOrdersViewState extends State<PendingOrdersView> {
                                                   ),
                                                 ],
                                               ),
-                                              collapsedBackgroundColor: AppColors.SECONDARY_COLOR.withOpacity(0.13),
-                                              backgroundColor: AppColors.SECONDARY_COLOR.withOpacity(0.13),
+                                              collapsedBackgroundColor: AppColors.SECONDARY_COLOR.withValues(alpha: 0.13),
+                                              backgroundColor: AppColors.SECONDARY_COLOR.withValues(alpha: 0.13),
                                               shape: RoundedRectangleBorder(
                                                 side: BorderSide(color: AppColors.TRANSPARENT),
                                               ),

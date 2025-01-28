@@ -73,7 +73,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                       return Text(
                         AppConstance.appVersion.replaceAll('1.0.0', settingsController.appVersion.value),
                         style: TextStyle(
-                          color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                          color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
                           fontWeight: FontWeight.w700,
                           fontSize: context.isPortrait ? 16.sp : 12.sp,
                         ),
@@ -257,7 +257,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
             child: Text(
               AppStrings.copyrightContext.replaceAll('2024', DateTime.now().year.toString()),
               style: TextStyle(
-                color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
                 fontWeight: FontWeight.w700,
                 fontSize: context.isPortrait ? 14.sp : 10.sp,
               ),

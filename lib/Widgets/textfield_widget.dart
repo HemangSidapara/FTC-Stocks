@@ -96,7 +96,7 @@ class TextFieldWidget extends StatelessWidget {
             suffixIconConstraints: suffixIconConstraints,
             suffixIcon: suffixIcon,
             hintStyle: TextStyle(
-              color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+              color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),

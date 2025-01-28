@@ -28,7 +28,7 @@ class DownloaderService extends GetxController {
                   color: AppColors.PRIMARY_COLOR,
                   minHeight: 4,
                   value: _progressValue.value,
-                  backgroundColor: AppColors.PRIMARY_COLOR.withOpacity(0.25),
+                  backgroundColor: AppColors.PRIMARY_COLOR.withValues(alpha: 0.25),
                   valueColor: AlwaysStoppedAnimation<Color>(AppColors.PRIMARY_COLOR),
                 );
               }),

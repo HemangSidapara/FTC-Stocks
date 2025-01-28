@@ -128,32 +128,41 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ],
                             ),
                             DropdownSearch<String>(
-                              asyncItems: (text) {
-                                return createOrderController.getPartiesApiCall(isLoading: false);
+                              items: (filter, loadProps) async {
+                                return await createOrderController.getPartiesApiCall(isLoading: false);
                               },
                               selectedItem: createOrderController.selectedParty.value == -1 ? null : createOrderController.partyNameList[createOrderController.selectedParty.value],
-                              dropdownButtonProps: DropdownButtonProps(
-                                constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.SECONDARY_COLOR,
-                                  size: 5.w,
+                              suffixProps: DropdownSuffixProps(
+                                dropdownButtonProps: DropdownButtonProps(
+                                  constraints: BoxConstraints.loose(
+                                    Size(7.w, 4.5.h),
+                                  ),
+                                  iconOpened: Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
+                                  iconClosed: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
                                 ),
                               ),
                               validator: createOrderController.validateParty,
-                              dropdownDecoratorProps: DropDownDecoratorProps(
+                              decoratorProps: DropDownDecoratorProps(
                                 baseStyle: TextStyle(
                                   color: AppColors.PRIMARY_COLOR,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                 ),
-                                dropdownSearchDecoration: InputDecoration(
+                                decoration: InputDecoration(
                                   filled: true,
                                   enabled: true,
                                   fillColor: AppColors.WHITE_COLOR,
                                   hintText: AppStrings.selectParty.tr,
                                   hintStyle: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -214,14 +223,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     child: Text(
                                       AppStrings.noDataFound.tr,
                                       style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   );
                                 },
-                                itemBuilder: (context, item, isSelected) {
+                                itemBuilder: (context, item, isDisabled, isSelected) {
                                   return Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -329,8 +338,8 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                               ],
                             ),
                             DropdownSearch<String>(
-                              asyncItems: (text) {
-                                return createOrderController.getStockApiCall(isLoading: false);
+                              items: (filter, loadProps) async {
+                                return await createOrderController.getStockApiCall(isLoading: false);
                               },
                               selectedItem: createOrderController.selectedProduct.value == -1 ? null : createOrderController.productList[createOrderController.selectedProduct.value],
                               onChanged: (value) {
@@ -384,28 +393,37 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   }
                                 }
                               },
-                              dropdownButtonProps: DropdownButtonProps(
-                                constraints: BoxConstraints.loose(Size(7.w, 4.5.h)),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.SECONDARY_COLOR,
-                                  size: 5.w,
+                              suffixProps: DropdownSuffixProps(
+                                dropdownButtonProps: DropdownButtonProps(
+                                  constraints: BoxConstraints.loose(
+                                    Size(7.w, 4.5.h),
+                                  ),
+                                  iconOpened: Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
+                                  iconClosed: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
                                 ),
                               ),
                               validator: createOrderController.validateProduct,
-                              dropdownDecoratorProps: DropDownDecoratorProps(
+                              decoratorProps: DropDownDecoratorProps(
                                 baseStyle: TextStyle(
                                   color: AppColors.PRIMARY_COLOR,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14.sp,
                                 ),
-                                dropdownSearchDecoration: InputDecoration(
+                                decoration: InputDecoration(
                                   filled: true,
                                   enabled: true,
                                   fillColor: AppColors.WHITE_COLOR,
                                   hintText: AppStrings.selectProduct.tr,
                                   hintStyle: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -466,14 +484,14 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     child: Text(
                                       AppStrings.noDataFound.tr,
                                       style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   );
                                 },
-                                itemBuilder: (context, item, isSelected) {
+                                itemBuilder: (context, item, isDisabled, isSelected) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                                     child: Text(
@@ -534,27 +552,37 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                             SizedBox(height: 0.6.h),
                             DropdownSearch.multiSelection(
                               enabled: createOrderController.selectedProduct.value != -1,
-                              dropdownButtonProps: DropdownButtonProps(
-                                constraints: BoxConstraints.loose(
-                                  Size(7.w, 4.5.h),
-                                ),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.SECONDARY_COLOR,
-                                  size: 5.w,
+                              suffixProps: DropdownSuffixProps(
+                                dropdownButtonProps: DropdownButtonProps(
+                                  constraints: BoxConstraints.loose(
+                                    Size(7.w, 4.5.h),
+                                  ),
+                                  iconOpened: Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
+                                  iconClosed: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.SECONDARY_COLOR,
+                                    size: 5.w,
+                                  ),
                                 ),
                               ),
+                              compareFn: (item1, item2) {
+                                return item1 == item2;
+                              },
                               validator: (value) {
                                 return createOrderController.validateProductSize(value!.toList());
                               },
-                              dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
+                              decoratorProps: DropDownDecoratorProps(
+                                decoration: InputDecoration(
                                   filled: true,
                                   enabled: true,
                                   fillColor: AppColors.WHITE_COLOR,
                                   hintText: AppStrings.selectSize.tr,
                                   hintStyle: TextStyle(
-                                    color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -602,7 +630,9 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   contentPadding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.3.h).copyWith(right: 1.w),
                                 ),
                               ),
-                              items: createOrderController.sizeList,
+                              items: (filter, loadProps) {
+                                return createOrderController.sizeList;
+                              },
                               popupProps: PopupPropsMultiSelection.menu(
                                 menuProps: MenuProps(
                                   backgroundColor: AppColors.WHITE_COLOR,
@@ -611,7 +641,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                 disabledItemFn: (item) {
                                   return !createOrderController.sizeList.where((element) => createOrderController.productDataList.where((p0) => p0.name == createOrderController.productList[createOrderController.selectedProduct.value]).toList().first.modelMeta?.map((e) => e.size).toList().contains(element) == true).toList().contains(item);
                                 },
-                                validationWidgetBuilder: (context, item) {
+                                validationBuilder: (context, item) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 8),
                                     child: ButtonWidget(
@@ -627,7 +657,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     ),
                                   );
                                 },
-                                itemBuilder: (context, item, isSelected) {
+                                itemBuilder: (context, item, isDisabled, isSelected) {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                                     child: Row(
@@ -657,7 +687,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                               ),
                                             ),
                                           ),
-                                        ]
+                                        ],
                                       ],
                                     ),
                                   );
@@ -681,30 +711,23 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
                                   ),
                                 ),
-                                selectionWidget: (context, item, isSelected) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        isSelected = !isSelected;
-                                      });
-                                    },
-                                    child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 300),
-                                      padding: const EdgeInsets.all(1.5),
-                                      margin: EdgeInsets.only(right: 4.w),
-                                      decoration: BoxDecoration(
-                                        color: isSelected ? AppColors.PRIMARY_COLOR : AppColors.TRANSPARENT,
-                                        border: Border.all(
-                                          color: AppColors.PRIMARY_COLOR,
-                                          width: 2,
-                                        ),
-                                        shape: BoxShape.circle,
+                                checkBoxBuilder: (context, item, isDisabled, isSelected) {
+                                  return AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    padding: const EdgeInsets.all(1.5),
+                                    margin: EdgeInsets.only(right: 4.w),
+                                    decoration: BoxDecoration(
+                                      color: isSelected ? AppColors.PRIMARY_COLOR : AppColors.TRANSPARENT,
+                                      border: Border.all(
+                                        color: AppColors.PRIMARY_COLOR,
+                                        width: 2,
                                       ),
-                                      child: Icon(
-                                        Icons.check,
-                                        color: AppColors.WHITE_COLOR,
-                                        size: 4.3.w,
-                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: AppColors.WHITE_COLOR,
+                                      size: 4.3.w,
                                     ),
                                   );
                                 },
@@ -718,7 +741,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                     child: Text(
                                       AppStrings.selectSize.tr,
                                       style: TextStyle(
-                                        color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+                                        color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -782,7 +805,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                         ),
                                                         child: Container(
                                                           decoration: BoxDecoration(
-                                                            color: AppColors.ERROR_COLOR.withOpacity(0.8),
+                                                            color: AppColors.ERROR_COLOR.withValues(alpha: 0.8),
                                                             shape: BoxShape.circle,
                                                           ),
                                                           padding: const EdgeInsets.all(2),

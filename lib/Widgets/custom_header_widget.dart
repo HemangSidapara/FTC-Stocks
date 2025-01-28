@@ -20,6 +20,7 @@ class CustomHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (onBackPressed != null) ...[
           IconButton(
@@ -41,12 +42,15 @@ class CustomHeaderWidget extends StatelessWidget {
           ),
           SizedBox(width: 2.w),
         ],
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.PRIMARY_COLOR,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w900,
+        Flexible(
+          child: Text(
+            title,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: AppColors.PRIMARY_COLOR,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w900,
+            ),
           ),
         ),
         SizedBox(width: 2.w),

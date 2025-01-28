@@ -69,7 +69,7 @@ class DropDownWidget extends StatelessWidget {
             fillColor: AppColors.WHITE_COLOR,
             hintText: hintText,
             hintStyle: TextStyle(
-              color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+              color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
@@ -127,7 +127,7 @@ class DropDownWidget extends StatelessWidget {
           disabledHint: Text(
             AppStrings.noDataFound.tr,
             style: TextStyle(
-              color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+              color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),

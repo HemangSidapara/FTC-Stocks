@@ -58,7 +58,7 @@ class _SplashViewState extends State<SplashView> {
             return Text(
               AppConstance.appVersion.replaceAll('1.0.0', controller.currentVersion.value),
               style: TextStyle(
-                color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+                color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
                 fontWeight: FontWeight.w700,
                 fontSize: 14.sp,
               ),
@@ -67,7 +67,7 @@ class _SplashViewState extends State<SplashView> {
           Text(
             AppStrings.poweredByMindwaveInfoway,
             style: TextStyle(
-              color: AppColors.PRIMARY_COLOR.withOpacity(0.55),
+              color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
               fontWeight: FontWeight.w700,
               fontSize: 14.sp,
             ),

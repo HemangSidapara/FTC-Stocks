@@ -36,7 +36,7 @@ class ButtonWidget extends StatelessWidget {
         backgroundColor: buttonColor ?? AppColors.PRIMARY_COLOR,
         surfaceTintColor: isLoading ? AppColors.PRIMARY_COLOR : null,
         elevation: 4,
-        shadowColor: AppColors.WHITE_COLOR.withOpacity(0.7),
+        shadowColor: AppColors.WHITE_COLOR.withValues(alpha: 0.7),
         fixedSize: fixedSize ?? Size(84.w, 5.h),
         shape: shape ??
             RoundedRectangleBorder(
