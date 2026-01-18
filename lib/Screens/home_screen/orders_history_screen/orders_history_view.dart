@@ -11,23 +11,17 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class OrdersHistoryView extends StatefulWidget {
+class OrdersHistoryView extends GetView<OrdersHistoryController> {
   const OrdersHistoryView({super.key});
 
-  @override
-  State<OrdersHistoryView> createState() => _OrdersHistoryViewState();
-}
-
-class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKeepAliveClientMixin {
-  OrdersHistoryController ordersHistoryController = Get.find<OrdersHistoryController>();
+  OrdersHistoryController get ordersHistoryController => controller;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return GestureDetector(
       onTap: () => Utils.unfocus(),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -462,16 +456,15 @@ class _OrdersHistoryViewState extends State<OrdersHistoryView> with AutomaticKee
   Future<void> getSearchedStocksList({required String searchedValue}) async {
     ordersHistoryController.searchedOrdersDataList.clear();
     if (searchedValue != "") {
-      ordersHistoryController.searchedOrdersDataList.addAll(ordersHistoryController.ordersDataList.where(
-        (e) {
-          return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
-        },
-      ).toList());
+      ordersHistoryController.searchedOrdersDataList.addAll(
+        ordersHistoryController.ordersDataList.where(
+          (e) {
+            return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
+          },
+        ).toList(),
+      );
     } else {
       ordersHistoryController.searchedOrdersDataList.addAll(ordersHistoryController.ordersDataList);
     }
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

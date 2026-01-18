@@ -8,7 +8,7 @@
 PRODUCT_NAME = ftc_stocks
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.ftcstocks.ftcStocks
+PRODUCT_BUNDLE_IDENTIFIER = com.stocks.ftc
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.ftcstocks. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.stocks.ftc. All rights reserved.

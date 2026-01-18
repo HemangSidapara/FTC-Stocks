@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
-import 'package:ftc_stocks/Network/services/auth_service/auth_service.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
+import 'package:ftc_stocks/Network/services/auth_services/auth_services.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -21,11 +22,12 @@ class PasswordController extends GetxController {
   }
 
   Future<void> checkPassword() async {
-    final isValid = passwordFormKey.currentState?.validate();
-    if (isValid == true) {
+    Utils.unfocus();
+    final isValid = passwordFormKey.currentState?.validate() ?? false;
+    if (isValid) {
       try {
         isSignInLoading(true);
-        final isSuccess = await AuthService().loginService(
+        final isSuccess = await AuthServices.loginService(
           phone: Get.arguments,
           password: passwordController.text,
         );

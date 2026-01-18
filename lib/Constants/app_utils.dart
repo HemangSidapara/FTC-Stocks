@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
+import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Utils {
+  static HomeController get getHomeController => Get.isRegistered<HomeController>() ? Get.find<HomeController>() : Get.put(HomeController());
+
   ///Unfocus
   static void unfocus() {
     FocusManager.instance.primaryFocus?.unfocus();

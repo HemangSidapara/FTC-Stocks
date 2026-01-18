@@ -4,18 +4,19 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Network/models/auth_models/get_latest_version_model.dart';
-import 'package:ftc_stocks/Network/services/auth_service/auth_service.dart';
-import 'package:ftc_stocks/Network/services/utils_service/get_package_info_service.dart';
+import 'package:ftc_stocks/Network/services/auth_services/auth_services.dart';
 import 'package:ftc_stocks/Network/services/utils_service/install_apk_service.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:ftc_stocks/Utils/in_app_update_dialog_widget.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SplashController extends GetxController {
@@ -28,44 +29,67 @@ class SplashController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: AppColors.TRANSPARENT,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));
+    FlutterNativeSplash.remove();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.TRANSPARENT,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: AppColors.TRANSPARENT,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
+
+    currentVersion.value = (await PackageInfo.fromPlatform()).version;
 
     await _getLatestVersion().then((value) {
       newAPKUrl(value.$1 ?? '');
       newAPKVersion(value.$2 ?? '');
     });
 
-    newAPKUrl.addListener(GetStream(
-      onListen: () async {
-        currentVersion.value = (await GetPackageInfoService.instance.getInfo()).version;
-        debugPrint('currentVersion :: ${currentVersion.value}');
-        debugPrint('newVersion :: ${newAPKVersion.value}');
-        if (newAPKUrl.value.isNotEmpty && newAPKVersion.value.isNotEmpty) {
-          if (Utils.isUpdateAvailable(currentVersion.value, newAPKVersion.value)) {
-            await showUpdateDialog(
-              onUpdate: () async {
-                await _downloadAndInstall();
-              },
-              isUpdateLoading: isUpdateLoading,
-              downloadedProgress: downloadedProgress,
-            );
+    newAPKUrl.addListener(
+      GetStream(
+        onListen: () async {
+          if (kDebugMode) {
+            print('currentVersion :: ${currentVersion.value}');
+            print('newVersion :: ${newAPKVersion.value}');
+          }
+          if (newAPKUrl.value.isNotEmpty && newAPKVersion.value.isNotEmpty) {
+            if (Utils.isUpdateAvailable(currentVersion.value, newAPKVersion.value)) {
+              await showUpdateDialog(
+                onUpdate: () async {
+                  await _downloadAndInstall();
+                },
+                isUpdateLoading: isUpdateLoading,
+                downloadedProgress: downloadedProgress,
+              );
+            } else {
+              nextScreenRoute();
+            }
           } else {
             nextScreenRoute();
           }
-        } else {
-          nextScreenRoute();
-        }
-      },
-    ));
+        },
+      ),
+    );
   }
 
   /// Next Screen Route
   Future<void> nextScreenRoute() async {
-    debugPrint("token value ::: ${getData(AppConstance.authorizationToken)}");
-    if (getData(AppConstance.authorizationToken) == null) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.TRANSPARENT,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: AppColors.TRANSPARENT,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
+    if (kDebugMode) {
+      print("token value ::: ${getData(AppConstance.authorizationToken)}");
+    }
+    // setData(AppConstance.authorizationToken, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjUiLCJwaG9uZSI6IjEyMTIxMjEyMTIiLCJEYXRlVGltZSI6IjA1LTEyLTIwMjUgMTM6MTM6NTkifQ.0a40d04d5e38270f00115b9c7e316852433c8facdbbbaa4dace60874cec2671e");
+    if (getData(AppConstance.authorizationToken) == null || getData(AppConstance.role) == null) {
       Get.offAllNamed(Routes.signInScreen);
     } else {
       Get.offAllNamed(Routes.homeScreen);
@@ -74,9 +98,9 @@ class SplashController extends GetxController {
 
   /// Get latest Version on server
   Future<(String?, String?)> _getLatestVersion() async {
-    final response = await AuthService().getLatestVersionService();
-    GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
+    final response = await AuthServices.getLatestVersionService();
     if (response.isSuccess) {
+      GetLatestVersionModel versionModel = GetLatestVersionModel.fromJson(response.response?.data);
       return (versionModel.data?.firstOrNull?.appUrl, versionModel.data?.firstOrNull?.appVersion);
     }
     return (null, null);
@@ -96,7 +120,9 @@ class SplashController extends GetxController {
           downloadPath,
           onReceiveProgress: (counter, total) {
             if (total != -1) {
-              debugPrint("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+              if (kDebugMode) {
+                print("Downloaded % :: ${(counter / total * 100).toStringAsFixed(0)}%");
+              }
               downloadedProgress.value = (counter / total * 100).toStringAsFixed(0).toInt();
             }
           },

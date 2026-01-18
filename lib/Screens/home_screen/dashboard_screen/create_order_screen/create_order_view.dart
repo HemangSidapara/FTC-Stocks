@@ -64,6 +64,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                 ),
               ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ///Header
             CustomHeaderWidget(
@@ -580,7 +581,6 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                   filled: true,
                                   enabled: true,
                                   fillColor: AppColors.WHITE_COLOR,
-                                  hintText: AppStrings.selectSize.tr,
                                   hintStyle: TextStyle(
                                     color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                     fontSize: 14.sp,
@@ -816,7 +816,7 @@ class _CreateOrderViewState extends State<CreateOrderView> {
                                                           ),
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                               ),

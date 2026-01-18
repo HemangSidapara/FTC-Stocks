@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -18,9 +19,9 @@ class SignInController extends GetxController {
   }
 
   Future<void> checkLogin() async {
-    final isValid = signInFormKey.currentState!.validate();
-    if (!isValid) {
-    } else {
+    Utils.unfocus();
+    final isValid = signInFormKey.currentState?.validate() ?? false;
+    if (isValid) {
       await Get.toNamed(Routes.passwordScreen, arguments: phoneNumberController.text);
     }
   }

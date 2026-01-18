@@ -9,15 +9,8 @@ import 'package:ftc_stocks/Widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class PasswordView extends StatefulWidget {
+class PasswordView extends GetView<PasswordController> {
   const PasswordView({super.key});
-
-  @override
-  State<PasswordView> createState() => _PasswordViewState();
-}
-
-class _PasswordViewState extends State<PasswordView> {
-  PasswordController controller = Get.find<PasswordController>();
 
   @override
   Widget build(BuildContext context) {

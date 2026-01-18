@@ -1,5 +1,9 @@
+import 'package:ftc_stocks/Screens/home_screen/add_new_product_screen/add_new_product_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/dashboard_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_binding.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_view.dart';
+import 'package:ftc_stocks/Screens/home_screen/orders_history_screen/orders_history_binding.dart';
+import 'package:ftc_stocks/Screens/home_screen/settings_screen/settings_binding.dart';
 import 'package:ftc_stocks/Screens/password_screen/passoword_binding.dart';
 import 'package:ftc_stocks/Screens/password_screen/password_view.dart';
 import 'package:ftc_stocks/Screens/signin_screen/signin_binding.dart';
@@ -38,7 +42,13 @@ class AppPages {
     GetPage(
       name: Routes.homeScreen,
       page: () => const HomeView(),
-      binding: HomeBinding(),
+      bindings: [
+        HomeBinding(),
+        DashboardBinding(),
+        AddNewProductBinding(),
+        OrdersHistoryBinding(),
+        SettingsBinding(),
+      ],
       transition: Transition.rightToLeftWithFade,
       transitionDuration: transitionDuration,
     ),

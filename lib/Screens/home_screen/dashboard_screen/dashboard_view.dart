@@ -10,21 +10,15 @@ import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/hand_shaken_anim
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class DashboardView extends StatefulWidget {
+class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
 
-  @override
-  State<DashboardView> createState() => _DashboardViewState();
-}
-
-class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveClientMixin {
-  DashboardController dashboardController = Get.find<DashboardController>();
+  DashboardController get dashboardController => controller;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w).copyWith(bottom: 3.h),
+      padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w).copyWith(bottom: 3.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,7 +45,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
               SizedBox(width: 2.w),
             ],
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 2.h),
 
           ///Features
           Expanded(
@@ -238,7 +232,4 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

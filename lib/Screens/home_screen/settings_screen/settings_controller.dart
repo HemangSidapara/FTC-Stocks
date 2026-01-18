@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
-import 'package:ftc_stocks/Network/services/utils_service/get_package_info_service.dart';
 import 'package:ftc_stocks/Network/services/utils_service/install_apk_service.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SettingsController extends GetxController {
-  ExpansionTileController expansionTileController = ExpansionTileController();
+  ExpansibleController expansionTileController = ExpansibleController();
   RxBool isGujaratiLang = true.obs;
   RxBool isHindiLang = true.obs;
 
@@ -37,7 +37,7 @@ class SettingsController extends GetxController {
       isGujaratiLang.value = false;
       isHindiLang.value = false;
     }
-    appVersion.value = (await GetPackageInfoService.instance.getInfo()).version;
+    appVersion.value = (await PackageInfo.fromPlatform()).version;
   }
 
   /// Download and install

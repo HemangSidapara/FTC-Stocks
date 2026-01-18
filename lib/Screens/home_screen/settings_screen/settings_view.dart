@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ftc_stocks/Constants/api_urls.dart';
 import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Routes/app_pages.dart';
 import 'package:ftc_stocks/Screens/home_screen/home_controller.dart';
@@ -12,22 +18,17 @@ import 'package:ftc_stocks/Widgets/button_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class SettingsView extends StatefulWidget {
+class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
 
-  @override
-  State<SettingsView> createState() => _SettingsViewState();
-}
-
-class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClientMixin {
-  SettingsController settingsController = Get.find<SettingsController>();
+  SettingsController get settingsController => controller;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+      padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,6 +80,26 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                         ),
                       );
                     }),
+
+                    ///Copy URL
+                    if ([AppConstance.admin].contains(getData(AppConstance.role))) ...[
+                      SizedBox(width: 2.w),
+                      InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(
+                            ClipboardData(
+                              text: Utils.getHomeController.newAPKUrl.value,
+                            ),
+                          );
+                          log("📋 Clipboard: ${(await Clipboard.getData("text/plain"))?.text}");
+                        },
+                        child: FaIcon(
+                          FontAwesomeIcons.link,
+                          color: AppColors.PRIMARY_COLOR,
+                          size: 4.w,
+                        ),
+                      ),
+                    ],
                   ],
                 );
               }),
@@ -237,7 +258,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                     ],
                   ),
                 );
-              })
+              }),
             ],
           ),
           const Spacer(),
@@ -254,20 +275,33 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
           SizedBox(height: 2.h),
 
           Center(
-            child: Text(
-              AppStrings.copyrightContext.replaceAll('2024', DateTime.now().year.toString()),
-              style: TextStyle(
-                color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
-                fontWeight: FontWeight.w700,
-                fontSize: context.isPortrait ? 14.sp : 10.sp,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppStrings.copyrightContext.replaceAll('2024', DateTime.now().year.toString()),
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
+                    fontWeight: FontWeight.w700,
+                    fontSize: context.isPortrait ? 14.sp : 10.sp,
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                InkWell(
+                  onTap: () {
+                    launchUrlString(ApiUrls.mapUrl);
+                  },
+                  child: FaIcon(
+                    FontAwesomeIcons.locationDot,
+                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.55),
+                    size: context.isPortrait ? 3.5.w : 1.5.w,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

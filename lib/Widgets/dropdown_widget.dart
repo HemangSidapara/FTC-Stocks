@@ -54,25 +54,32 @@ class DropDownWidget extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 1.h),
         ],
-        SizedBox(height: 1.h),
         DropdownButtonFormField(
           style: TextStyle(
             color: AppColors.PRIMARY_COLOR,
             fontWeight: FontWeight.w600,
             fontSize: 14.sp,
+            overflow: TextOverflow.ellipsis,
           ),
-          alignment: Alignment.topLeft,
+          alignment: Alignment.centerLeft,
+          hint: hintText != null
+              ? Text(
+                  hintText!,
+                  style: TextStyle(
+                    color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              : null,
+          isExpanded: true,
           decoration: InputDecoration(
             filled: true,
             enabled: true,
             fillColor: AppColors.WHITE_COLOR,
-            hintText: hintText,
-            hintStyle: TextStyle(
-              color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
-            ),
             errorStyle: TextStyle(
               color: AppColors.ERROR_COLOR,
               fontSize: 14.sp,
@@ -130,13 +137,14 @@ class DropDownWidget extends StatelessWidget {
               color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           selectedItemBuilder: selectedItemBuilder,
           validator: validator,
           onChanged: onChanged,
           onSaved: onSaved,
-          value: value,
+          initialValue: value,
         ),
       ],
     );

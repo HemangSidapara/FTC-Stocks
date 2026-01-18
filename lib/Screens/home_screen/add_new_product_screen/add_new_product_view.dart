@@ -22,8 +22,8 @@ class AddNewProductView extends StatefulWidget {
   State<AddNewProductView> createState() => _AddNewProductViewState();
 }
 
-class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKeepAliveClientMixin {
-  AddNewProductController addNewProductController = Get.find<AddNewProductController>();
+class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKeepAliveClientMixin<AddNewProductView> {
+  AddNewProductController get addNewProductController => Get.find<AddNewProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +183,6 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                     filled: true,
                                     enabled: true,
                                     fillColor: AppColors.WHITE_COLOR,
-                                    hintText: AppStrings.selectSize.tr,
                                     hintStyle: TextStyle(
                                       color: AppColors.PRIMARY_COLOR.withValues(alpha: 0.5),
                                       fontSize: 14.sp,
@@ -247,10 +246,8 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                       child: ButtonWidget(
                                         fixedSize: Size(double.maxFinite, 5.h),
                                         onPressed: () {
-                                          setState(() {
-                                            addNewProductController.selectedSizeList.clear();
-                                            addNewProductController.selectedSizeList.addAll(item.map((e) => e.toString()).toList());
-                                          });
+                                          addNewProductController.selectedSizeList.clear();
+                                          addNewProductController.selectedSizeList.addAll(item.map((e) => e.toString()).toList());
                                           Navigator.of(context).pop();
                                         },
                                         buttonTitle: AppStrings.select.tr,
@@ -338,18 +335,16 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      selectedItems.removeWhere(
-                                                        (element) {
-                                                          return element == value;
-                                                        },
-                                                      );
-                                                      addNewProductController.selectedSizeList.removeWhere(
-                                                        (element) {
-                                                          return element == value;
-                                                        },
-                                                      );
-                                                    });
+                                                    selectedItems.removeWhere(
+                                                      (element) {
+                                                        return element == value;
+                                                      },
+                                                    );
+                                                    addNewProductController.selectedSizeList.removeWhere(
+                                                      (element) {
+                                                        return element == value;
+                                                      },
+                                                    );
                                                   },
                                                   child: Stack(
                                                     children: [
@@ -394,7 +389,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                                             ),
                                                           ),
                                                         ),
-                                                      )
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -413,101 +408,102 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
                                 textEditingController: addNewProductController.customProductSizeController,
                                 inputFieldBuilder: (context, textFieldTagValues) {
                                   return TextFieldWidget(
-                                      controller: addNewProductController.customProductSizeTagsController.getTextEditingController,
-                                      focusNode: addNewProductController.customProductSizeTagsController.getFocusNode,
-                                      hintText: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true ? '' : AppStrings.enterProductSize.tr,
-                                      onTap: () {
-                                        addNewProductController.customProductSizeController.clear();
-                                      },
-                                      prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
-                                      prefixIcon: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true
-                                          ? Padding(
-                                              padding: EdgeInsets.only(left: 3.w),
-                                              child: SingleChildScrollView(
-                                                controller: addNewProductController.customProductSizeTagsController.getScrollController,
-                                                scrollDirection: Axis.vertical,
-                                                child: Wrap(
-                                                  children: addNewProductController.customProductSizeTagsController.getTags!.map(
-                                                    (tag) {
-                                                      return Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              addNewProductController.deletingCustomControllers(tag: tag);
-                                                              addNewProductController.customProductSizeTagsController.onTagRemoved(tag);
-                                                              if (addNewProductController.customProductSizeTagsController.getTags!.length <= 1) {
-                                                                addNewProductController.isAddedCustomSize(false);
-                                                              }
-                                                            },
-                                                            child: Stack(
-                                                              alignment: Alignment.centerLeft,
-                                                              children: [
-                                                                Align(
-                                                                  alignment: Alignment.center,
-                                                                  child: Container(
-                                                                    padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(5),
-                                                                      color: AppColors.PRIMARY_COLOR,
-                                                                    ),
-                                                                    margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
-                                                                    child: Text(
-                                                                      tag,
-                                                                      textAlign: TextAlign.end,
-                                                                      style: TextStyle(
-                                                                        color: AppColors.WHITE_COLOR,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        fontSize: 14.sp,
-                                                                      ),
+                                    controller: addNewProductController.customProductSizeTagsController.getTextEditingController,
+                                    focusNode: addNewProductController.customProductSizeTagsController.getFocusNode,
+                                    hintText: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true ? '' : AppStrings.enterProductSize.tr,
+                                    onTap: () {
+                                      addNewProductController.customProductSizeController.clear();
+                                    },
+                                    prefixIconConstraints: BoxConstraints(maxWidth: 75.w),
+                                    prefixIcon: addNewProductController.customProductSizeTagsController.getTags?.isNotEmpty == true
+                                        ? Padding(
+                                            padding: EdgeInsets.only(left: 3.w),
+                                            child: SingleChildScrollView(
+                                              controller: addNewProductController.customProductSizeTagsController.getScrollController,
+                                              scrollDirection: Axis.vertical,
+                                              child: Wrap(
+                                                children: addNewProductController.customProductSizeTagsController.getTags!.map(
+                                                  (tag) {
+                                                    return Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            addNewProductController.deletingCustomControllers(tag: tag);
+                                                            addNewProductController.customProductSizeTagsController.onTagRemoved(tag);
+                                                            if (addNewProductController.customProductSizeTagsController.getTags!.length <= 1) {
+                                                              addNewProductController.isAddedCustomSize(false);
+                                                            }
+                                                          },
+                                                          child: Stack(
+                                                            alignment: Alignment.centerLeft,
+                                                            children: [
+                                                              Align(
+                                                                alignment: Alignment.center,
+                                                                child: Container(
+                                                                  padding: EdgeInsets.only(left: 1.2.w, right: 2.w, top: 0.3.h, bottom: 0.3.h),
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(5),
+                                                                    color: AppColors.PRIMARY_COLOR,
+                                                                  ),
+                                                                  margin: EdgeInsets.only(right: 2.5.w, top: 0.5.h, bottom: 0.5.h),
+                                                                  child: Text(
+                                                                    tag,
+                                                                    textAlign: TextAlign.end,
+                                                                    style: TextStyle(
+                                                                      color: AppColors.WHITE_COLOR,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontSize: 14.sp,
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                Positioned(
-                                                                  top: 2.5,
-                                                                  right: 1.5.w,
+                                                              ),
+                                                              Positioned(
+                                                                top: 2.5,
+                                                                right: 1.5.w,
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: AppColors.WHITE_COLOR,
+                                                                    shape: BoxShape.circle,
+                                                                  ),
                                                                   child: Container(
                                                                     decoration: BoxDecoration(
-                                                                      color: AppColors.WHITE_COLOR,
+                                                                      color: AppColors.ERROR_COLOR.withValues(alpha: 0.8),
                                                                       shape: BoxShape.circle,
                                                                     ),
-                                                                    child: Container(
-                                                                      decoration: BoxDecoration(
-                                                                        color: AppColors.ERROR_COLOR.withValues(alpha: 0.8),
-                                                                        shape: BoxShape.circle,
-                                                                      ),
-                                                                      padding: const EdgeInsets.all(2),
-                                                                      child: Icon(
-                                                                        size: 2.w,
-                                                                        Icons.close,
-                                                                        color: AppColors.WHITE_COLOR,
-                                                                      ),
+                                                                    padding: const EdgeInsets.all(2),
+                                                                    child: Icon(
+                                                                      size: 2.w,
+                                                                      Icons.close,
+                                                                      color: AppColors.WHITE_COLOR,
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ).toList(),
                                               ),
-                                            )
-                                          : null,
-                                      onChanged: (value) {
-                                        if (value.isNotEmpty || (addNewProductController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
-                                          addNewProductController.isAddedCustomSize(true);
-                                        } else {
-                                          addNewProductController.isAddedCustomSize(false);
-                                        }
-                                      },
-                                      onFieldSubmitted: (value) {
-                                        addNewProductController.initCustomControllers();
-                                        addNewProductController.customProductSizeTagsController.onTagSubmitted(value);
-                                      });
+                                            ),
+                                          )
+                                        : null,
+                                    onChanged: (value) {
+                                      if (value.isNotEmpty || (addNewProductController.customProductSizeTagsController.getTags?.length ?? 0) != 0) {
+                                        addNewProductController.isAddedCustomSize(true);
+                                      } else {
+                                        addNewProductController.isAddedCustomSize(false);
+                                      }
+                                    },
+                                    onFieldSubmitted: (value) {
+                                      addNewProductController.initCustomControllers();
+                                      addNewProductController.customProductSizeTagsController.onTagSubmitted(value);
+                                    },
+                                  );
                                 },
                               ),
                               SizedBox(height: 2.h),
@@ -599,7 +595,6 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
     });
   }
 
-  //ignore_for_file: non_constant_identifier_names
   Widget SizeOfTheStock({
     required String title,
     required TextEditingController weightOfPieceController,
@@ -623,7 +618,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
         ),
         SizedBox(height: 0.6.h),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
@@ -640,7 +635,7 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
               ),
             ),
             SizedBox(
-              width: 32.w,
+              width: 34.w,
               child: DropDownWidget(
                 value: selectedUnitOfWeight.value == -1 ? null : selectedUnitOfWeight.value,
                 hintText: AppStrings.selectUnitOfWeight.tr,
@@ -911,5 +906,5 @@ class _AddNewProductViewState extends State<AddNewProductView> with AutomaticKee
   }
 
   @override
-  bool get wantKeepAlive => false;
+  bool get wantKeepAlive => true;
 }

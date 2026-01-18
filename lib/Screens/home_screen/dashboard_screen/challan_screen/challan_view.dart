@@ -15,17 +15,12 @@ import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:whatsapp_share/whatsapp_share.dart';
+import 'package:whatsapp_share2/whatsapp_share2.dart';
 
-class ChallanView extends StatefulWidget {
+class ChallanView extends GetView<ChallanController> {
   const ChallanView({super.key});
 
-  @override
-  State<ChallanView> createState() => _ChallanViewState();
-}
-
-class _ChallanViewState extends State<ChallanView> {
-  ChallanController challanController = Get.find<ChallanController>();
+  ChallanController get challanController => controller;
 
   @override
   Widget build(BuildContext context) {
@@ -507,11 +502,13 @@ class _ChallanViewState extends State<ChallanView> {
   Future<void> getSearchedCompletedOrderList({required String searchedValue}) async {
     challanController.searchedCompetedOrdersDataList.clear();
     if (searchedValue != "") {
-      challanController.searchedCompetedOrdersDataList.addAll(challanController.competedOrdersDataList.where(
-        (e) {
-          return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
-        },
-      ).toList());
+      challanController.searchedCompetedOrdersDataList.addAll(
+        challanController.competedOrdersDataList.where(
+          (e) {
+            return e.partyName?.contains(searchedValue) == true || e.partyName?.toLowerCase().contains(searchedValue) == true;
+          },
+        ).toList(),
+      );
     } else {
       challanController.searchedCompetedOrdersDataList.addAll(challanController.competedOrdersDataList);
     }
