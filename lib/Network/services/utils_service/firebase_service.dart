@@ -29,8 +29,8 @@ class FirebaseService {
     fbmInstance = FirebaseMessaging.instance;
 
     if (!isBackground) {
-      await getFcmToken();
       await setupFlutterNotifications();
+      await getFcmToken();
     }
   }
 
