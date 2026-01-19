@@ -118,4 +118,5 @@ class AppStrings {
   static const String successfullyDownloadedAtDownloadFolder = "Successfully downloaded at 'Download' folder.";
   static const String downloadFailedPleaseTryAgain = "Download failed, Please try again.";
   static const String whatsappNotInstalled = "Whatsapp not installed";
+  static const String open = "Open";
 }

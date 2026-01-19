@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyB4AC_kE9dHnx8X1GtX26u7Lmhjnc1tq0Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1069283885682</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.stocks.ftc</string>
+	<key>PROJECT_ID</key>
+	<string>ftc-stocks</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ftc-stocks.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1069283885682:ios:d5c21df86cfa6a59adb8eb</string>
+</dict>
+</plist>

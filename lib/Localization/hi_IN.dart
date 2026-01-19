@@ -114,7 +114,8 @@ Map<String, String> hiIN = <String, String>{
   AppStrings.newVersionAvailable: 'एक नया संस्करण उपलब्ध है। कृपया इसे अपग्रेड करें।',
   AppStrings.searchRequiredStock: 'आवश्यक स्टॉक खोजें',
   AppStrings.viewChallan: "चलान देखें",
-  AppStrings.successfullyDownloadedAtDownloadFolder: "'Download' फ़ोल्डर में सफलतापूर्वक डाउनलोड किया गया।",
-  AppStrings.downloadFailedPleaseTryAgain: "डाउनलोड विफल, कृपया पुनः प्रयास करें।",
-  AppStrings.whatsappNotInstalled: "'Whatsapp' इंस्टॉल नहीं है",
+  AppStrings.successfullyDownloadedAtDownloadFolder: "'Download' फ़ोल्डर में सफलतापूर्वक डाउनलोड हो गया।",
+  AppStrings.downloadFailedPleaseTryAgain: "डाउनलोड विफल हुआ, कृपया पुनः प्रयास करें।",
+  AppStrings.whatsappNotInstalled: "Whatsapp इंस्टॉल नहीं है",
+  AppStrings.open: "खोलें",
 };

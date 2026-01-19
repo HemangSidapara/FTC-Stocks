@@ -4,7 +4,7 @@ import 'package:ftc_stocks/Constants/app_assets.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:ftc_stocks/Constants/app_strings.dart';
 import 'package:ftc_stocks/Constants/app_utils.dart';
-import 'package:ftc_stocks/Network/services/utils_service/download_service.dart';
+import 'package:ftc_stocks/Network/services/utils_service/file_download_service.dart';
 import 'package:ftc_stocks/Screens/home_screen/dashboard_screen/challan_screen/challan_controller.dart';
 import 'package:ftc_stocks/Widgets/custom_header_widget.dart';
 import 'package:ftc_stocks/Widgets/custom_scaffold_widget.dart';
@@ -603,8 +603,8 @@ class ChallanView extends GetView<ChallanController> {
                     ///Download
                     ElevatedButton(
                       onPressed: () async {
-                        await Get.put(DownloaderService()).fileDownloadService(
-                          url: pdfUrl,
+                        await FileDownloadService.fileDownload(
+                          fileUrl: pdfUrl,
                           fileName: fileName,
                         );
                       },
@@ -628,15 +628,15 @@ class ChallanView extends GetView<ChallanController> {
                       onPressed: () async {
                         final isExist = await WhatsappShare.isInstalled();
                         if (isExist == true) {
-                          final cacheFile = await Get.put(DownloaderService()).fileDownloadService(
-                            url: pdfUrl,
+                          final cacheFile = await FileDownloadService.fileDownload(
+                            fileUrl: pdfUrl,
                             fileName: fileName,
                             showLoader: false,
                           );
-                          if (cacheFile != null) {
+                          if (cacheFile.$2 != null) {
                             await WhatsappShare.shareFile(
                               phone: '91$contactNumber',
-                              filePath: [cacheFile.path],
+                              filePath: [cacheFile.$2!],
                             );
                           }
                         } else {

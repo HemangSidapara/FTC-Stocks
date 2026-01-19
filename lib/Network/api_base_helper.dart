@@ -2,68 +2,55 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ftc_stocks/Constants/api_urls.dart';
 import 'package:ftc_stocks/Constants/app_constance.dart';
+import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Constants/get_storage.dart';
 import 'package:ftc_stocks/Utils/progress_dialog.dart';
 import 'package:ftc_stocks/Utils/utils.dart';
+import 'package:get/get.dart' hide Response;
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'ResponseModel.dart';
 
 class ApiBaseHelper {
-  static const String baseUrl = ApiUrls.baseUrl;
   static bool showProgressDialog = true;
-  Stopwatch stopWatch = Stopwatch();
+  static Stopwatch stopWatch = Stopwatch();
 
-  static BaseOptions opts = BaseOptions(
-    baseUrl: baseUrl,
-    responseType: ResponseType.json,
-    connectTimeout: const Duration(seconds: 45),
-    receiveTimeout: const Duration(seconds: 45),
-    sendTimeout: const Duration(seconds: 45),
-  );
+  static Dio _createDio() {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: ApiUrls.baseUrl,
+        responseType: ResponseType.json,
+        connectTimeout: const Duration(seconds: 45),
+        receiveTimeout: const Duration(seconds: 45),
+        sendTimeout: const Duration(seconds: 45),
+      ),
+    );
 
-  static Dio createDio() {
-    return Dio(opts);
+    return _addInterceptors(dio);
   }
 
-  static Dio addInterceptors(Dio dio) {
+  static Dio _addInterceptors(Dio dio) {
     ///For Print Logs
-    if (!kReleaseMode) {
-      dio.interceptors.add(
-        LogInterceptor(
-          request: true,
-          error: true,
-          responseHeader: true,
-        ),
-      );
-    }
+    dio.interceptors.add(
+      PrettyDioLogger(
+        responseHeader: true,
+        requestBody: true,
+        maxWidth: 500,
+        enabled: kDebugMode,
+      ),
+    );
 
     ///For Show Hide Progress Dialog
     return dio
       ..interceptors.add(
         InterceptorsWrapper(
-          onRequest: (RequestOptions options, handler) {
-            if (showProgressDialog) ProgressDialog.showProgressDialog(true);
-            Logger.printLog(tag: '|---------------> ${options.method} JSON METHOD <---------------|\n\n REQUEST_URL :', printLog: '\n ${options.uri} \n\n REQUEST_HEADER : ${options.headers}  \n\n REQUEST_DATA : ${options.data.toString()}', logIcon: Logger.info);
-            requestInterceptor(options, handler);
+          onRequest: (RequestOptions options, handler) async {
+            return requestInterceptor(options, handler);
           },
-          onResponse: (response, handler) {
-            ProgressDialog.showProgressDialog(false);
-            showProgressDialog = true;
-
-            if (response.statusCode! >= 100 && response.statusCode! <= 199) {
-              Logger.printLog(tag: 'WARNING CODE ${response.statusCode} : ', printLog: response.data.toString(), logIcon: Logger.warning);
-            } else {
-              Logger.printLog(tag: 'SUCCESS CODE ${response.statusCode} : ', printLog: response.data.toString(), logIcon: Logger.success);
-            }
-
+          onResponse: (response, handler) async {
             return handler.next(response);
           },
           onError: (DioException e, handler) async {
-            ProgressDialog.showProgressDialog(false);
-            showProgressDialog = true;
-
-            Logger.printLog(tag: 'ERROR CODE ${e.response?.statusCode} : ', printLog: e.toString(), logIcon: Logger.error);
-
             return handler.next(e);
           },
         ),
@@ -71,15 +58,24 @@ class ApiBaseHelper {
   }
 
   static dynamic requestInterceptor(RequestOptions options, RequestInterceptorHandler handler) async {
-    // Get your JWT token
-
-    options.headers.addAll({"Authorization": "Bearer ${getData(AppConstance.authorizationToken)}"});
-
     return handler.next(options);
   }
 
-  static final dio = createDio();
-  static final baseAPI = addInterceptors(dio);
+  static Future<void> showOrRemoveProgressFunction({required bool showProgress, bool isRemove = false}) async {
+    if (showProgress && Get.isSnackbarOpen) {
+      await Get.closeCurrentSnackbar();
+    }
+    if (showProgress) Get.put(ProgressDialog()).showProgressDialog(!isRemove);
+    if (showProgress && isRemove) Get.delete<ProgressDialog>();
+  }
+
+  static Options getOptions({Options? options}) {
+    Options newOptions = options ?? Options();
+    final headers = newOptions.headers ?? {};
+    headers.putIfAbsent("Authorization", () => "Bearer ${getData(AppConstance.authorizationToken)}");
+    headers.putIfAbsent("content-type", () => "application/json");
+    return newOptions.copyWith(headers: headers);
+  }
 
   Future<ResponseModel> postHTTP(
     String url, {
@@ -88,19 +84,27 @@ class ApiBaseHelper {
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
     void Function(int, int)? onSendProgress,
+    CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
+      await showOrRemoveProgressFunction(showProgress: showProgress);
+      final baseAPI = _createDio();
       Response response = await baseAPI.post(
         url,
         data: params,
         onSendProgress: onSendProgress,
+        options: getOptions(options: options),
       );
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
+      stopWatch.reset();
       return handleResponse(response, onError!, onSuccess!);
     } on DioException catch (e) {
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -111,18 +115,27 @@ class ApiBaseHelper {
     bool showProgress = true,
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
+    CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
+      await showOrRemoveProgressFunction(showProgress: showProgress);
+      final baseAPI = _createDio();
       Response response = await baseAPI.delete(
         url,
         data: params,
+        cancelToken: cancelToken,
+        options: getOptions(options: options),
       );
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
+      stopWatch.reset();
       return handleResponse(response, onError!, onSuccess!);
     } on DioException catch (e) {
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -133,15 +146,27 @@ class ApiBaseHelper {
     bool showProgress = true,
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
+    CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
-      Response response = await baseAPI.get(url, queryParameters: params);
+      await showOrRemoveProgressFunction(showProgress: showProgress);
+      final baseAPI = _createDio();
+      Response response = await baseAPI.get(
+        url,
+        queryParameters: params,
+        cancelToken: cancelToken,
+        options: getOptions(options: options),
+      );
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
+      stopWatch.reset();
       return handleResponse(response, onError!, onSuccess!);
     } on DioException catch (e) {
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -152,15 +177,26 @@ class ApiBaseHelper {
     bool showProgress = true,
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
+    CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
-      Response response = await baseAPI.put(url, data: data);
+      await showOrRemoveProgressFunction(showProgress: showProgress);
+      final baseAPI = _createDio();
+      Response response = await baseAPI.put(
+        url,
+        data: data,
+        options: getOptions(options: options),
+      );
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
+      stopWatch.reset();
       return handleResponse(response, onError!, onSuccess!);
     } on DioException catch (e) {
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       return handleError(e, onError!, onSuccess!);
     }
   }
@@ -172,24 +208,32 @@ class ApiBaseHelper {
     Function(ResponseModel res)? onSuccess,
     Function(DioExceptions dioExceptions)? onError,
     void Function(int count, int total)? onSendProgress,
+    CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       showProgressDialog = showProgress;
       stopWatch.start();
+      await showOrRemoveProgressFunction(showProgress: showProgress);
+      final baseAPI = _createDio();
       Response response = await baseAPI.patch(
         url,
         data: params,
         onSendProgress: onSendProgress,
+        options: getOptions(options: options),
       );
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       stopWatch.stop();
       Logger.printLog(isTimer: true, printLog: stopWatch.elapsed.inMilliseconds / 1000);
+      stopWatch.reset();
       return handleResponse(response, onError!, onSuccess!);
     } on DioException catch (e) {
+      await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
       return handleError(e, onError!, onSuccess!);
     }
   }
 
-  handleResponse(
+  static ResponseModel handleResponse(
     Response response,
     Function(DioExceptions dioExceptions) onError,
     Function(ResponseModel res) onSuccess,
@@ -199,7 +243,7 @@ class ApiBaseHelper {
     return successModel;
   }
 
-  static handleError(
+  static ResponseModel handleError(
     DioException e,
     Function(DioExceptions dioExceptions) onError,
     Function(ResponseModel res) onSuccess,
@@ -211,91 +255,18 @@ class ApiBaseHelper {
         return ResponseModel(statusCode: e.response!.statusCode, response: e.response);
       default:
         onError(DioExceptions.fromDioError(e));
-        throw DioExceptions.fromDioError(e).message!;
+        Utils.handleMessage(message: DioExceptions.fromDioError(e).message, isError: true);
+        return ResponseModel(statusCode: e.response?.statusCode, response: e.response);
     }
   }
-
-// static NetworkExceptions getDioException(error) {
-//   if (error is Exception) {
-//     try {
-//       NetworkExceptions networkExceptions;
-//       if (error is DioError) {
-//         switch (error.type) {
-//           case DioErrorType.CANCEL:
-//             networkExceptions = NetworkExceptions.requestCancelled();
-//             break;
-//           case DioErrorType.CONNECT_TIMEOUT:
-//             networkExceptions = NetworkExceptions.requestTimeout();
-//             break;
-//           case DioErrorType.DEFAULT:
-//             networkExceptions = NetworkExceptions.noInternetConnection();
-//             break;
-//           case DioErrorType.RECEIVE_TIMEOUT:
-//             networkExceptions = NetworkExceptions.sendTimeout();
-//             break;
-//           case DioErrorType.RESPONSE:
-//             switch (error.response.statusCode) {
-//               case 400:
-//                 networkExceptions = NetworkExceptions.unauthorisedRequest();
-//                 break;
-//               case 401:
-//                 networkExceptions = NetworkExceptions.unauthorisedRequest();
-//                 break;
-//               case 403:
-//                 networkExceptions = NetworkExceptions.unauthorisedRequest();
-//                 break;
-//               case 404:
-//                 networkExceptions = NetworkExceptions.notFound("Not found");
-//                 break;
-//               case 409:
-//                 networkExceptions = NetworkExceptions.conflict();
-//                 break;
-//               case 408:
-//                 networkExceptions = NetworkExceptions.requestTimeout();
-//                 break;
-//               case 500:
-//                 networkExceptions = NetworkExceptions.internalServerError();
-//                 break;
-//               case 503:
-//                 networkExceptions = NetworkExceptions.serviceUnavailable();
-//                 break;
-//               default:
-//                 var responseCode = error.response.statusCode;
-//                 networkExceptions = NetworkExceptions.defaultError(
-//                   "Received invalid status code: $responseCode",
-//                 );
-//             }
-//             break;
-//           case DioErrorType.SEND_TIMEOUT:
-//             networkExceptions = NetworkExceptions.sendTimeout();
-//             break;
-//         }
-//       } else if (error is SocketException) {
-//         networkExceptions = NetworkExceptions.noInternetConnection();
-//       } else {
-//         networkExceptions = NetworkExceptions.unexpectedError();
-//       }
-//       return networkExceptions;
-//     } on FormatException catch (e) {
-//       // Helper.printError(e.toString());
-//       return NetworkExceptions.formatException();
-//     } catch (_) {
-//       return NetworkExceptions.unexpectedError();
-//     }
-//   } else {
-//     if (error.toString().contains("is not a subtype of")) {
-//       return NetworkExceptions.unableToProcess();
-//     } else {
-//       return NetworkExceptions.unexpectedError();
-//     }
-//   }
-// }
 }
 
 class DioExceptions implements Exception {
   String? message;
+  int? statusCode;
 
   DioExceptions.fromDioError(DioException? dioError) {
+    statusCode = dioError?.response?.statusCode;
     switch (dioError!.type) {
       case DioExceptionType.cancel:
         message = "Request to API server was cancelled";

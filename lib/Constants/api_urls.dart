@@ -1,27 +1,38 @@
 class ApiUrls {
-  static const String baseUrl = 'https://mindwaveinfoway.com/';
-  static const String _apiPath = 'FTCStocks/AdminPanel/WebApi/index.php?p=';
+  static String baseUrl = 'https://mindwaveinfoway.com/';
+  static String apiPath = 'FTCStocks/AdminPanel/WebApi/index.php?p=';
 
-  static const String mapUrl = 'https://maps.app.goo.gl/N55K2p2Q8TtgRqdE7';
+  static String imageBaseUrl = 'https://mindwaveinfoway.com/FTCStocks/AdminPanel/WebApi/';
+
+  static String mapUrl = 'https://maps.app.goo.gl/N55K2p2Q8TtgRqdE7';
 
   /// Auth Apis
-  static const String loginApi = '${_apiPath}Login';
-  static const String inAppUpdateApi = '${_apiPath}inAppUpdate';
+  static String get loginApi => '${apiPath}Login';
+
+  static String get inAppUpdateApi => '${apiPath}inAppUpdate';
 
   /// Stock Apis
-  static const String getStockApi = '${_apiPath}getModel';
-  static const String addStockApi = '${_apiPath}setModel';
-  static const String deleteStockApi = '${_apiPath}deleteModel';
-  static const String availableStockApi = '${_apiPath}availableStock';
-  static const String requiredStockApi = '${_apiPath}requiredStock';
+  static String get getStockApi => '${apiPath}getModel';
+
+  static String get addStockApi => '${apiPath}setModel';
+
+  static String get deleteStockApi => '${apiPath}deleteModel';
+
+  static String get availableStockApi => '${apiPath}availableStock';
+
+  static String get requiredStockApi => '${apiPath}requiredStock';
 
   /// Party Apis
-  static const String getPartiesApi = '${_apiPath}getParties';
+  static String get getPartiesApi => '${apiPath}getParties';
 
   /// Order Apis
-  static const String getOrdersApi = '${_apiPath}getOrder';
-  static const String createOrderApi = '${_apiPath}createOrder';
-  static const String completeOrderApi = '${_apiPath}completeOrder';
-  static const String cancelOrderApi = '${_apiPath}cancelOrder';
-  static const String getCompletedOrderApi = '${_apiPath}getCompletedOrder';
+  static String get getOrdersApi => '${apiPath}getOrder';
+
+  static String get createOrderApi => '${apiPath}createOrder';
+
+  static String get completeOrderApi => '${apiPath}completeOrder';
+
+  static String get cancelOrderApi => '${apiPath}cancelOrder';
+
+  static String get getCompletedOrderApi => '${apiPath}getCompletedOrder';
 }

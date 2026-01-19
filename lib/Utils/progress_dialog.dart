@@ -1,37 +1,76 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ftc_stocks/Constants/app_colors.dart';
 import 'package:get/get.dart';
 
-class ProgressDialog {
+class ProgressDialog extends GetxController with GetSingleTickerProviderStateMixin {
   static var isOpen = false;
+  final RxDouble _progressValue = 0.0.obs;
+  final RxBool _progressStart = true.obs;
 
-  static showProgressDialog(bool showDialog) {
-    if (showDialog) {
-      isOpen = true;
-      debugPrint('|--------------->🕙️ Loader start 🕑️<---------------|');
+  @override
+  void onInit() {
+    super.onInit();
+    simulateSlowLoader();
+  }
 
-      Get.dialog(
-        WillPopScope(
-          onWillPop: () => Future.value(true),
-          child: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  color: AppColors.SECONDARY_COLOR,
-                )
-              ],
+  Future<void> simulateSlowLoader() async {
+    if (_progressStart.value) {
+      for (int i = 0; i <= 100; i++) {
+        await Future.delayed(const Duration(milliseconds: 10));
+        _progressValue.value = i / 100.0;
+      }
+      _progressStart(false);
+    } else {
+      _progressValue.value = 0.0;
+      _progressStart(true);
+    }
+    simulateSlowLoader();
+  }
+
+  void showProgressDialog(bool showDialog) {
+    try {
+      if (showDialog) {
+        isOpen = true;
+        if (kDebugMode) {
+          print('|--------------->🕙️ Loader start 🕑️<---------------|');
+        }
+
+        Get.dialog(
+          barrierColor: AppColors.TRANSPARENT,
+          PopScope(
+            canPop: false,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Obx(() {
+                    return LinearProgressIndicator(
+                      color: AppColors.SECONDARY_COLOR,
+                      minHeight: 4,
+                      value: _progressValue.value,
+                      backgroundColor: AppColors.PRIMARY_COLOR.withValues(alpha: 0.25),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.SECONDARY_COLOR),
+                    );
+                  }),
+                ],
+              ),
             ),
           ),
-        ),
-        barrierDismissible: false, /*useRootNavigator: false*/
-      );
-    } else if (Get.isDialogOpen!) {
-      debugPrint('|--------------->🕙️ Loader end 🕑️<---------------|');
-      Get.back();
-
-      isOpen = false;
+          barrierDismissible: false /*useRootNavigator: false*/,
+        );
+      } else if (Get.isDialogOpen == true) {
+        if (kDebugMode) {
+          print('|--------------->🕙️ Loader end 🕑️<---------------|');
+        }
+        Get.back();
+        isOpen = false;
+      }
+    } catch (e, st) {
+      log("Exception Dialog: $e\n$st");
     }
   }
 }

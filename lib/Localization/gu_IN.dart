@@ -114,7 +114,8 @@ Map<String, String> guIN = <String, String>{
   AppStrings.newVersionAvailable: 'નવું સંસ્કરણ ઉપલબ્ધ છે. કૃપા કરીને તેમાં અપગ્રેડ કરો.',
   AppStrings.searchRequiredStock: 'જરૂરી સ્ટોકને શોધો',
   AppStrings.viewChallan: "ચલણ જુઓ",
-  AppStrings.successfullyDownloadedAtDownloadFolder: "'Download' ફોલ્ડર પર સફળતાપૂર્વક ડાઉનલોડ કર્યું.",
+  AppStrings.successfullyDownloadedAtDownloadFolder: "'Download' ફોલ્ડરમાં સફળતાપૂર્વક ડાઉનલોડ થયું.",
   AppStrings.downloadFailedPleaseTryAgain: "ડાઉનલોડ નિષ્ફળ થયું, કૃપા કરીને ફરી પ્રયાસ કરો.",
-  AppStrings.whatsappNotInstalled: "'Whatsapp' ઇન્સ્ટોલ કરેલ નથી",
+  AppStrings.whatsappNotInstalled: "Whatsapp ઇન્સ્ટોલ નથી",
+  AppStrings.open: "ખોલો",
 };

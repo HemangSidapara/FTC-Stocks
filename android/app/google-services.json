@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069283885682",
+    "project_id": "ftc-stocks",
+    "storage_bucket": "ftc-stocks.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069283885682:android:a8c603ffa13f29a2adb8eb",
+        "android_client_info": {
+          "package_name": "com.stocks.ftc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi6BKbWHxlb2yuFL92C3H_8woCvsUhC1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -33,18 +33,23 @@ class HomeView extends GetView<HomeController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.WHITE_COLOR,
         extendBodyBehindAppBar: true,
-        bottomNavigationBar: Container(
+        bottomNavigationBar: DecoratedBox(
           decoration: BoxDecoration(
             color: AppColors.LIGHT_SECONDARY_COLOR,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              AssetImages(index: 0, iconName: AppAssets.homeIcon),
-              if (controller.isAdmin) AssetImages(index: 1, iconName: AppAssets.addNewProductIcon),
-              if (controller.isAdmin) AssetImages(index: 2, iconName: AppAssets.ordersHistoryIcon),
-              AssetImages(index: 3, iconName: AppAssets.settingsIcon),
-            ],
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 1.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AssetImages(index: 0, iconName: AppAssets.homeIcon),
+                  if (controller.isAdmin) AssetImages(index: 1, iconName: AppAssets.addNewProductIcon),
+                  if (controller.isAdmin) AssetImages(index: 2, iconName: AppAssets.ordersHistoryIcon),
+                  AssetImages(index: 3, iconName: AppAssets.settingsIcon),
+                ],
+              ),
+            ),
           ),
         ),
         body: SafeArea(
@@ -70,9 +75,9 @@ class HomeView extends GetView<HomeController> {
             await controller.onBottomItemChange(index: index);
           },
           child: SizedBox(
-            height: 12.w,
-            width: 12.w,
+            width: 100.w / controller.bottomItemWidgetList.length,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(

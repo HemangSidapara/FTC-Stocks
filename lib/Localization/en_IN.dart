@@ -114,4 +114,8 @@ Map<String, String> enIN = <String, String>{
   AppStrings.newVersionAvailable: 'A new version is available. Please upgrade to it.',
   AppStrings.searchRequiredStock: 'Search required stock',
   AppStrings.viewChallan: "View Challan",
+  AppStrings.successfullyDownloadedAtDownloadFolder: "Successfully downloaded at 'Download' folder.",
+  AppStrings.downloadFailedPleaseTryAgain: "Download failed, Please try again.",
+  AppStrings.whatsappNotInstalled: "Whatsapp not installed",
+  AppStrings.open: "Open",
 };

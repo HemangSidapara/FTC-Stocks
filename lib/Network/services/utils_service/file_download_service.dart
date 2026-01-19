@@ -9,41 +9,44 @@ import 'package:ftc_stocks/Constants/app_utils.dart';
 import 'package:ftc_stocks/Network/ResponseModel.dart';
 import 'package:ftc_stocks/Utils/app_formatter.dart';
 import 'package:get/get.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class FileDownloadService extends GetxService {
-  final RxInt _downloadedPercentage = 0.obs;
+  static final RxInt _downloadedPercentage = 0.obs;
 
-  Future<ResponseModel?> fileDownload({required String fileUrl, required String fileName}) async {
+  static Future<(ResponseModel?, String?)> fileDownload({required String fileUrl, required String fileName, bool showLoader = true}) async {
     try {
-      Get.dialog(
-        Obx(() {
-          return Material(
-            color: AppColors.TRANSPARENT,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  color: AppColors.PRIMARY_COLOR,
-                  value: _downloadedPercentage.value / 100,
-                ),
-                SizedBox(height: 1.h),
-                Text(
-                  '${_downloadedPercentage.value}%',
-                  style: TextStyle(
+      if (showLoader) {
+        Get.dialog(
+          Obx(() {
+            return Material(
+              color: AppColors.TRANSPARENT,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
                     color: AppColors.PRIMARY_COLOR,
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w700,
+                    value: _downloadedPercentage.value / 100,
                   ),
-                ),
-              ],
-            ),
-          );
-        }),
-      );
+                  SizedBox(height: 1.h),
+                  Text(
+                    '${_downloadedPercentage.value}%',
+                    style: TextStyle(
+                      color: AppColors.PRIMARY_COLOR,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        );
+      }
 
       bool isGranted = false;
       if (await Permission.storage.request().isGranted || await Permission.photos.request().isGranted) {
@@ -60,9 +63,11 @@ class FileDownloadService extends GetxService {
           dirDownload = await getApplicationDocumentsDirectory();
         }
 
+        String savePath = Platform.isIOS ? '${dirDownload?.path}/${fileName.split('.')[0].replaceAll(':', '_')}_${UniqueKey().hashCode}.${fileName.split('.').last}' : '/storage/emulated/0/Download/${fileName.split('.')[0].replaceAll(':', '_')}_${UniqueKey().hashCode}.${fileName.split('.').last}';
+
         final response = await Dio().download(
           fileUrl,
-          Platform.isIOS ? '${dirDownload?.path}/${fileName.split('.')[0].replaceAll(':', '_')}_${UniqueKey().hashCode}.${fileName.split('.').last}' : '/storage/emulated/0/Download/${fileName.split('.')[0].replaceAll(':', '_')}_${UniqueKey().hashCode}.${fileName.split('.').last}',
+          savePath,
           onReceiveProgress: (received, total) {
             if (total != -1) {
               if (kDebugMode) {
@@ -73,14 +78,40 @@ class FileDownloadService extends GetxService {
           },
         );
         if (response.statusCode! >= 200 && response.statusCode! <= 299) {
-          if (Get.isOverlaysOpen) {
+          if (showLoader && Get.isOverlaysOpen) {
             Get.back();
           }
-          Utils.handleMessage(message: AppStrings.fileIsSavedToDownloadFolder.tr);
+          Utils.handleMessage(
+            message: AppStrings.fileIsSavedToDownloadFolder.tr,
+            onClick: () async {
+              if (isGranted) {
+                final path = savePath.split('/');
+                final result = await OpenFilex.open(path.join('/'));
+                if (kDebugMode) {
+                  print("File Type :: ${result.type}");
+                  print("File Opened :: ${result.message}");
+                }
+                if (result.type == ResultType.noAppToOpen) {
+                  if (Get.isSnackbarOpen) {
+                    Get.closeCurrentSnackbar();
+                  }
+                  Utils.handleMessage(message: result.message.tr, isError: true);
+                  Future.delayed(const Duration(seconds: 1), () async {
+                    path.removeLast();
+                    final resultFinal = await OpenFilex.open(path.join('/'));
+                    if (kDebugMode) {
+                      print("File Type :: ${resultFinal.type}");
+                      print("File Opened :: ${resultFinal.message}");
+                    }
+                  });
+                }
+              }
+            },
+          );
         }
-        return ResponseModel(response: response, statusCode: response.statusCode);
+        return (ResponseModel(response: response, statusCode: response.statusCode), savePath);
       } else {
-        if (Get.isOverlaysOpen) {
+        if (showLoader && Get.isOverlaysOpen) {
           Get.back();
         }
         Utils.handleMessage(message: 'Permission denied.', isError: true);
@@ -89,9 +120,11 @@ class FileDownloadService extends GetxService {
       if (kDebugMode) {
         print('Error :: ${e.message}');
       }
-      Get.back();
+      if (showLoader && Get.isOverlaysOpen) {
+        Get.back();
+      }
       Utils.handleMessage(message: 'Something went wrong.', isError: true);
     }
-    return null;
+    return (null, null);
   }
 }
