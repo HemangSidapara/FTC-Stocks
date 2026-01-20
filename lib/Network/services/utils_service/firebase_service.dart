@@ -88,15 +88,19 @@ class FirebaseService {
 
   /// Show notification
   static void showFlutterNotification(RemoteMessage message) async {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
+    try {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
 
-    log("\x1B[32m✅ Message Received:\x1B[0m 📩 ${message.toMap()}");
-    log("\x1B[34m🔔 Notification Object:\x1B[0m 📢 ${notification?.toMap()}");
+      log("\x1B[32m✅ Message Received:\x1B[0m 📩 ${message.toMap()}");
+      log("\x1B[34m🔔 Notification Object:\x1B[0m 📢 ${notification?.toMap()}");
 
-    _handleMethodWhenNotificationReceived();
-    if (notification != null && android != null) {
-      await AwesomeNotificationService.createNotification(notification: notification);
+      _handleMethodWhenNotificationReceived();
+      if (notification != null && android != null) {
+        await AwesomeNotificationService.createNotification(notification: notification);
+      }
+    } catch (e, st) {
+      log("Notification Error: $e\n$st");
     }
   }
 

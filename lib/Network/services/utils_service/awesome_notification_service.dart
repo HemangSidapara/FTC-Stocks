@@ -26,7 +26,7 @@ class AwesomeNotificationService {
           channelDescription: 'Notification channel for Push Notifications',
           defaultColor: AppColors.SECONDARY_COLOR,
           ledColor: AppColors.WHITE_COLOR,
-          channelShowBadge: false,
+          channelShowBadge: true,
           defaultPrivacy: NotificationPrivacy.Public,
           groupAlertBehavior: GroupAlertBehavior.All,
           importance: NotificationImportance.Max,
@@ -90,6 +90,7 @@ class AwesomeNotificationService {
         displayOnForeground: true,
         displayOnBackground: true,
         largeIcon: notification.android?.imageUrl,
+        badge: notification.android?.count,
       ),
     );
   }
