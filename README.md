@@ -4,7 +4,7 @@ Stocks handle of FTC.
 
 ## Flutter Version:
 
-- v3.38.7 (Stable)
+- v3.41.2 (Stable)
 
 ## Notes:
 

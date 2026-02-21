@@ -40,7 +40,6 @@ class ApiBaseHelper {
       ),
     );
 
-    ///For Show Hide Progress Dialog
     return dio
       ..interceptors.add(
         InterceptorsWrapper(
@@ -188,6 +187,7 @@ class ApiBaseHelper {
       Response response = await baseAPI.put(
         url,
         data: data,
+        cancelToken: cancelToken,
         options: getOptions(options: options),
       );
       await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
@@ -220,6 +220,7 @@ class ApiBaseHelper {
         url,
         data: params,
         onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
         options: getOptions(options: options),
       );
       await showOrRemoveProgressFunction(showProgress: showProgress, isRemove: true);
